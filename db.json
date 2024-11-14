@@ -1,0 +1,35 @@
+{
+    "clientes": [
+        {"id": 1, "nome": "usuario01", "email": "usuario01@email.com", "senha": "1", "cpf": "11111111111", "telefone": "1111-1111", "idEndereco": 1, "dataAdmissao": "11/11/1111", "fidelidadePontos": 0.0},
+        {"id": 2, "nome": "usuario02", "email": "usuario02@email.com", "senha": "1", "cpf": "11111111111", "telefone": "2222-2222", "idEndereco": 2, "dataAdmissao": "11/11/1111", "fidelidadePontos": 0.0},
+        {"id": 3, "nome": "usuario03", "email": "usuario03@email.com", "senha": "1", "cpf": "11111111111", "telefone": "3333-3333", "idEndereco": 3, "dataAdmissao": "11/11/1111", "fidelidadePontos": 0.0}
+    ],
+    "funcionarios": [
+        {"id": 1, "nome": "usuario01", "email": "usuario01@email.com", "senha": "1", "cpf": "11111111111", "telefone": "1111-1111", "dataAdmissao": "11/11/1111", "idCargo": 1, "salario": 0.0, "expediente": "manha", "idFarmacia": 1},
+        {"id": 2, "nome": "usuario02", "email": "usuario02@email.com", "senha": "1", "cpf": "11111111111", "telefone": "2222-2222", "dataAdmissao": "11/11/1111", "idCargo": 2, "salario": 0.0, "expediente": "tarde", "idFarmacia": 2},
+        {"id": 3, "nome": "usuario03", "email": "usuario03@email.com", "senha": "1", "cpf": "11111111111", "telefone": "3333-3333", "dataAdmissao": "11/11/1111", "idCargo": 3, "salario": 0.0, "expediente": "noite", "idFarmacia": 3}
+    ],
+    "cargos": [
+        {"id": 1, "nome": "cargo01", "permissao": [{"idPermissao": 1}]},
+        {"id": 2, "nome": "cargo02", "permissao": [{"idPermissao": 1}, {"idPermissao": 2}]},
+        {"id": 3, "nome": "cargo03", "permissao": [{"idPermissao": 2}, {"idPermissao": 3}]}
+    ],
+    "permissoes": [
+        {"id": 1, "nome": "Cadastrar Produtos"},
+        {"id": 2, "nome": "Cadastrar Funcionarios"},
+        {"id": 3, "nome": "Cadastrar Farmacias"}
+    ],
+    "enderecos": [
+        {"id": 1, "uf": "BA", "cidade": "Xique-Xique", "cep": "47430-970", "bairro": "Copixaba", "logradouro": "R. do Cruzeiro", "numero": "160", "complemento": "102"},
+        {"id": 2, "uf": "BA", "cidade": "Xique-Xique", "cep": "47430-970", "bairro": "Copixaba", "logradouro": "R. do Cruzeiro", "numero": "750", "complemento": "301"},
+        {"id": 3, "uf": "BA", "cidade": "Xique-Xique", "cep": "47430-970", "bairro": "Copixaba", "logradouro": "R. do Cruzeiro", "numero": "2", "complemento": ""}
+    ],
+    "farmacias": [
+        {"id": 1, "cnpj": "3123123123", "nome": "Tengo-Lengo", "email": "tengo-lengo@email.com", "telefone": "4444-4444"},
+        {"id": 2, "cnpj": "3123123123", "nome": "Lengo-Tengo", "email": "lengo-tengo@email.com", "telefone": "5555-5555"},
+        {"id": 3, "cnpj": "3123123123", "nome": "Gonzaguinha", "email": "gonzaguinha@email.com", "telefone": "6266-6266"}
+    ],
+    "produtos": [
+        {"id": 1, "nome": "omega 3", "descricao": "faz bem pra saude", "preco": 40.0, "requerReceita": true, "requerLote": true}
+    ]
+}
