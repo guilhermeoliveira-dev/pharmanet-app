@@ -1,5 +1,5 @@
 import React from 'react';
-import 'bootswatch/dist/flatly/bootstrap.css';
+import 'bootswatch/dist/darkly/bootstrap.css';
 
 import NavbarItem from './navbarItem';
 
@@ -25,7 +25,7 @@ function Navbar(props) {
           <ul className='navbar-nav'>
             <NavbarItem
               render='true'
-              href='/listagem-usuarios'
+              href='/listagem-funcionarios'
               label='Usuários'
             />
           </ul>

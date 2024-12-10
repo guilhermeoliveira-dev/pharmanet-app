@@ -1,6 +1,6 @@
 import React from 'react';
 
-// import ListagemUsuarios from './views/listagem-usuarios';
+import ListagemFuncionarios from './views/listagem-funcionarios';
 // import ListagemCursos from './views/listagem-cursos';
 // import ListagemProfessores from './views/listagem-professores';
 // import ListagemAlunos from './views/listagem-alunos';
@@ -9,7 +9,7 @@ import React from 'react';
 // import AcompanhamentoAtividadesComplementares from './views/acompanhamento-atividades-complementares';
 
 import Login from './views/login';
-import CadastroUsuario from './views/cadastro-usuario';
+import CadastroFuncionario from './views/cadastro-funcionario';
 // import CadastroCurso from './views/cadastro-curso';
 // import CadastroProfessor from './views/cadastro-professor';
 // import CadastroAluno from './views/cadastro-aluno';
@@ -24,9 +24,10 @@ function Rotas(props) {
       <Routes>
          <Route path='/login' element={<Login />} />
         <Route
-          path='/cadastro-usuarios/:idParam?'
-          element={<CadastroUsuario />}
+          path='/cadastro-funcionarios/:idParam?'
+          element={<CadastroFuncionario />}
         />
+        <Route path='/listagem-funcionarios' element={<ListagemFuncionarios />} />
         {/*
         <Route path='/cadastro-cursos/:idParam?' element={<CadastroCurso />} />
         <Route
@@ -42,7 +43,7 @@ function Rotas(props) {
           path='/cadastro-atividades-complementares/:idParam?'
           element={<CadastroAtividadeComplementar />}
         />
-        <Route path='/listagem-usuarios' element={<ListagemUsuarios />} />
+        
         <Route path='/listagem-cursos' element={<ListagemCursos />} />
         <Route path='/listagem-professores' element={<ListagemProfessores />} />
         <Route path='/listagem-alunos' element={<ListagemAlunos />} />

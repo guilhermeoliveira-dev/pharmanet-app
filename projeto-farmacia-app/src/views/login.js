@@ -7,7 +7,7 @@ import FormGroup from '../components/form-group';
 
 import { mensagemSucesso } from '../components/toastr';
 
-import '../custom.css';
+//import '../custom.css';
 
 class Login extends React.Component {
   state = {

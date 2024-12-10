@@ -11,14 +11,14 @@ import { mensagemSucesso, mensagemErro } from '../components/toastr';
 import '../custom.css';
 
 import axios from 'axios';
-//import { BASE_URL } from '../config/axios';
+import { BASE_URL } from '../config/axios';
 
-function CadastroUsuario() {
+function CadastroFuncionario() {
   const { idParam } = useParams();
 
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
-  //const baseURL = `${BASE_URL}/usuarios`;
+  //const baseURL = `${BASE_URL}/funcionarios`;
 
   const [id, setId] = useState('');
   const [login, setLogin] = useState('');
@@ -48,45 +48,46 @@ function CadastroUsuario() {
   }
 
   async function salvar() {
-    let data = { id, login, cpf, senha, senhaRepeticao, admin };
-    data = JSON.stringify(data);
-    if (idParam == null) {
-      await axios
-        .post(baseURL, data, {
-          headers: { 'Content-Type': 'application/json' },
-        })
-        .then(function (response) {
-          mensagemSucesso(`Usuário ${login} cadastrado com sucesso!`);
-          navigate(`/listagem-usuarios`);
-        })
-        .catch(function (error) {
-          mensagemErro(error.response.data);
-        });
-    } else {
-      await axios
-        .put(`${baseURL}/${idParam}`, data, {
-          headers: { 'Content-Type': 'application/json' },
-        })
-        .then(function (response) {
-          mensagemSucesso(`Usuário ${login} alterado com sucesso!`);
-          navigate(`/listagem-usuarios`);
-        })
-        .catch(function (error) {
-          mensagemErro(error.response.data);
-        });
-    }
+    // let data = { id, login, cpf, senha, senhaRepeticao, admin };
+    // data = JSON.stringify(data);
+    // if (idParam == null) {
+    //   await axios
+    //     .post(baseURL, data, {
+    //       headers: { 'Content-Type': 'application/json' },
+    //     })
+    //     .then(function (response) {
+    //       mensagemSucesso(`Usuário ${login} cadastrado com sucesso!`);
+    //       navigate(`/listagem-funcionarios`);
+    //     })
+    //     .catch(function (error) {
+    //       mensagemErro(error.response.data);
+    //     });
+    // } else {
+    //   await axios
+    //     .put(`${baseURL}/${idParam}`, data, {
+    //       headers: { 'Content-Type': 'application/json' },
+    //     })
+    //     .then(function (response) {
+    //       mensagemSucesso(`Usuário ${login} alterado com sucesso!`);
+    //       navigate(`/listagem-funcionarios`);
+    //     })
+    //     .catch(function (error) {
+    //       mensagemErro(error.response.data);
+    //     });
+    // }
   }
 
+   
   async function buscar() {
-    await axios.get(`${baseURL}/${idParam}`).then((response) => {
-      setDados(response.data);
-    });
-    setId(dados.id);
-    setLogin(dados.login);
-    setCpf(dados.cpf);
-    setSenha('');
-    setSenhaRepeticao('');
-    setAdmin(dados.admin);
+    // await axios.get(`${baseURL}/${idParam}`).then((response) => {
+    //   setDados(response.data);
+    // });
+    // setId(dados.id);
+    // setLogin(dados.login);
+    // setCpf(dados.cpf);
+    // setSenha('');
+    // setSenhaRepeticao('');
+    // setAdmin(dados.admin);
   }
 
   useEffect(() => {
@@ -177,4 +178,4 @@ function CadastroUsuario() {
   );
 }
 
-export default CadastroUsuario;
+export default CadastroFuncionario;
