@@ -230,6 +230,7 @@ body {
     margin-top: 1em;
     font-size: 10px;
   }
+
   @media (max-width: 767px) {
     .splash {
       padding-top: 8em;

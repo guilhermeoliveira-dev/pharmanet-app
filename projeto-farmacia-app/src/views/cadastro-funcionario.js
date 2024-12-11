@@ -16,9 +16,9 @@ import { BASE_URL } from '../config/axios';
 function CadastroFuncionario() {
   const { idParam } = useParams();
 
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  //const baseURL = `${BASE_URL}/funcionarios`;
+  const baseURL = `${BASE_URL}/funcionarios`;
 
   const [id, setId] = useState('');
   const [login, setLogin] = useState('');

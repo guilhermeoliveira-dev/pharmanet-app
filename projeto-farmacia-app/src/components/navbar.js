@@ -1,5 +1,5 @@
 import React from 'react';
-import 'bootswatch/dist/darkly/bootstrap.css';
+import 'bootswatch/dist/slate/bootstrap.css';
 
 import NavbarItem from './navbarItem';
 
@@ -8,7 +8,7 @@ function Navbar(props) {
     <div className='navbar navbar-expand-lg fixed-top navbar-dark bg-primary'>
       <div className='container'>
         <a href='/' className='navbar-brand'>
-          SCAC
+          Pharma
         </a>
         <button
           className='navbar-toggler'
