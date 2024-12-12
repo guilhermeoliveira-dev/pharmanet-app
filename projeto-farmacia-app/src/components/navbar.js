@@ -26,48 +26,48 @@ function Navbar(props) {
             <NavbarItem
               render='true'
               href='/listagem-funcionarios'
-              label='Usuários'
+              label='Funcionários'
             />
           </ul>
-          {/* <ul className='navbar-nav'>
-            <NavbarItem render='true' href='/listagem-cursos' label='Cursos' />
+          <ul className='navbar-nav'>
+            <NavbarItem 
+              render='true' 
+              href='/listagem-farmacias' 
+              label='Farmácias' />
           </ul>
           <ul className='navbar-nav'>
             <NavbarItem
               render='true'
-              href='/listagem-professores'
-              label='Professores'
+              href='/listagem-produtos'
+              label='Produtos'
             />
           </ul>
           <ul className='navbar-nav'>
-            <NavbarItem render='true' href='/listagem-alunos' label='Alunos' />
+            <NavbarItem 
+              render='true' 
+              href='/listagem-categorias' 
+              label='Categorias' />
           </ul>
           <ul className='navbar-nav'>
             <NavbarItem
               render='true'
-              href='/listagem-categorias'
-              label='Categorias'
+              href='/listagem-clientes'
+              label='Clientes'
             />
           </ul>
           <ul className='navbar-nav'>
-            <NavbarItem
-              render='true'
-              href='/listagem-atividades-complementares'
-              label='Atividades'
+            <NavbarItem 
+              render='true' 
+              href='/login' 
+              label='Entrar' 
             />
           </ul>
           <ul className='navbar-nav'>
-            <NavbarItem
-              render='true'
-              href='/acompanhamento-atividades-complementares'
-              label='Acompanhamento'
+            <NavbarItem 
+              render='true' 
+              href='/' 
+              label='Sair' 
             />
-          </ul> */}
-          <ul className='navbar-nav'>
-            <NavbarItem render='true' href='/login' label='Entrar' />
-          </ul>
-          <ul className='navbar-nav'>
-            <NavbarItem render='true' href='/' label='Sair' />
           </ul>
         </div>
       </div>

@@ -18,7 +18,7 @@ function CadastroFuncionario() {
 
   const navigate = useNavigate();
 
-  const baseURL = `${BASE_URL}/funcionarios`;
+  const baseURL = `${BASE_URL}jsonfake/funcionarios`;
 
   const [id, setId] = useState('');
   const [login, setLogin] = useState('');
@@ -48,46 +48,46 @@ function CadastroFuncionario() {
   }
 
   async function salvar() {
-    // let data = { id, login, cpf, senha, senhaRepeticao, admin };
-    // data = JSON.stringify(data);
-    // if (idParam == null) {
-    //   await axios
-    //     .post(baseURL, data, {
-    //       headers: { 'Content-Type': 'application/json' },
-    //     })
-    //     .then(function (response) {
-    //       mensagemSucesso(`Usuário ${login} cadastrado com sucesso!`);
-    //       navigate(`/listagem-funcionarios`);
-    //     })
-    //     .catch(function (error) {
-    //       mensagemErro(error.response.data);
-    //     });
-    // } else {
-    //   await axios
-    //     .put(`${baseURL}/${idParam}`, data, {
-    //       headers: { 'Content-Type': 'application/json' },
-    //     })
-    //     .then(function (response) {
-    //       mensagemSucesso(`Usuário ${login} alterado com sucesso!`);
-    //       navigate(`/listagem-funcionarios`);
-    //     })
-    //     .catch(function (error) {
-    //       mensagemErro(error.response.data);
-    //     });
-    // }
+    let data = { id, login, cpf, senha, senhaRepeticao, admin };
+    data = JSON.stringify(data);
+    if (idParam == null) {
+      await axios
+        .post(baseURL, data, {
+          headers: { 'Content-Type': 'application/json' },
+        })
+        .then(function (response) {
+          mensagemSucesso(`Usuário ${login} cadastrado com sucesso!`);
+          navigate(`/listagem-funcionarios`);
+        })
+        .catch(function (error) {
+          mensagemErro(error.response.data);
+        });
+    } else {
+      await axios
+        .put(`${baseURL}/${idParam}`, data, {
+          headers: { 'Content-Type': 'application/json' },
+        })
+        .then(function (response) {
+          mensagemSucesso(`Usuário ${login} alterado com sucesso!`);
+          navigate(`/listagem-funcionarios`);
+        })
+        .catch(function (error) {
+          mensagemErro(error.response.data);
+        });
+    }
   }
 
    
   async function buscar() {
-    // await axios.get(`${baseURL}/${idParam}`).then((response) => {
-    //   setDados(response.data);
-    // });
-    // setId(dados.id);
-    // setLogin(dados.login);
-    // setCpf(dados.cpf);
-    // setSenha('');
-    // setSenhaRepeticao('');
-    // setAdmin(dados.admin);
+    await axios.get(`${baseURL}/${idParam}`).then((response) => {
+      setDados(response.data);
+    });
+    setId(dados.id);
+    setLogin(dados.login);
+    setCpf(dados.cpf);
+    setSenha('');
+    setSenhaRepeticao('');
+    setAdmin(dados.admin);
   }
 
   useEffect(() => {

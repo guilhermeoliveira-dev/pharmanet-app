@@ -16,7 +16,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL}/funcionarios`;
+const baseURL = `${BASE_URL}jsonfake/funcionarios`;
 
 function ListagemFuncionarios() {
   //const navigate = useNavigate();
@@ -75,7 +75,7 @@ function ListagemFuncionarios() {
               <table className='table table-hover'>
                 <thead>
                   <tr>
-                    <th scope='col'>Login</th>
+                    <th scope='col'>Nome</th>
                     <th scope='col'>CPF</th>
                     <th scope='col'>E-mail</th>
                     <th scope='col'>Cargo</th>
@@ -88,17 +88,21 @@ function ListagemFuncionarios() {
                       <td>{dado.nome}</td>
                       <td>{dado.cpf}</td>
                       <td>{dado.email}</td>
-                      <td>{dado.idCargo}</td>
+                      <td>{dado.idCargo}</td>  
+                      {// Como relacionar idCargo com o nome do cargo?
+                      }
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton
                             aria-label='edit'
+                            style={{ color: "white"}}
                             //onClick={() => editar(dado.id)}
                           >
                             <EditIcon /> 
                           </IconButton>
                           <IconButton
                             aria-label='delete'
+                            style={{ color: "red"}}
                             //onClick={() => excluir(dado.id)}
                           >
                             <DeleteIcon />
