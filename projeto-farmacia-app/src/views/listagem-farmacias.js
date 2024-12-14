@@ -120,5 +120,3 @@ function ListagemFarmacias() {
 }
 
 export default ListagemFarmacias;
-
-// hum

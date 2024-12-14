@@ -30,7 +30,16 @@
             "senha": "1",
             "cpf": "11111111111",
             "telefone": "1111-1111",
-            "idEndereco": 1,
+            "endereco": {
+                "id": 1,
+                "uf": "BA",
+                "cidade": "Xique-Xique",
+                "cep": "47430-970",
+                "bairro": "Copixaba",
+                "logradouro": "R. do Cruzeiro",
+                "numero": "160",
+                "complemento": "102"
+            },
             "dataAdmissao": "11/11/2014",
             "fidelidadePontos": 0.0
         },
@@ -41,7 +50,16 @@
             "senha": "1",
             "cpf": "11111111111",
             "telefone": "2222-2222",
-            "idEndereco": 2,
+            "endereco": {
+                "id": 2,
+                "uf": "BA",
+                "cidade": "Xique-Xique",
+                "cep": "47430-970",
+                "bairro": "Copixaba",
+                "logradouro": "R. do Cruzeiro",
+                "numero": "750",
+                "complemento": "301"
+            },
             "dataAdmissao": "11/11/2014",
             "fidelidadePontos": 0.0
         },
@@ -52,7 +70,16 @@
             "senha": "1",
             "cpf": "11111111111",
             "telefone": "3333-3333",
-            "idEndereco": 3,
+            "endereco": {
+                "id": 3,
+                "uf": "BA",
+                "cidade": "Xique-Xique",
+                "cep": "47430-970",
+                "bairro": "Copixaba",
+                "logradouro": "R. do Cruzeiro",
+                "numero": "2",
+                "complemento": ""
+            },
             "dataAdmissao": "11/11/2014",
             "fidelidadePontos": 0.0
         }
@@ -97,7 +124,7 @@
             "senha": "1",
             "cpf": "11111211111",
             "telefone": "2222-2222",
-            "idEndereco": {
+            "endereco": {
                 "id": 5,
                 "uf": "BA",
                 "cidade": "Xique-Xique",
@@ -129,7 +156,7 @@
             "senha": "1",
             "cpf": "11115411111",
             "telefone": "3333-3333",
-            "idEndereco": {
+            "endereco": {
                 "id": 6,
                 "uf": "BA",
                 "cidade": "Xique-Xique",
@@ -158,48 +185,54 @@
     "cargos": [
         {
             "id": 1,
-            "nome": "Farmacêutico"
+            "nome": "Farmacêutico",
+            "permissoes": [
+                {
+                    "id": 1,
+                    "nome": "Cadastrar Produtos"
+                }
+            ]
         },
         {
-            "id": 2,
-            "nome": "Gerente"
+            "id": 1,
+            "nome": "Gerente",
+            "permissoes": [
+                {
+                    "id": 1,
+                    "nome": "Cadastrar Produtos"
+                },
+                {
+                    "id": 2,
+                    "nome": "Cadastrar Funcionarios"
+                }
+            ]
         },
         {
             "id": 3,
-            "nome": "Administrador"
+            "nome": "Administrador",
+            "permissoes": [
+                {
+                    "id": 2,
+                    "nome": "Cadastrar Funcionarios"
+                },
+                {
+                    "id": 3,
+                    "nome": "Cadastrar Farmacias"
+                }
+            ]
         }
     ],
     "permissoes": [
         {
             "id": 1,
-            "nome": "Cadastrar Produtos",
-            "idCargo": {
-                "id": 1,
-                "nome": "Farmacêutico"
-            }
-        },
-        {
-            "id": 2,
-            "idCargo": 2,
-            "nomeCargo": "Gerente",
             "nome": "Cadastrar Produtos"
         },
         {
+            "id": 2,
+            "nome": "Cadastrar Funcionarios"
+        },
+        {
             "id": 3,
-            "idCargo": 2,
-            "nomeCargo": "Gerente",
-            "nome": "Cadastrar Funcionarios"
-        },
-        {
-            "id": 4,
-            "idCargo": 3,
-            "nomeCargo": "Administrador",
-            "nome": "Cadastrar Funcionarios"
-        },
-        {
-            "id": 5,
-            "idCargo": 3,
-            "nomeCargo": "Administrador",
             "nome": "Cadastrar Farmacias"
         }
     ],
@@ -366,7 +399,33 @@
                 "id": 3,
                 "nome": "Betabloqueadores",
                 "descricao": "Nao sei explicar isso, acho que e calmante sei la, tirei do google.",
-                "idCategoria": {
+                "categoriaPai": {
+                    "id": 1,
+                    "nome": "Medicamento",
+                    "descricao": "Medicamentos no geral.",
+                    "categoriaPai": null
+                }
+            }
+        },
+        {
+            "id": 4,
+            "nome": "Clonazepam",
+            "descricao": "Faz bem para Convulsão, Pânico e Ansiedade",
+            "preco": 80.0,
+            "requerLote": true,
+            "peso": 60,
+            "tarja": {
+                "id": 3,
+                "nome": "Preta",
+                "cor": "Preta",
+                "requerReceita": true,
+                "retemReceita": true
+            },
+            "categoria": {
+                "id": 6,
+                "nome": "Benzodiazepínicos",
+                "descricao": "É uns remédio cabuloso.",
+                "categoriaPai": {
                     "id": 1,
                     "nome": "Medicamento",
                     "descricao": "Medicamentos no geral.",
@@ -403,65 +462,215 @@
             "id": 1,
             "nome": "Medicamento",
             "descricao": "Medicamentos no geral.",
-            "idCategoria": 0
+            "categoriaPai": null
         },
         {
             "id": 2,
             "nome": "Suplemento Alimenticio",
             "descricao": "Medicamentos destinados a complementar a nutricao.",
-            "idCategoria": 5
+            "categoriaPai": {
+                "id": 5,
+                "nome": "Produto Alimentício",
+                "descricao": "Produtos alimentícios de forma geral.",
+                "categoriaPai": null
+            }
         },
         {
             "id": 3,
             "nome": "Betabloqueadores",
             "descricao": "Nao sei explicar isso, acho que e calmante sei la, tirei do google.",
-            "idCategoria": 1
+            "categoriaPai": {
+                "id": 1,
+                "nome": "Medicamento",
+                "descricao": "Medicamentos no geral.",
+                "categoriaPai": null
+            }
         },
         {
             "id": 4,
             "nome": "Ração Animal",
             "descricao": "Ração para pets.",
-            "idCategoria": 5
+            "categoriaPai": {
+                "id": 5,
+                "nome": "Produto Alimentício",
+                "descricao": "Produtos alimentícios de forma geral.",
+                "categoriaPai": null
+            }
         },
         {
             "id": 5,
             "nome": "Produto Alimentício",
             "descricao": "Produtos alimentícios de forma geral.",
-            "idCateoria": 0
+            "categoriaPai": null
+        },
+        {
+            "id": 6,
+            "nome": "Benzodiazepínicos",
+            "descricao": "É uns remédio cabuloso.",
+            "categoriaPai": {
+                "id": 1,
+                "nome": "Medicamento",
+                "descricao": "Medicamentos no geral.",
+                "categoriaPai": null
+            }
         }
     ],
     "estoques": [
         {
             "id": 1,
             "quantidade": 10,
-            "idProduto": 1,
+            "produto": {
+                "id": 1,
+                "nome": "Omega 3",
+                "descricao": "faz bem pra saude",
+                "preco": 50.0,
+                "requerLote": true,
+                "peso": 50,
+                "tarja": {
+                    "id": 4,
+                    "nome": "Sem Tarja",
+                    "cor": "",
+                    "requerReceita": false,
+                    "retemReceita": false
+                },
+                "categoria": {
+                    "id": 2,
+                    "nome": "Suplemento Alimenticio",
+                    "descricao": "Medicamentos destinados a complementar a nutricao.",
+                    "categoriaPai": {
+                        "id": 5,
+                        "nome": "Produto Alimentício",
+                        "descricao": "Produtos alimentícios de forma geral.",
+                        "categoriaPai": null
+                    }
+                }
+            },
             "dataFabricacao": "10/10/2024",
             "dataValidade": "30/02/2025",
-            "idFarmacia": 1
+            "farmacia": {
+                "id": 1,
+                "cnpj": "3123123123",
+                "nome": "Tengo-Lengo",
+                "email": "tengo-lengo@email.com",
+                "telefone": "4444-4444"
+            }
         },
         {
             "id": 2,
             "quantidade": 50,
-            "idProduto": 2,
+            "produto": {
+                "id": 2,
+                "nome": "Sachê Whiskas",
+                "descricao": "sachê de ração para gatos",
+                "preco": 4.0,
+                "requerLote": true,
+                "peso": 100,
+                "tarja": {
+                    "id": 4,
+                    "nome": "Sem Tarja",
+                    "cor": "",
+                    "requerReceita": false,
+                    "retemReceita": false
+                },
+                "categoria": {
+                    "id": 4,
+                    "nome": "Ração Animal",
+                    "descricao": "Ração para pets.",
+                    "categoriaPai": {
+                        "id": 5,
+                        "nome": "Produto Alimentício",
+                        "descricao": "Produtos alimentícios de forma geral.",
+                        "categoriaPai": null
+                    }
+                }
+            },
             "dataFabricacao": "07/10/2024",
             "dataValidade": "15/08/2025",
-            "idFarmacia": 1
+            "farmacia": {
+                "id": 1,
+                "cnpj": "3123123123",
+                "nome": "Tengo-Lengo",
+                "email": "tengo-lengo@email.com",
+                "telefone": "4444-4444"
+            }
         },
         {
             "id": 3,
             "quantidade": 34,
-            "idProduto": 3,
+            "produto": {
+                "id": 3,
+                "nome": "Cloridrato de Propranolol",
+                "descricao": "Cloridrato de Propranolol 40mg Genérico Pharlab 30 Comprimidos",
+                "preco": 8.99,
+                "requerLote": true,
+                "peso": 50,
+                "tarja": {
+                    "id": 2,
+                    "nome": "Vermelha com Retenção",
+                    "cor": "Vermelha",
+                    "requerReceita": true,
+                    "retemReceita": true
+                },
+                "categoria": {
+                    "id": 3,
+                    "nome": "Betabloqueadores",
+                    "descricao": "Nao sei explicar isso, acho que e calmante sei la, tirei do google.",
+                    "categoriaPai": {
+                        "id": 1,
+                        "nome": "Medicamento",
+                        "descricao": "Medicamentos no geral.",
+                        "categoriaPai": null
+                    }
+                }
+            },
             "dataFabricacao": "02/10/2024",
             "dataValidade": "27/09/2025",
-            "idFarmacia": 1
+            "farmacia": {
+                "id": 1,
+                "cnpj": "3123123123",
+                "nome": "Tengo-Lengo",
+                "email": "tengo-lengo@email.com",
+                "telefone": "4444-4444"
+            }
         },
         {
             "id": 4,
             "quantidade": 21,
-            "idProduto": 3,
+            "produto": {
+                "id": 3,
+                "nome": "Cloridrato de Propranolol",
+                "descricao": "Cloridrato de Propranolol 40mg Genérico Pharlab 30 Comprimidos",
+                "preco": 8.99,
+                "requerLote": true,
+                "peso": 50,
+                "tarja": {
+                    "id": 2,
+                    "nome": "Vermelha com Retenção",
+                    "cor": "Vermelha",
+                    "requerReceita": true,
+                    "retemReceita": true
+                },
+                "categoria": {
+                    "id": 3,
+                    "nome": "Betabloqueadores",
+                    "descricao": "Nao sei explicar isso, acho que e calmante sei la, tirei do google.",
+                    "categoriaPai": {
+                        "id": 1,
+                        "nome": "Medicamento",
+                        "descricao": "Medicamentos no geral.",
+                        "categoriaPai": null
+                    }
+                }
+            },
             "dataFabricacao": "02/11/2024",
             "dataValidade": "27/10/2025",
-            "idFarmacia": 1
+            "farmacia": {
+                "id": 1,
+                "cnpj": "3123123123",
+                "nome": "Tengo-Lengo",
+                "email": "tengo-lengo@email.com",
+                "telefone": "4444-4444"
+            }
         }
     ],
     "pedidos": [
@@ -472,7 +681,16 @@
             "valorTotal": 150,
             "tipoEntrega": "delivery",
             "dataEntrega": "19/11/2024",
-            "idEndereco": 2
+            "endereco": {
+                "id": 2,
+                "uf": "BA",
+                "cidade": "Xique-Xique",
+                "cep": "47430-970",
+                "bairro": "Copixaba",
+                "logradouro": "R. do Cruzeiro",
+                "numero": "750",
+                "complemento": "301"
+            }
         },
         {
             "id": 2,
@@ -481,7 +699,7 @@
             "valorTotal": 71.98,
             "tipoEntrega": "busca no estabelecimento",
             "dataEntrega": "",
-            "idEndereco": 0
+            "endereco": null
         },
         {
             "id": 3,
@@ -490,7 +708,16 @@
             "valorTotal": 17.98,
             "tipoEntrega": "delivery",
             "dataEntrega": "",
-            "idEndereco": 1
+            "endereco": {
+                "id": 1,
+                "uf": "BA",
+                "cidade": "Xique-Xique",
+                "cep": "47430-970",
+                "bairro": "Copixaba",
+                "logradouro": "R. do Cruzeiro",
+                "numero": "160",
+                "complemento": "102"
+            }
         }
     ],
     "pagamentos": [
@@ -630,29 +857,6 @@
             "dataEnvio": "14/11/2024",
             "tipoNotificacao": "push",
             "idUsuario": 6
-        }
-    ],
-    "consultas": [
-        {
-            "id": 1,
-            "data": "25/11/2024",
-            "hora": "14:00",
-            "assunto": "Antibioticos",
-            "idCliente": 2
-        },
-        {
-            "id": 2,
-            "data": "25/11/2024",
-            "hora": "14:30",
-            "assunto": "Suplementos Alimentares",
-            "idCliente": 1
-        },
-        {
-            "id": 3,
-            "data": "25/11/2024",
-            "hora": "15:00",
-            "assunto": "Gripe",
-            "idCliente": 3
         }
     ]
 }

@@ -2,11 +2,11 @@ import React from 'react';
 
 import Card from '../components/card';
 
-//import { mensagemSucesso, mensagemErro } from '../components/toastr';
+// import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import '../custom.css';
 
-//import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 import Stack from '@mui/material/Stack';
 import { IconButton } from '@mui/material';
@@ -19,7 +19,7 @@ import { BASE_URL } from '../config/axios';
 const baseURL = `${BASE_URL}jsonfake/funcionarios`;
 
 function ListagemFuncionarios() {
-  //const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   // const cadastrar = () => {
   //   navigate(`/cadastro-funcionarios`);
@@ -68,7 +68,7 @@ function ListagemFuncionarios() {
               <button
                 type='button'
                 className='btn btn-warning'
-                //onClick={() => cadastrar()}
+                // onClick={() => cadastrar()}
               >
                 Novo Usuário
               </button>
@@ -79,6 +79,7 @@ function ListagemFuncionarios() {
                     <th scope='col'>CPF</th>
                     <th scope='col'>E-mail</th>
                     <th scope='col'>Cargo</th>
+                    <th scope='col'>Trabalha em</th>
                     <th scope='col'>Ações</th>
                   </tr>
                 </thead>
@@ -88,22 +89,21 @@ function ListagemFuncionarios() {
                       <td>{dado.nome}</td>
                       <td>{dado.cpf}</td>
                       <td>{dado.email}</td>
-                      <td>{dado.idCargo}</td>  
-                      {// Como relacionar idCargo com o nome do cargo?
-                      }
+                      <td>{dado.cargo.nome}</td>  
+                      <td>{dado.farmacia.nome}</td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton
                             aria-label='edit'
                             style={{ color: "white"}}
-                            //onClick={() => editar(dado.id)}
+                            // onClick={() => editar(dado.id)}
                           >
                             <EditIcon /> 
                           </IconButton>
                           <IconButton
                             aria-label='delete'
                             style={{ color: "red"}}
-                            //onClick={() => excluir(dado.id)}
+                            // onClick={() => excluir(dado.id)}
                           >
                             <DeleteIcon />
                           </IconButton>

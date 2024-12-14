@@ -18,14 +18,8 @@ import { BASE_URL } from '../config/axios';
 
 const baseURL = `${BASE_URL}jsonfake/categorias`;
 
-function getCategoriaPai(dados, id){
-    let pai = null
-    for (let i = 0; i < dados.length; i++){
-        if (dados[i].id === id){
-            pai = dados[i];
-        }
-    }
-    return pai == null ? "---" : pai.nome;
+function getCategoriaPai(dado){
+    return dado.categoriaPai == null ? "---" : dado.categoriaPai.nome;
 }
 
 function ListagemCategorias() {
@@ -96,7 +90,7 @@ function ListagemCategorias() {
                     <tr key={dado.id}>
                       <td>{dado.nome}</td>
                       <td>{dado.descricao}</td>
-                      <td>{getCategoriaPai(dados, dado.idCategoria)}</td>
+                      <td>{getCategoriaPai(dado)}</td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton

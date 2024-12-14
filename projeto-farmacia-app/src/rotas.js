@@ -5,6 +5,9 @@ import ListagemFarmacias from './views/listagem-farmacias';
 import ListagemProdutos from './views/listagem-produtos';
 import ListagemClientes from './views/listagem-clientes';
 import ListagemCategorias from './views/listagem-categorias';
+import ListagemCargos from './views/listagem-cargos';
+import ListagemEstoques from './views/listagem-estoques';
+import ListagemPedidos from './views/listagem-pedidos';
 
 import Login from './views/login';
 import CadastroFuncionario from './views/cadastro-funcionario';
@@ -28,20 +31,32 @@ function Rotas(props) {
           element={<ListagemFuncionarios />} 
         />
         <Route 
-          path='listagem-farmacias/:idParam?' 
+          path='listagem-farmacias/' 
           element={<ListagemFarmacias />} 
         />
         <Route 
-          path='/listagem-produtos/:idParam?' 
+          path='/listagem-produtos/' 
           element={<ListagemProdutos />} 
         />
+        <Route 
+          path='/listagem-estoques/' 
+          element={<ListagemEstoques />} 
+        />
         <Route
-          path='/listagem-categorias/:idParam?'
+          path='/listagem-categorias/'
           element={<ListagemCategorias />}
         />
         <Route
-          path='/listagem-clientes/:idParam?'
+          path='/listagem-clientes/'
           element={<ListagemClientes />}
+        />
+        <Route
+          path='/listagem-cargos/'
+          element={<ListagemCargos />}
+        />
+        <Route
+          path='/listagem-pedidos/'
+          element={<ListagemPedidos />}
         />
       </Routes>
     </BrowserRouter>

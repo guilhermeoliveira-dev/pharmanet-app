@@ -43,6 +43,13 @@ function Navbar(props) {
             />
           </ul>
           <ul className='navbar-nav'>
+            <NavbarItem
+              render='true'
+              href='/listagem-estoques'
+              label='Estoque'
+            />
+          </ul>
+          <ul className='navbar-nav'>
             <NavbarItem 
               render='true' 
               href='/listagem-categorias' 
@@ -53,6 +60,20 @@ function Navbar(props) {
               render='true'
               href='/listagem-clientes'
               label='Clientes'
+            />
+          </ul>
+          <ul className='navbar-nav'>
+            <NavbarItem
+              render='true'
+              href='/listagem-pedidos'
+              label='Pedidos'
+            />
+          </ul>
+          <ul className='navbar-nav'>
+            <NavbarItem
+              render='true'
+              href='/listagem-cargos'
+              label='Cargos'
             />
           </ul>
           <ul className='navbar-nav'>

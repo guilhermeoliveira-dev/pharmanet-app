@@ -18,6 +18,13 @@ import { BASE_URL } from '../config/axios';
 
 const baseURL = `${BASE_URL}jsonfake/produtos`;
 
+// const relacaoCores = new Map();
+// //relacaoCores.set("", "");
+// // não sei se é necessário relacionar "" com "", visto que o código funciona sem essa relação, apesar de isso soar como um erro.
+// relacaoCores.set("Vermelha", "red");
+// relacaoCores.set("Preta", "black");
+
+
 function ListagemProdutos() {
   //const navigate = useNavigate();
 
@@ -79,6 +86,7 @@ function ListagemProdutos() {
                     <th scope='col'>Preco</th>
                     <th scope='col'>Peso</th>
                     <th scope='col'>Categoria</th>
+                    <th scope='col'>Tarja</th>
                     <th scope='col'>Ações</th>
                   </tr>
                 </thead>
@@ -88,8 +96,12 @@ function ListagemProdutos() {
                       <td>{dado.nome}</td>
                       <td>{"R$"+dado.preco}</td>
                       <td>{dado.peso + " g"}</td>
-                      <td>{dado.nomeCategoria}</td>  
-                      
+                      <td>{dado.categoria.nome}</td>  
+                      <td >{dado.tarja.nome === "Sem Tarja" ? "---" : dado.tarja.nome}</td>  
+                      {/* style={{color:relacaoCores.get(dado.tarja.cor)}} 
+                            para cores referentes a cor da tarja. comentei porque a tarja preta não combinaria com o fundo preto, 
+                            e se o fundo fosse branco, não mudaria nada de normal para tarja preta.
+                      */}
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton
