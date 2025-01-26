@@ -26,6 +26,9 @@ function Rotas(props) {
           path='/cadastro-funcionarios/:idParam?'
           element={<CadastroFuncionario />}
         />
+
+
+        
         <Route 
           path='/listagem-funcionarios' 
           element={<ListagemFuncionarios />} 
