@@ -3,23 +3,53 @@
         {
             "id": 1,
             "cnpj": "3123123123",
-            "nome": "Tengo-Lengo",
-            "email": "tengo-lengo@email.com",
-            "telefone": "4444-4444"
+            "nome": "Farmácia 1",
+            "email": "farmacianumero1@email.com",
+            "telefone": "4444-4444",
+            "endereco": {
+                "id": 1,
+                "uf": "MG",
+                "cidade": "Juiz de Fora",
+                "cep": "36080-001",
+                "bairro": "Fábrica",
+                "logradouro": "R. Bernado Mascarenhas",
+                "numero": "1283",
+                "complemento": ""
+            }
         },
         {
             "id": 2,
             "cnpj": "3123123123",
-            "nome": "Lengo-Tengo",
-            "email": "lengo-tengo@email.com",
-            "telefone": "5555-5555"
+            "nome": "Farmácia 2",
+            "email": "farmacianumero2@email.com",
+            "telefone": "5555-5555",
+            "endeco": {
+                "id": 2,
+                "uf": "MG",
+                "cidade": "Juiz de Fora",
+                "cep": "36036-900",
+                "bairro": "São Pedro",
+                "logradouro": "Rua José Lourenço Kelmer",
+                "numero": "s/n",
+                "complemento": "Campus Universitário"
+            }
         },
         {
             "id": 3,
             "cnpj": "3123123123",
-            "nome": "Gonzaguinha",
-            "email": "gonzaguinha@email.com",
-            "telefone": "6266-6266"
+            "nome": "Farmácia 3",
+            "email": "farmacianumero3@email.com",
+            "telefone": "6266-6266",
+            "endeco": {
+                "id": 3,
+                "uf": "MG",
+                "cidade": "Juiz de Fora",
+                "cep": "36080-001",
+                "bairro": "Fábrica",
+                "logradouro": "R. Bernado Mascarenhas",
+                "numero": "1045",
+                "complemento": ""
+            }
         }
     ],
     "clientes": [
