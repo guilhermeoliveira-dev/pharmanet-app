@@ -2,11 +2,11 @@ import React from 'react';
 
 import Card from '../components/card';
 
-//import { mensagemSucesso, mensagemErro } from '../components/toastr';
+import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import '../custom.css';
 
-//import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import Stack from '@mui/material/Stack';
 import { IconButton } from '@mui/material';
@@ -16,45 +16,45 @@ import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL}jsonfake/categorias`;
+const baseURL = `${BASE_URL}jsonfake3/categorias`;
 
 function getCategoriaPai(dado){
     return dado.categoriaPai == null ? "---" : dado.categoriaPai.nome;
 }
 
 function ListagemCategorias() {
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  // const cadastrar = () => {
-  //   navigate(`/cadastro-categorias`);
-  // };
+  const cadastrar = () => {
+    navigate(`/cadastro-categorias`);
+  };
 
-  // const editar = (id) => {
-  //   navigate(`/cadastro-categorias/${id}`);
-  // };
+  const editar = (id) => {
+    navigate(`/cadastro-categorias/${id}`);
+  };
 
   const [dados, setDados] = React.useState(null);
 
-  // async function excluir(id) {
-  //   let data = JSON.stringify({ id });
-  //   let url = `${baseURL}/${id}`;
-  //   console.log(url);
-  //   await axios
-  //     .delete(url, data, {
-  //       headers: { 'Content-Type': 'application/json' },
-  //     })
-  //     .then(function (response) {
-  //       mensagemSucesso(`Usuário excluído com sucesso!`);
-  //       setDados(
-  //         dados.filter((dado) => {
-  //           return dado.id !== id;
-  //         })
-  //       );
-  //     })
-  //     .catch(function (error) {
-  //       mensagemErro(`Erro ao excluir o usuário`);
-  //     });
-  // }
+  async function excluir(id) {
+    let data = JSON.stringify({ id });
+    let url = `${baseURL}/${id}`;
+    console.log(url);
+    await axios
+      .delete(url, data, {
+        headers: { 'Content-Type': 'application/json' },
+      })
+      .then(function (response) {
+        mensagemSucesso(`Usuário excluído com sucesso!`);
+        setDados(
+          dados.filter((dado) => {
+            return dado.id !== id;
+          })
+        );
+      })
+      .catch(function (error) {
+        mensagemErro(`Erro ao excluir o usuário`);
+      });
+  }
 
   React.useEffect(() => {
     axios.get(baseURL).then((response) => {
@@ -72,7 +72,7 @@ function ListagemCategorias() {
               <button
                 type='button'
                 className='btn btn-warning'
-                //onClick={() => cadastrar()}
+                onClick={() => cadastrar()}
               >
                 Nova Categoria
               </button>
@@ -96,14 +96,14 @@ function ListagemCategorias() {
                           <IconButton
                             aria-label='edit'
                             style={{ color: "white"}}
-                            //onClick={() => editar(dado.id)}
+                            onClick={() => editar(dado.id)}
                           >
                             <EditIcon /> 
                           </IconButton>
                           <IconButton
                             aria-label='delete'
                             style={{ color: "red"}}
-                            //onClick={() => excluir(dado.id)}
+                            onClick={() => excluir(dado.id)}
                           >
                             <DeleteIcon />
                           </IconButton>

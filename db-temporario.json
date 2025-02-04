@@ -3,23 +3,53 @@
         {
             "id": 1,
             "cnpj": "3123123123",
-            "nome": "Tengo-Lengo",
-            "email": "tengo-lengo@email.com",
-            "telefone": "4444-4444"
+            "nome": "Farmácia 1",
+            "email": "farmacianumero1@email.com",
+            "telefone": "4444-4444",
+            "endereco": {
+                "id": 1,
+                "uf": "MG",
+                "cidade": "Juiz de Fora",
+                "cep": "36080-001",
+                "bairro": "Fábrica",
+                "logradouro": "R. Bernado Mascarenhas",
+                "numero": "1283",
+                "complemento": ""
+            }
         },
         {
             "id": 2,
             "cnpj": "3123123123",
-            "nome": "Lengo-Tengo",
-            "email": "lengo-tengo@email.com",
-            "telefone": "5555-5555"
+            "nome": "Farmácia 2",
+            "email": "farmacianumero2@email.com",
+            "telefone": "5555-5555",
+            "endereco": {
+                "id": 2,
+                "uf": "MG",
+                "cidade": "Juiz de Fora",
+                "cep": "36036-900",
+                "bairro": "São Pedro",
+                "logradouro": "Rua José Lourenço Kelmer",
+                "numero": "s/n",
+                "complemento": "Campus Universitário"
+            }
         },
         {
             "id": 3,
             "cnpj": "3123123123",
-            "nome": "Gonzaguinha",
-            "email": "gonzaguinha@email.com",
-            "telefone": "6266-6266"
+            "nome": "Farmácia 3",
+            "email": "farmacianumero3@email.com",
+            "telefone": "6266-6266",
+            "endereco": {
+                "id": 3,
+                "uf": "MG",
+                "cidade": "Juiz de Fora",
+                "cep": "36080-001",
+                "bairro": "Fábrica",
+                "logradouro": "R. Bernado Mascarenhas",
+                "numero": "1045",
+                "complemento": ""
+            }
         }
     ],
     "clientes": [
@@ -32,15 +62,15 @@
             "telefone": "1111-1111",
             "endereco": {
                 "id": 1,
-                "uf": "BA",
-                "cidade": "Xique-Xique",
-                "cep": "47430-970",
-                "bairro": "Copixaba",
-                "logradouro": "R. do Cruzeiro",
-                "numero": "160",
-                "complemento": "102"
+                "uf": "MG",
+                "cidade": "Juiz de Fora",
+                "cep": "36080-001",
+                "bairro": "Fábrica",
+                "logradouro": "R. Bernado Mascarenhas",
+                "numero": "1283",
+                "complemento": ""
             },
-            "dataAdmissao": "11/11/2014",
+            "dataAdmissao": "11-11-2014",
             "fidelidadePontos": 0.0
         },
         {
@@ -52,15 +82,15 @@
             "telefone": "2222-2222",
             "endereco": {
                 "id": 2,
-                "uf": "BA",
-                "cidade": "Xique-Xique",
-                "cep": "47430-970",
-                "bairro": "Copixaba",
-                "logradouro": "R. do Cruzeiro",
-                "numero": "750",
-                "complemento": "301"
+                "uf": "MG",
+                "cidade": "Juiz de Fora",
+                "cep": "36036-900",
+                "bairro": "São Pedro",
+                "logradouro": "Rua José Lourenço Kelmer",
+                "numero": "s/n",
+                "complemento": "Campus Universitário"
             },
-            "dataAdmissao": "11/11/2014",
+            "dataAdmissao": "11-11-2014",
             "fidelidadePontos": 0.0
         },
         {
@@ -72,15 +102,15 @@
             "telefone": "3333-3333",
             "endereco": {
                 "id": 3,
-                "uf": "BA",
-                "cidade": "Xique-Xique",
-                "cep": "47430-970",
-                "bairro": "Copixaba",
-                "logradouro": "R. do Cruzeiro",
-                "numero": "2",
+                "uf": "MG",
+                "cidade": "Juiz de Fora",
+                "cep": "36080-001",
+                "bairro": "Fábrica",
+                "logradouro": "R. Bernado Mascarenhas",
+                "numero": "1045",
                 "complemento": ""
             },
-            "dataAdmissao": "11/11/2014",
+            "dataAdmissao": "11-11-2014",
             "fidelidadePontos": 0.0
         }
     ],
@@ -94,15 +124,15 @@
             "telefone": "1111-1111",
             "endereco": {
                 "id": 4,
-                "uf": "BA",
-                "cidade": "Xique-Xique",
-                "cep": "47430-970",
-                "bairro": "Copixaba",
-                "logradouro": "R. do Cruzeiro",
-                "numero": "50",
+                "uf": "MG",
+                "cidade": "Juiz de Fora",
+                "cep": "36080-001",
+                "bairro": "Fábrica",
+                "logradouro": "R. Bernado Mascarenhas",
+                "numero": "223",
                 "complemento": ""
             },
-            "dataAdmissao": "11/11/2014",
+            "dataAdmissao": "11-11-2014",
             "cargo": {
                 "id": 1,
                 "nome": "Farmacêutico"
@@ -112,9 +142,19 @@
             "farmacia": {
                 "id": 1,
                 "cnpj": "3123123123",
-                "nome": "Tengo-Lengo",
-                "email": "tengo-lengo@email.com",
-                "telefone": "4444-4444"
+                "nome": "Farmácia 1",
+                "email": "farmacianumero1@email.com",
+                "telefone": "4444-4444",
+                "endereco": {
+                    "id": 1,
+                    "uf": "MG",
+                    "cidade": "Juiz de Fora",
+                    "cep": "36080-001",
+                    "bairro": "Fábrica",
+                    "logradouro": "R. Bernado Mascarenhas",
+                    "numero": "1283",
+                    "complemento": ""
+                }
             }
         },
         {
@@ -126,15 +166,15 @@
             "telefone": "2222-2222",
             "endereco": {
                 "id": 5,
-                "uf": "BA",
-                "cidade": "Xique-Xique",
-                "cep": "47430-970",
-                "bairro": "Copixaba",
-                "logradouro": "R. do Cruzeiro",
-                "numero": "124",
+                "uf": "MG",
+                "cidade": "Juiz de Fora",
+                "cep": "36080-001",
+                "bairro": "Fábrica",
+                "logradouro": "R. Bernado Mascarenhas",
+                "numero": "784",
                 "complemento": ""
             },
-            "dataAdmissao": "11/11/2014",
+            "dataAdmissao": "11-11-2014",
             "cargo": {
                 "id": 2,
                 "nome": "Gerente"
@@ -144,9 +184,19 @@
             "farmacia": {
                 "id": 2,
                 "cnpj": "3123123123",
-                "nome": "Lengo-Tengo",
-                "email": "lengo-tengo@email.com",
-                "telefone": "5555-5555"
+                "nome": "Farmácia 2",
+                "email": "farmacianumero2@email.com",
+                "telefone": "5555-5555",
+                "endereco": {
+                    "id": 2,
+                    "uf": "MG",
+                    "cidade": "Juiz de Fora",
+                    "cep": "36036-900",
+                    "bairro": "São Pedro",
+                    "logradouro": "Rua José Lourenço Kelmer",
+                    "numero": "s/n",
+                    "complemento": "Campus Universitário"
+                }
             }
         },
         {
@@ -158,15 +208,15 @@
             "telefone": "3333-3333",
             "endereco": {
                 "id": 6,
-                "uf": "BA",
-                "cidade": "Xique-Xique",
-                "cep": "47430-970",
-                "bairro": "Copixaba",
-                "logradouro": "R. do Cruzeiro",
-                "numero": "27",
+                "uf": "MG",
+                "cidade": "Juiz de Fora",
+                "cep": "36080-001",
+                "bairro": "Fábrica",
+                "logradouro": "R. Bernado Mascarenhas",
+                "numero": "1789",
                 "complemento": ""
             },
-            "dataAdmissao": "11/11/2014",
+            "dataAdmissao": "11-11-2014",
             "cargo": {
                 "id": 3,
                 "nome": "Administrador"
@@ -176,9 +226,19 @@
             "farmacia": {
                 "id": 3,
                 "cnpj": "3123123123",
-                "nome": "Gonzaguinha",
-                "email": "gonzaguinha@email.com",
-                "telefone": "6266-6266"
+                "nome": "Farmácia 3",
+                "email": "farmacianumero3@email.com",
+                "telefone": "6266-6266",
+                "endereco": {
+                    "id": 3,
+                    "uf": "MG",
+                    "cidade": "Juiz de Fora",
+                    "cep": "36080-001",
+                    "bairro": "Fábrica",
+                    "logradouro": "R. Bernado Mascarenhas",
+                    "numero": "1045",
+                    "complemento": ""
+                }
             }
         }
     ],
@@ -239,62 +299,62 @@
     "enderecos": [
         {
             "id": 1,
-            "uf": "BA",
-            "cidade": "Xique-Xique",
-            "cep": "47430-970",
-            "bairro": "Copixaba",
-            "logradouro": "R. do Cruzeiro",
-            "numero": "160",
-            "complemento": "102"
+            "uf": "MG",
+            "cidade": "Juiz de Fora",
+            "cep": "36080-001",
+            "bairro": "Fábrica",
+            "logradouro": "R. Bernado Mascarenhas",
+            "numero": "1283",
+            "complemento": ""
         },
         {
             "id": 2,
-            "uf": "BA",
-            "cidade": "Xique-Xique",
-            "cep": "47430-970",
-            "bairro": "Copixaba",
-            "logradouro": "R. do Cruzeiro",
-            "numero": "750",
-            "complemento": "301"
+            "uf": "MG",
+            "cidade": "Juiz de Fora",
+            "cep": "36036-900",
+            "bairro": "São Pedro",
+            "logradouro": "Rua José Lourenço Kelmer",
+            "numero": "s/n",
+            "complemento": "Campus Universitário"
         },
         {
             "id": 3,
-            "uf": "BA",
-            "cidade": "Xique-Xique",
-            "cep": "47430-970",
-            "bairro": "Copixaba",
-            "logradouro": "R. do Cruzeiro",
-            "numero": "2",
+            "uf": "MG",
+            "cidade": "Juiz de Fora",
+            "cep": "36080-001",
+            "bairro": "Fábrica",
+            "logradouro": "R. Bernado Mascarenhas",
+            "numero": "1045",
             "complemento": ""
         },
         {
             "id": 4,
-            "uf": "BA",
-            "cidade": "Xique-Xique",
-            "cep": "47430-970",
-            "bairro": "Copixaba",
-            "logradouro": "R. do Cruzeiro",
-            "numero": "50",
+            "uf": "MG",
+            "cidade": "Juiz de Fora",
+            "cep": "36080-001",
+            "bairro": "Fábrica",
+            "logradouro": "R. Bernado Mascarenhas",
+            "numero": "223",
             "complemento": ""
         },
         {
             "id": 5,
-            "uf": "BA",
-            "cidade": "Xique-Xique",
-            "cep": "47430-970",
-            "bairro": "Copixaba",
-            "logradouro": "R. do Cruzeiro",
-            "numero": "124",
+            "uf": "MG",
+            "cidade": "Juiz de Fora",
+            "cep": "36080-001",
+            "bairro": "Fábrica",
+            "logradouro": "R. Bernado Mascarenhas",
+            "numero": "784",
             "complemento": ""
         },
         {
             "id": 6,
-            "uf": "BA",
-            "cidade": "Xique-Xique",
-            "cep": "47430-970",
-            "bairro": "Copixaba",
-            "logradouro": "R. do Cruzeiro",
-            "numero": "27",
+            "uf": "MG",
+            "cidade": "Juiz de Fora",
+            "cep": "36080-001",
+            "bairro": "Fábrica",
+            "logradouro": "R. Bernado Mascarenhas",
+            "numero": "1789",
             "complemento": ""
         }
     ],
@@ -545,8 +605,8 @@
                     }
                 }
             },
-            "dataFabricacao": "10/10/2024",
-            "dataValidade": "30/02/2025",
+            "dataFabricacao": "10-10-2024",
+            "dataValidade": "30-02-2025",
             "farmacia": {
                 "id": 1,
                 "cnpj": "3123123123",
@@ -584,8 +644,8 @@
                     }
                 }
             },
-            "dataFabricacao": "07/10/2024",
-            "dataValidade": "15/08/2025",
+            "dataFabricacao": "07-10-2024",
+            "dataValidade": "15-08-2025",
             "farmacia": {
                 "id": 1,
                 "cnpj": "3123123123",
@@ -623,8 +683,8 @@
                     }
                 }
             },
-            "dataFabricacao": "02/10/2024",
-            "dataValidade": "27/09/2025",
+            "dataFabricacao": "02-10-2024",
+            "dataValidade": "27-09-2025",
             "farmacia": {
                 "id": 1,
                 "cnpj": "3123123123",
@@ -662,8 +722,8 @@
                     }
                 }
             },
-            "dataFabricacao": "02/11/2024",
-            "dataValidade": "27/10/2025",
+            "dataFabricacao": "02-11-2024",
+            "dataValidade": "27-10-2025",
             "farmacia": {
                 "id": 1,
                 "cnpj": "3123123123",
@@ -676,25 +736,25 @@
     "pedidos": [
         {
             "id": 1,
-            "dataCriacao": "13/11/2024",
+            "dataCriacao": "13-11-2024",
             "status": "finalizado",
             "valorTotal": 150,
             "tipoEntrega": "delivery",
-            "dataEntrega": "19/11/2024",
+            "dataEntrega": "19-11-2024",
             "endereco": {
                 "id": 2,
-                "uf": "BA",
-                "cidade": "Xique-Xique",
-                "cep": "47430-970",
-                "bairro": "Copixaba",
-                "logradouro": "R. do Cruzeiro",
-                "numero": "750",
-                "complemento": "301"
+                "uf": "MG",
+                "cidade": "Juiz de Fora",
+                "cep": "36036-900",
+                "bairro": "São Pedro",
+                "logradouro": "Rua José Lourenço Kelmer",
+                "numero": "s/n",
+                "complemento": "Campus Universitário"
             }
         },
         {
             "id": 2,
-            "dataCriacao": "13/11/2024",
+            "dataCriacao": "13-11-2024",
             "status": "entrega pendente",
             "valorTotal": 71.98,
             "tipoEntrega": "busca no estabelecimento",
@@ -703,34 +763,34 @@
         },
         {
             "id": 3,
-            "dataCriacao": "13/11/2024",
+            "dataCriacao": "13-11-2024",
             "status": "pagamento pendente",
             "valorTotal": 17.98,
             "tipoEntrega": "delivery",
             "dataEntrega": "",
             "endereco": {
                 "id": 1,
-                "uf": "BA",
-                "cidade": "Xique-Xique",
-                "cep": "47430-970",
-                "bairro": "Copixaba",
-                "logradouro": "R. do Cruzeiro",
-                "numero": "160",
-                "complemento": "102"
+                "uf": "MG",
+                "cidade": "Juiz de Fora",
+                "cep": "36080-001",
+                "bairro": "Fábrica",
+                "logradouro": "R. Bernado Mascarenhas",
+                "numero": "1283",
+                "complemento": ""
             }
         }
     ],
     "pagamentos": [
         {
             "id": 1,
-            "dataPagamento": "13/11/2024",
+            "dataPagamento": "13-11-2024",
             "valor": 150,
             "formaPagamento": "credito",
             "idPedido": 1
         },
         {
             "id": 2,
-            "dataPagamento": "13/11/2024",
+            "dataPagamento": "13-11-2024",
             "valor": 160,
             "formaPagamento": "em especie",
             "idPedido": 2
@@ -790,8 +850,8 @@
         {
             "id": 1,
             "medico": "Dr. Jose Mario",
-            "dataEmissao": "14/11/2024",
-            "validade": "14/12/2024",
+            "dataEmissao": "14-11-2024",
+            "validade": "14-12-2024",
             "itemPrescrito": "Cloridrato de Propranolol",
             "aprovado": true,
             "idFuncionario": 4
@@ -799,8 +859,8 @@
         {
             "id": 2,
             "medico": "Dr. Jose Mario",
-            "dataEmissao": "14/11/2024",
-            "validade": "14/12/2024",
+            "dataEmissao": "14-11-2024",
+            "validade": "14-12-2024",
             "itemPrescrito": "Cloridrato de Propranolol",
             "aprovado": true,
             "idFuncionario": 4
@@ -808,8 +868,8 @@
         {
             "id": 3,
             "medico": "Dr. Jose Mario",
-            "dataEmissao": "14/11/2024",
-            "validade": "14/12/2024",
+            "dataEmissao": "14-11-2024",
+            "validade": "14-12-2024",
             "itemPrescrito": "Cloridrato de Propranolol",
             "aprovado": false,
             "idFuncionario": 4
@@ -819,42 +879,42 @@
         {
             "id": 1,
             "mensagem": "Bom dia, obrigado por cadastrar!",
-            "dataEnvio": "14/11/2024",
+            "dataEnvio": "14-11-2024",
             "tipoNotificacao": "push",
             "idUsuario": 1
         },
         {
             "id": 2,
             "mensagem": "Bom dia, obrigado por cadastrar!",
-            "dataEnvio": "14/11/2024",
+            "dataEnvio": "14-11-2024",
             "tipoNotificacao": "push",
             "idUsuario": 2
         },
         {
             "id": 3,
             "mensagem": "Bom dia, obrigado por cadastrar!",
-            "dataEnvio": "14/11/2024",
+            "dataEnvio": "14-11-2024",
             "tipoNotificacao": "push",
             "idUsuario": 3
         },
         {
             "id": 4,
             "mensagem": "Bom dia, obrigado por cadastrar!",
-            "dataEnvio": "14/11/2024",
+            "dataEnvio": "14-11-2024",
             "tipoNotificacao": "push",
             "idUsuario": 4
         },
         {
             "id": 5,
             "mensagem": "Bom dia, obrigado por cadastrar!",
-            "dataEnvio": "14/11/2024",
+            "dataEnvio": "14-11-2024",
             "tipoNotificacao": "push",
             "idUsuario": 5
         },
         {
             "id": 6,
             "mensagem": "Bom dia, obrigado por cadastrar!",
-            "dataEnvio": "14/11/2024",
+            "dataEnvio": "14-11-2024",
             "tipoNotificacao": "push",
             "idUsuario": 6
         }
