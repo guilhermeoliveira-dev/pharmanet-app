@@ -23,7 +23,7 @@
             "nome": "Farmácia 2",
             "email": "farmacianumero2@email.com",
             "telefone": "5555-5555",
-            "endeco": {
+            "endereco": {
                 "id": 2,
                 "uf": "MG",
                 "cidade": "Juiz de Fora",
