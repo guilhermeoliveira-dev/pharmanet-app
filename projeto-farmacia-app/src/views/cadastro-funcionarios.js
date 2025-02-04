@@ -13,6 +13,13 @@ import '../custom.css';
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 
+function toDate(dateStr = "") {
+    if (dateStr === undefined) {
+        return new Date();
+    }
+    return dateStr.split('-').reverse().join('-');
+}
+
 function CadastroFuncionarios() {
 	const { idParam } = useParams();
 
@@ -41,6 +48,8 @@ function CadastroFuncionarios() {
 	const [logradouro, setLogradouro] = useState('');
 	const [numero, setNumero] = useState('');
 	const [complemento, setComplemento] = useState('');
+
+	const [listaCargos, setListaCargos] = useState([]);
 
 	const [dados, setDados] = useState([]);
 
@@ -155,6 +164,11 @@ function CadastroFuncionarios() {
 
 			}
 		}
+		await axios.get(`${BASE_URL}/jsonfake2/cargos`).then((response) => {
+            setListaCargos(response.data);
+        }).catch((a) => {
+            //console.log(a);
+        });
 	}
 
 	useEffect(() => {
@@ -230,26 +244,30 @@ function CadastroFuncionarios() {
 									onChange={(e) => setTelefone(e.target.value)}
 								/>
 							</FormGroup>
-							{/* <FormGroup label='Cargo: *' htmlFor='inputCargo'>
-                <input
-                  type='text'
-                  id='inputCargo'
-                  value={cargo}
-                  className='form-control'
-                  name='cargo'
-                  onChange={(e) => setCargo(e.target.value)}
-                />
-              </FormGroup> */}
 							<FormGroup label='Data de Admissão: ' htmlFor='inputDataAdmissao'>
 								<input
 									type='date'
 									id='inputDataAdmissao'
-									value={dataAdmissao}
+									value={toDate(dataAdmissao)}
 									className='form-control'
 									name='dataAdmissao'
-									onChange={(e) => setDataAdmissao(e.target.value)}
+									onChange={(e) => setDataAdmissao(toDate(e.target.value))}
 								/>
 							</FormGroup>
+							<FormGroup label='Cargo: ' htmlFor='inputCargo'>
+                                <select
+                                    type='text'
+                                    id='inputCargo'
+                                    value={cargo == null ? 0 : cargo.id}
+                                    className='form-control'
+                                    name='cargo'
+                                    onChange={(e) => setCargo(e.target.value)}
+                                >
+                                    {listaCargos.map((cat) => (
+                                        <option value={cat.id} key={cat.id}>{`${cat.nome}`}</option>
+                                    ))}
+                                </select>
+                            </FormGroup>
 							<FormGroup label='Salário: *' htmlFor='inputSalario'>
 								<input
 									type='number'
@@ -274,10 +292,10 @@ function CadastroFuncionarios() {
 									className='form-control'
 									name='expediente'
 									onChange={(e) => setExpediente(e.target.value)}>
-									<option value="manha">Manhã</option>
-									<option value="tarde">Tarde</option>
-									<option value="noite">Noite</option>
-									<option value="madrugada">Madrugada</option>
+									<option value="manha" key="manha">Manhã</option>
+									<option value="tarde" key="tarde">Tarde</option>
+									<option value="noite" key="noite">Noite</option>
+									<option value="madrugada" key="madrugada">Madrugada</option>
 								</select>
 
 							</FormGroup>
