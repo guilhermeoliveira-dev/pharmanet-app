@@ -40,7 +40,7 @@
             "nome": "Farmácia 3",
             "email": "farmacianumero3@email.com",
             "telefone": "6266-6266",
-            "endeco": {
+            "endereco": {
                 "id": 3,
                 "uf": "MG",
                 "cidade": "Juiz de Fora",
