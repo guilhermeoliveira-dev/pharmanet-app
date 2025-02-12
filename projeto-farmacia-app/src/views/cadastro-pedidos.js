@@ -105,7 +105,6 @@ function CadastroPedidos() {
             setDataEntrega(dados.dataEntrega);
             setEndereco(dados.endereco);
 
-
         }
         await axios.get(`${BASE_URL}/jsonfake3/enderecos`).then((response) => {
             setListaEnderecos(response.data);

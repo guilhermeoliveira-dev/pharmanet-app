@@ -20,6 +20,15 @@ function toDate(dateStr = "") {
     return dateStr.split('-').reverse().join('-');
 }
 
+function getById(id, list) {
+	for (let i = 0; i < list.length; i++) {
+		if (list[i].id === id) {
+			return list[i];
+		}
+	}
+	return null;
+}
+
 function CadastroFuncionarios() {
 	const { idParam } = useParams();
 
@@ -50,6 +59,7 @@ function CadastroFuncionarios() {
 	const [complemento, setComplemento] = useState('');
 
 	const [listaCargos, setListaCargos] = useState([]);
+	const [listaFarmacias, setListaFarmacias] = useState([]);
 
 	const [dados, setDados] = useState([]);
 
@@ -164,8 +174,13 @@ function CadastroFuncionarios() {
 
 			}
 		}
-		await axios.get(`${BASE_URL}/jsonfake2/cargos`).then((response) => {
+		await axios.get(`${BASE_URL}/jsonfake4/cargos`).then((response) => {
             setListaCargos(response.data);
+        }).catch((a) => {
+            //console.log(a);
+        });
+		await axios.get(`${BASE_URL}/jsonfake/farmacias`).then((response) => {
+            setListaFarmacias(response.data);
         }).catch((a) => {
             //console.log(a);
         });
@@ -261,7 +276,7 @@ function CadastroFuncionarios() {
                                     value={cargo == null ? 0 : cargo.id}
                                     className='form-control'
                                     name='cargo'
-                                    onChange={(e) => setCargo(e.target.value)}
+                                    onChange={(e) => setCargo(getById(e.target.value, listaCargos))}
                                 >
                                     {listaCargos.map((cat) => (
                                         <option value={cat.id} key={cat.id}>{`${cat.nome}`}</option>
@@ -297,8 +312,23 @@ function CadastroFuncionarios() {
 									<option value="noite" key="noite">Noite</option>
 									<option value="madrugada" key="madrugada">Madrugada</option>
 								</select>
+							</FormGroup>
+
+							<FormGroup label='Farmácia: ' htmlFor='inputFarmacia'>
+								<select
+									type='text'
+									id='inputFarmacia'
+									value={farmacia == null ? 0 : farmacia.id}
+									className='form-control'
+									name='farmacia'
+									onChange={(e) => setFarmacia(getById(e.target.value, listaFarmacias))}>
+									{listaFarmacias.map((cat) => (
+                                        <option value={cat.id} key={cat.id}>{`${cat.nome}`}</option>
+                                    ))}
+								</select>
 
 							</FormGroup>
+
 							<br></br><h2>Endereço:</h2>
 
 							<FormGroup label='UF: *' htmlFor='inputUf'>

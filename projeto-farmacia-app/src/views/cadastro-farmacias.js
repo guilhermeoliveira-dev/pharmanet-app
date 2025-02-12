@@ -79,7 +79,7 @@ function CadastroFarmacias() {
 					headers: { 'Content-Type': 'application/json' },
 				})
 				.then(function (response) { 
-					mensagemSucesso(`Farmacia ${nome} cadastrada com sucesso!`);
+					mensagemSucesso(`Farmácia ${nome} cadastrada com sucesso!`);
 					navigate(`/listagem-farmacias`);
 				})
 				.catch(function (error) {
@@ -91,7 +91,7 @@ function CadastroFarmacias() {
 					headers: { 'Content-Type': 'application/json' },
 				})
 				.then(function (response) {
-					mensagemSucesso(`Farmacia ${nome} alterada com sucesso!`);
+					mensagemSucesso(`Farmácia ${nome} alterada com sucesso!`);
 					navigate(`/listagem-farmacias`);
 				})
 				.catch(function (error) {
@@ -143,7 +143,7 @@ function CadastroFarmacias() {
 
 	return (
 		<div className='container'>
-			<Card title='Cadastro de Farmacia'>
+			<Card title='Cadastro de Farmácia'>
 				<div className='row'>
 					<div className='col-lg-12'>
 						<div className='bs-component'>

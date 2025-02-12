@@ -24,7 +24,6 @@ const baseURL = `${BASE_URL}jsonfake/produtos`;
 // relacaoCores.set("Vermelha", "red");
 // relacaoCores.set("Preta", "black");
 
-
 function ListagemProdutos() {
   const navigate = useNavigate();
 

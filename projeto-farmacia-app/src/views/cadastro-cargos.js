@@ -27,7 +27,7 @@ function CadastroCargos() {
 
 	const navigate = useNavigate();
 
-	const baseURL = `${BASE_URL}jsonfake2/cargos`;
+	const baseURL = `${BASE_URL}jsonfake4/cargos`;
 
 	const [id, setId] = useState('');
 	const [nome, setNome] = useState('');

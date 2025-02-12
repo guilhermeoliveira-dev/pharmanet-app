@@ -68,6 +68,16 @@ class Login extends React.Component {
                   >
                     Cancelar
                   </button>
+
+                  <div>Não possui conta?</div>
+                  <button
+                    onClick={console.log("ainda não fizemos o redirecionamento")}
+                    type='button'
+                    className='btn btn-'
+                  >
+                    Cadastre-se
+                  </button>
+
                 </Stack>
               </div>
             </div>

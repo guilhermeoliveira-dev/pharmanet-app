@@ -392,7 +392,7 @@
         {
             "id": 1,
             "nome": "Omega 3",
-            "descricao": "faz bem pra saude",
+            "descricao": "Faz bem para a saúde.",
             "preco": 50.0,
             "requerLote": true,
             "peso": 50,
@@ -405,12 +405,12 @@
             },
             "categoria": {
                 "id": 2,
-                "nome": "Suplemento Alimenticio",
-                "descricao": "Medicamentos destinados a complementar a nutricao.",
+                "nome": "Suplemento Alimentício",
+                "descricao": "Medicamentos destinados a complementar a alimentação nutricional.",
                 "categoriaPai": {
                     "id": 5,
                     "nome": "Produto Alimentício",
-                    "descricao": "Produtos alimentícios de forma geral.",
+                    "descricao": "Produtos alimentícios em geral.",
                     "categoriaPai": null
                 }
             }
@@ -418,7 +418,7 @@
         {
             "id": 2,
             "nome": "Sachê Whiskas",
-            "descricao": "sachê de ração para gatos",
+            "descricao": "Sachê de ração para gatos.",
             "preco": 4.0,
             "requerLote": true,
             "peso": 100,
@@ -432,11 +432,11 @@
             "categoria": {
                 "id": 4,
                 "nome": "Ração Animal",
-                "descricao": "Ração para pets.",
+                "descricao": "Ração para animais de estimação.",
                 "categoriaPai": {
                     "id": 5,
                     "nome": "Produto Alimentício",
-                    "descricao": "Produtos alimentícios de forma geral.",
+                    "descricao": "Produtos alimentícios em geral.",
                     "categoriaPai": null
                 }
             }
@@ -444,7 +444,7 @@
         {
             "id": 3,
             "nome": "Cloridrato de Propranolol",
-            "descricao": "Cloridrato de Propranolol 40mg Genérico Pharlab 30 Comprimidos",
+            "descricao": "Cloridrato de Propranolol 40 mg, genérico Pharlab, 30 comprimidos.",
             "preco": 8.99,
             "requerLote": true,
             "peso": 50,
@@ -470,7 +470,7 @@
         {
             "id": 4,
             "nome": "Clonazepam",
-            "descricao": "Faz bem para Convulsão, Pânico e Ansiedade",
+            "descricao": "Faz bem para convulsão, pânico e ansiedade.",
             "preco": 80.0,
             "requerLote": true,
             "peso": 60,
@@ -484,7 +484,7 @@
             "categoria": {
                 "id": 6,
                 "nome": "Benzodiazepínicos",
-                "descricao": "É uns remédio cabuloso.",
+                "descricao": "É um remédio bem potente.",
                 "categoriaPai": {
                     "id": 1,
                     "nome": "Medicamento",
@@ -526,19 +526,19 @@
         },
         {
             "id": 2,
-            "nome": "Suplemento Alimenticio",
-            "descricao": "Medicamentos destinados a complementar a nutricao.",
+            "nome": "Suplemento alimentício",
+            "descricao": "Medicamentos destinados a complementar a alimentação nutricional.",
             "categoriaPai": {
                 "id": 5,
                 "nome": "Produto Alimentício",
-                "descricao": "Produtos alimentícios de forma geral.",
+                "descricao": "Produtos alimentícios em geral.",
                 "categoriaPai": null
             }
         },
         {
             "id": 3,
             "nome": "Betabloqueadores",
-            "descricao": "Nao sei explicar isso, acho que e calmante sei la, tirei do google.",
+            "descricao": "Não sei explicar isso direito. Acho que é um calmante, sei lá... Eu pesquisei no Google.",
             "categoriaPai": {
                 "id": 1,
                 "nome": "Medicamento",
@@ -549,24 +549,24 @@
         {
             "id": 4,
             "nome": "Ração Animal",
-            "descricao": "Ração para pets.",
+            "descricao": "Ração para animais de estimação.",
             "categoriaPai": {
                 "id": 5,
                 "nome": "Produto Alimentício",
-                "descricao": "Produtos alimentícios de forma geral.",
+                "descricao": "Produtos alimentícios em geral.",
                 "categoriaPai": null
             }
         },
         {
             "id": 5,
             "nome": "Produto Alimentício",
-            "descricao": "Produtos alimentícios de forma geral.",
+            "descricao": "Produtos alimentícios em geral.",
             "categoriaPai": null
         },
         {
             "id": 6,
             "nome": "Benzodiazepínicos",
-            "descricao": "É uns remédio cabuloso.",
+            "descricao": "É um remédio bem potente.",
             "categoriaPai": {
                 "id": 1,
                 "nome": "Medicamento",
@@ -582,7 +582,7 @@
             "produto": {
                 "id": 1,
                 "nome": "Omega 3",
-                "descricao": "faz bem pra saude",
+                "descricao": "Faz bem para a saúde.",
                 "preco": 50.0,
                 "requerLote": true,
                 "peso": 50,
@@ -595,12 +595,12 @@
                 },
                 "categoria": {
                     "id": 2,
-                    "nome": "Suplemento Alimenticio",
-                    "descricao": "Medicamentos destinados a complementar a nutricao.",
+                    "nome": "Suplemento alimentício",
+                    "descricao": "Medicamentos destinados a complementar a alimentação nutricional.",
                     "categoriaPai": {
                         "id": 5,
                         "nome": "Produto Alimentício",
-                        "descricao": "Produtos alimentícios de forma geral.",
+                        "descricao": "Produtos alimentícios em geral.",
                         "categoriaPai": null
                     }
                 }
@@ -621,7 +621,7 @@
             "produto": {
                 "id": 2,
                 "nome": "Sachê Whiskas",
-                "descricao": "sachê de ração para gatos",
+                "descricao": "Sachê de ração para gatos.",
                 "preco": 4.0,
                 "requerLote": true,
                 "peso": 100,
@@ -635,11 +635,11 @@
                 "categoria": {
                     "id": 4,
                     "nome": "Ração Animal",
-                    "descricao": "Ração para pets.",
+                    "descricao": "Ração para animais de estimação.",
                     "categoriaPai": {
                         "id": 5,
                         "nome": "Produto Alimentício",
-                        "descricao": "Produtos alimentícios de forma geral.",
+                        "descricao": "Produtos alimentícios em geral.",
                         "categoriaPai": null
                     }
                 }
@@ -660,7 +660,7 @@
             "produto": {
                 "id": 3,
                 "nome": "Cloridrato de Propranolol",
-                "descricao": "Cloridrato de Propranolol 40mg Genérico Pharlab 30 Comprimidos",
+                "descricao": "Cloridrato de Propranolol 40 mg, genérico Pharlab, 30 comprimidos.",
                 "preco": 8.99,
                 "requerLote": true,
                 "peso": 50,
@@ -674,7 +674,7 @@
                 "categoria": {
                     "id": 3,
                     "nome": "Betabloqueadores",
-                    "descricao": "Nao sei explicar isso, acho que e calmante sei la, tirei do google.",
+                    "descricao": "Não sei explicar isso direito. Acho que é um calmante, sei lá... Eu pesquisei no Google.",
                     "categoriaPai": {
                         "id": 1,
                         "nome": "Medicamento",
@@ -699,7 +699,7 @@
             "produto": {
                 "id": 3,
                 "nome": "Cloridrato de Propranolol",
-                "descricao": "Cloridrato de Propranolol 40mg Genérico Pharlab 30 Comprimidos",
+                "descricao": "Cloridrato de Propranolol 40 mg, genérico Pharlab, 30 comprimidos.",
                 "preco": 8.99,
                 "requerLote": true,
                 "peso": 50,
@@ -713,7 +713,7 @@
                 "categoria": {
                     "id": 3,
                     "nome": "Betabloqueadores",
-                    "descricao": "Nao sei explicar isso, acho que e calmante sei la, tirei do google.",
+                    "descricao": "Não sei explicar isso direito. Acho que é um calmante, sei lá... Eu pesquisei no Google.",
                     "categoriaPai": {
                         "id": 1,
                         "nome": "Medicamento",
@@ -736,6 +736,7 @@
     "pedidos": [
         {
             "id": 1,
+            "codigo": "20241113000000",
             "dataCriacao": "13-11-2024",
             "status": "finalizado",
             "valorTotal": 150,
@@ -754,6 +755,7 @@
         },
         {
             "id": 2,
+            "codigo": "20241113000001",
             "dataCriacao": "13-11-2024",
             "status": "entrega pendente",
             "valorTotal": 71.98,
@@ -763,6 +765,7 @@
         },
         {
             "id": 3,
+            "codigo": "20241113000002",
             "dataCriacao": "13-11-2024",
             "status": "pagamento pendente",
             "valorTotal": 17.98,
@@ -780,20 +783,55 @@
             }
         }
     ],
-    "pagamentos": [
+    "vendas": [
         {
             "id": 1,
-            "dataPagamento": "13-11-2024",
-            "valor": 150,
-            "formaPagamento": "credito",
-            "idPedido": 1
+            "dataVenda": "13-11-2024",
+            "pedido": {
+                "id": 1,
+                "codigo": "20241113000000",
+                "dataCriacao": "13-11-2024",
+                "status": "finalizado",
+                "valorTotal": 150,
+                "tipoEntrega": "delivery",
+                "dataEntrega": "19-11-2024",
+                "endereco": {
+                    "id": 2,
+                    "uf": "MG",
+                    "cidade": "Juiz de Fora",
+                    "cep": "36036-900",
+                    "bairro": "São Pedro",
+                    "logradouro": "Rua José Lourenço Kelmer",
+                    "numero": "s/n",
+                    "complemento": "Campus Universitário"
+                }
+            },
+            "pagamento": {
+                "id": 1,
+                "dataPagamento": "13-11-2024",
+                "valor": 150,
+                "formaPagamento": "credito"
+            } 
         },
         {
             "id": 2,
-            "dataPagamento": "13-11-2024",
-            "valor": 160,
-            "formaPagamento": "em especie",
-            "idPedido": 2
+            "dataVenda": "13-11-2024",
+            "pedido": {
+                "id": 2,
+                "codigo": "20241113000001",
+                "dataCriacao": "13-11-2024",
+                "status": "entrega pendente",
+                "valorTotal": 71.98,
+                "tipoEntrega": "busca no estabelecimento",
+                "dataEntrega": "",
+                "endereco": null
+            },
+            "pagamento": {
+                "id": 2,
+                "dataPagamento": "13-11-2024",
+                "valor": 150,
+                "formaPagamento": "em especie"
+            }
         }
     ],
     "itensPedido": [
@@ -917,6 +955,59 @@
             "dataEnvio": "14-11-2024",
             "tipoNotificacao": "push",
             "idUsuario": 6
+        }
+    ],
+    "fornecedores": [
+        {
+            "id": 1,
+            "cnpj": "3123123123",
+            "nome": "Fornecedor A",
+            "email": "fornecedorletraa@email.com",
+            "telefone": "4444-4444",
+            "endereco": {
+                "id": 1,
+                "uf": "MG",
+                "cidade": "Juiz de Fora",
+                "cep": "36080-001",
+                "bairro": "Fábrica",
+                "logradouro": "R. Bernado Mascarenhas",
+                "numero": "1283",
+                "complemento": ""
+            }
+        },
+        {
+            "id": 2,
+            "cnpj": "3123123123",
+            "nome": "Fornecedor B",
+            "email": "fornecedorletrab@email.com",
+            "telefone": "4444-4444",
+            "endereco": {
+                "id": 3,
+                "uf": "MG",
+                "cidade": "Juiz de Fora",
+                "cep": "36080-001",
+                "bairro": "Fábrica",
+                "logradouro": "R. Bernado Mascarenhas",
+                "numero": "1045",
+                "complemento": ""
+            }
+        },
+        {
+            "id": 3,
+            "cnpj": "3123123123",
+            "nome": "Fornecedor C",
+            "email": "fornecedorletrac@email.com",
+            "telefone": "4444-4444",
+            "endereco": {
+                "id": 2,
+                "uf": "MG",
+                "cidade": "Juiz de Fora",
+                "cep": "36036-900",
+                "bairro": "São Pedro",
+                "logradouro": "Rua José Lourenço Kelmer",
+                "numero": "s/n",
+                "complemento": "Campus Universitário"
+            }
         }
     ]
 }

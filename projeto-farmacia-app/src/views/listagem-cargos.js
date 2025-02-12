@@ -16,7 +16,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL}jsonfake2/cargos`;
+const baseURL = `${BASE_URL}jsonfake4/cargos`;
 
 function ListagemCargos() {
   const navigate = useNavigate();

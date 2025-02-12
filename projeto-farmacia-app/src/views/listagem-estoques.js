@@ -34,7 +34,7 @@ function ListagemEstoques() {
   async function excluir(id) {
     let data = JSON.stringify({ id });
     let url = `${baseURL}/${id}`;
-    console.log(url);
+    //console.log(url);
     await axios
       .delete(url, data, {
         headers: { 'Content-Type': 'application/json' },
@@ -75,6 +75,7 @@ function ListagemEstoques() {
               <table className='table table-hover'>
                 <thead>
                   <tr>
+
                     <th scope='col'>Produto</th>
                     <th scope='col'>Quantidade</th>
                     <th scope='col'>Validade</th>
