@@ -41,7 +41,7 @@ function ListagemPermissoes() {
         headers: { 'Content-Type': 'application/json' },
       })
       .then(function (response) {
-        mensagemSucesso(`Produto excluído com sucesso!`);
+        mensagemSucesso(`Permissão excluída com sucesso!`);
         setDados(
           dados.filter((dado) => {
             return dado.id !== id;
@@ -49,7 +49,7 @@ function ListagemPermissoes() {
         );
       })
       .catch(function (error) {
-        mensagemErro(`Erro ao excluir o produto`);
+        mensagemErro(`Erro ao excluir a permissão`);
       });
   }
 

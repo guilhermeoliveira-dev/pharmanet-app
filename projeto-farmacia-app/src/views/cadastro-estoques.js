@@ -41,15 +41,15 @@ function CadastroEstoques() {
 	const [dataFabricacao, setDataFabricacao] = useState('');
 	const [dataValidade, setDataValidade] = useState('');
 	const [farmacia, setFarmacia] = useState(null);
+	const [fornecedor, setFornecedor] = useState([]);
 
 	const [dados, setDados] = useState([]);
 
 	const [listaFarmacias, setListaFarmacias] = useState([]);
 	const [listaProdutos, setListaProdutos] = useState([]);
+	const [listaFornecedores, setListaFornecedores] = useState([]);
 
 	//const [listaPermissoes, setListaPermissoes] = useState([]);
-
-
 
 	function inicializar() {
 		if (idParam == null) {
@@ -59,6 +59,7 @@ function CadastroEstoques() {
 			setDataFabricacao('');
 			setDataValidade('');
 			setFarmacia(null);
+			setFornecedor(null);
 		} else {
 			setId(dados.id);
 			setQuantidade(dados.quantidade);
@@ -66,11 +67,12 @@ function CadastroEstoques() {
 			setDataFabricacao(toDate(dados.dataFabricacao));
 			setDataValidade(toDate(dados.dataValidade));
 			setFarmacia(dados.farmacia);
+			setFornecedor(dados.fornecedor)
 		}
 	}
 
 	async function salvar() {
-		let data = { id, quantidade, produto, dataFabricacao, dataValidade, farmacia };
+		let data = { id, quantidade, produto, dataFabricacao, dataValidade, farmacia, fornecedor };
 		data = JSON.stringify(data);
 		if (idParam == null) {
 			await axios
@@ -113,6 +115,7 @@ function CadastroEstoques() {
 			setDataFabricacao(dados.dataFabricacao);
 			setDataValidade(dados.dataValidade);
 			setFarmacia(dados.farmacia);
+			setFornecedor(dados.fornecedor);
 		}
 		await axios.get(`${BASE_URL}/jsonfake/farmacias`).then((response) => {
 			setListaFarmacias(response.data);
@@ -121,6 +124,11 @@ function CadastroEstoques() {
 		});
 		await axios.get(`${BASE_URL}/jsonfake/produtos`).then((response) => {
 			setListaProdutos(response.data);
+		}).catch((a) => {
+			//console.log(a);
+		});
+		await axios.get(`${BASE_URL}/jsonfake4/fornecedores`).then((response) => {
+			setListaFornecedores(response.data);
 		}).catch((a) => {
 			//console.log(a);
 		});
@@ -185,7 +193,7 @@ function CadastroEstoques() {
 								/>
 							</FormGroup>
 
-							<FormGroup label='Farmácia: *' htmlFor='inputFarmácia'>
+							<FormGroup label='Farmácia: *' htmlFor='inputFarmacia'>
 								<select
 									//type='text'
 									id='inputFarmacia'
@@ -201,6 +209,21 @@ function CadastroEstoques() {
 								</select>
 							</FormGroup>
 
+							<FormGroup label='Fornecedor: *' htmlFor='inputFornecedor'>
+								<select
+									//type='text'
+									id='inputFornecedor'
+									value={fornecedor}
+									className='form-control'
+									name='fornecedor'
+									onChange={(e) => setFornecedor(getById(e.target.value, listaFornecedores))}
+								>
+									<option value="null" key="0"> -- Selecione um Fornecedor -- </option>
+									{listaFornecedores.map((cat) => (
+										<option value={cat} key={cat.id}>{cat.nome}</option>
+									))}
+								</select>
+							</FormGroup>
 
 							<Stack spacing={1} padding={1} direction='row'>
 								<button

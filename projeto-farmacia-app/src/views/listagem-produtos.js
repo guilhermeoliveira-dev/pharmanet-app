@@ -82,7 +82,7 @@ function ListagemProdutos() {
                 <thead>
                   <tr>
                     <th scope='col'>Nome</th>
-                    <th scope='col'>Preco</th>
+                    <th scope='col'>Preço</th>
                     <th scope='col'>Peso</th>
                     <th scope='col'>Categoria</th>
                     <th scope='col'>Tarja</th>

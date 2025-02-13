@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-
 import Stack from '@mui/material/Stack';
-
 import Card from '../components/card';
 import FormGroup from '../components/form-group';
-
+import { IconButton } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ProductDropdown from '../components/ProductDropdown';
 import { mensagemSucesso, mensagemErro } from '../components/toastr';
-
 import '../custom.css';
-
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 
@@ -22,13 +20,12 @@ function toDate(dateStr = "") {
 
 function CadastroPedidos() {
     const { idParam } = useParams();
-
     const navigate = useNavigate();
-
     const baseURL = `${BASE_URL}jsonfake2/pedidos`;
 
     const [id, setId] = useState('');
     const [dataCriacao, setDataCriacao] = useState('');
+    const [codigo, setCodigo] = useState('');
     const [status, setStatus] = useState('');
     const [valorTotal, setValorTotal] = useState('');
     const [tipoEntrega, setTipoEntrega] = useState('');
@@ -36,14 +33,14 @@ function CadastroPedidos() {
     const [endereco, setEndereco] = useState('');
 
     const [dados, setDados] = useState([]);
-
     const [listaEnderecos, setListaEnderecos] = useState([]);
-
+    const [listaItensPedido, setListaItensPedido] = useState([]);
 
     function inicializar() {
         if (idParam == null) {
             setId('');
             setDataCriacao('');
+            setCodigo('');
             setStatus('');
             setValorTotal(0);
             setTipoEntrega('');
@@ -52,6 +49,7 @@ function CadastroPedidos() {
         } else {
             setId(dados.id);
             setDataCriacao(dados.dataCriacao);
+            setCodigo(dados.codigo);
             setStatus(dados.status);
             setValorTotal(dados.valorTotal);
             setTipoEntrega(dados.tipoEntrega);
@@ -61,7 +59,7 @@ function CadastroPedidos() {
     }
 
     async function salvar() {
-        let data = { id, dataCriacao, status, valorTotal, tipoEntrega, dataEntrega, endereco };
+        let data = { id, dataCriacao, codigo, status, valorTotal, tipoEntrega, dataEntrega, endereco };
         data = JSON.stringify(data);
         if (idParam == null) {
             await axios
@@ -99,18 +97,42 @@ function CadastroPedidos() {
             });
             setId(dados.id);
             setDataCriacao(dados.dataCriacao);
+            setCodigo(dados.codigo);
             setStatus(dados.status);
             setValorTotal(dados.valorTotal);
             setTipoEntrega(dados.tipoEntrega);
             setDataEntrega(dados.dataEntrega);
             setEndereco(dados.endereco);
-
         }
         await axios.get(`${BASE_URL}/jsonfake3/enderecos`).then((response) => {
             setListaEnderecos(response.data);
         }).catch((a) => {
             //console.log(a);
         });
+        await axios.get(`${BASE_URL}/jsonfake5/itensPedido`).then((response) => {
+            setListaItensPedido(response.data);
+        }).catch((a) => {
+            //console.log(a);
+        });
+    }
+
+    async function excluirItem(idItem) {
+        try {
+            // Remove o item da lista de itens do pedido
+            const novaListaItens = listaItensPedido.filter(item => item.id !== idItem);
+            setListaItensPedido(novaListaItens);
+
+            // Se necessário, faz uma requisição para excluir o item da API
+            await axios.delete(`${BASE_URL}/jsonfake5/itensPedido/${idItem}`)
+                .then(() => {
+                    mensagemSucesso('Item removido com sucesso!');
+                })
+                .catch((error) => {
+                    mensagemErro('Erro ao remover o item.');
+                });
+        } catch (error) {
+            mensagemErro('Erro ao remover o item.');
+        }
     }
 
     useEffect(() => {
@@ -134,6 +156,17 @@ function CadastroPedidos() {
                                     className='form-control'
                                     name='dataCriacao'
                                     onChange={(e) => setDataCriacao(toDate(e.target.value))}
+                                />
+                            </FormGroup>
+                            <FormGroup label='Código: ' htmlFor='inputCodigo'>
+                                <input
+                                    disabled
+                                    type='text'
+                                    id='inputCodigo'
+                                    value={toDate(codigo)}
+                                    className='form-control'
+                                    name='codigo'
+                                    onChange={(e) => setCodigo(toDate(e.target.value))}
                                 />
                             </FormGroup>
                             <FormGroup label='Status: ' htmlFor='inputStatus'>
@@ -177,7 +210,7 @@ function CadastroPedidos() {
                             </FormGroup>
                             <FormGroup label='Data da Entrega: ' htmlFor='inputDataEntrega'>
                                 <input
-                                    type='text'
+                                    type='date'
                                     id='inputDataEntrega'
                                     value={toDate(dataEntrega)}
                                     className='form-control'
@@ -195,7 +228,7 @@ function CadastroPedidos() {
                                     onChange={(e) => setEndereco(e.target.value)}
                                 >
                                     {listaEnderecos.map((cat) => (
-                                        <option value={cat.id} key={cat.id}>{`${cat.logradouro},  ${cat.numero == "s/n" ? "s/n" : "nº "+cat.numero}`}</option>
+                                        <option value={cat.id} key={cat.id}>{`${cat.logradouro},  ${cat.numero === "s/n" ? "s/n" : "nº " + cat.numero}`}</option>
                                     ))}
                                 </select>
                             </FormGroup>
@@ -219,6 +252,41 @@ function CadastroPedidos() {
                         </div>
                     </div>
                 </div>
+                <h2>Itens:</h2>
+                <table className='table table-hover'>
+                    <thead>
+                        <tr>
+                            <th scope='col'>Produto</th>
+                            <th scope='col'>Quantidade</th>
+                            <th scope='col'>Preço</th>
+                            <th scope='col'>Detalhes</th>
+                            <th scope='col'>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {listaItensPedido.map((dado) => (
+                            <tr key={dado.id}>
+                                <td>{dado.estoque.produto.nome}</td>
+                                <td>{dado.quantidade}</td>
+                                <td>{dado.estoque.produto.preco}</td>
+                                <td>
+                                    <ProductDropdown product={dado.estoque.produto} />
+                                </td>
+                                <td>
+                                    <Stack spacing={1} padding={0} direction='row'>
+                                        <IconButton
+                                            aria-label='delete'
+                                            style={{ color: "red" }}
+                                            onClick={() => excluirItem(dado.id)} // Adicionado o evento de exclusão
+                                        >
+                                            <DeleteIcon />
+                                        </IconButton>
+                                    </Stack>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </Card>
         </div>
     );

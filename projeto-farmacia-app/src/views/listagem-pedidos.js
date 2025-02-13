@@ -40,7 +40,7 @@ function ListagemPedidos() {
         headers: { 'Content-Type': 'application/json' },
       })
       .then(function (response) {
-        mensagemSucesso(`Usuário excluído com sucesso!`);
+        mensagemSucesso(`Pedido excluído com sucesso!`);
         setDados(
           dados.filter((dado) => {
             return dado.id !== id;
@@ -48,7 +48,7 @@ function ListagemPedidos() {
         );
       })
       .catch(function (error) {
-        mensagemErro(`Erro ao excluir o usuário`);
+        mensagemErro(`Erro ao excluir o pedido`);
       });
   }
 
@@ -75,6 +75,7 @@ function ListagemPedidos() {
               <table className='table table-hover'>
                 <thead>
                   <tr>
+                    <th scope='col'>Código</th>
                     <th scope='col'>Valor Total</th>
                     <th scope='col'>Status</th>
                     <th scope='col'>Tipo de Entrega</th>
@@ -85,7 +86,8 @@ function ListagemPedidos() {
                 <tbody>
                   {dados.map((dado) => (
                     <tr key={dado.id}>
-                      <td>{"R$"+dado.valorTotal}</td>
+                      <td>{dado.codigo}</td>
+                      <td>{"R$" + dado.valorTotal}</td>
                       <td>{dado.status.charAt(0).toUpperCase() + dado.status.slice(1)}</td>
                       <td>{dado.tipoEntrega.charAt(0).toUpperCase() + dado.tipoEntrega.slice(1)}</td>
                       <td>{dado.dataEntrega === "" ? "---" : dado.dataEntrega}</td>
@@ -93,14 +95,14 @@ function ListagemPedidos() {
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton
                             aria-label='edit'
-                            style={{ color: "white"}}
+                            style={{ color: "white" }}
                             onClick={() => editar(dado.id)}
                           >
-                            <EditIcon /> 
+                            <EditIcon />
                           </IconButton>
                           <IconButton
                             aria-label='delete'
-                            style={{ color: "red"}}
+                            style={{ color: "red" }}
                             onClick={() => excluir(dado.id)}
                           >
                             <DeleteIcon />

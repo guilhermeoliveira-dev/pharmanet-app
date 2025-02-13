@@ -16,6 +16,8 @@ import ListagemFornecedores from './views/listagem-fornecedores'
 import ListagemPermissoes from './views/listagem-permissoes'
 import ListagemVendas from './views/listagem-vendas';
 
+import ListagemCarrinho from './views/listagem-carrinho';
+
 import CadastroFuncionarios from './views/cadastro-funcionarios';
 import CadastroCategorias from './views/cadastro-categorias';
 import CadastroFarmacias from './views/cadastro-farmacias';
@@ -26,7 +28,7 @@ import CadastroProdutos from './views/cadastro-produtos';
 import CadastroPedidos from './views/cadastro-pedidos';
 import CadastroFornecedores from './views/cadastro-fornecedores';
 import CadastroPermissoes from './views/cadastro-permissoes';
-import CadastroVendas from './views/cadastro-vendas';
+// import CadastroVendas from './views/cadastro-vendas';
 
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
 
@@ -37,7 +39,7 @@ function Rotas(props) {
 				<Route
 					path='/login'
 					element={<Login />}
-				/>
+				/> 
 
 				{/* Cadastros */}
 				<Route
@@ -80,10 +82,10 @@ function Rotas(props) {
 					path='/cadastro-permissoes/:idParam?'
 					element={<CadastroPermissoes />}
 				/>
-				<Route
+				{/* <Route
 					path='/cadastro-vendas/:idParam?'
 					element={<CadastroVendas />}
-				/>
+				/> */}
 
 				{/* Listagens */}
 				<Route
@@ -129,6 +131,10 @@ function Rotas(props) {
 				<Route
 					path='/listagem-vendas/'
 					element={<ListagemVendas />}
+				/>
+				<Route
+					path='/carrinho/'
+					element={<ListagemCarrinho />}
 				/>
 				<Route
 					path='/'

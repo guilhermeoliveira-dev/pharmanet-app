@@ -13,14 +13,14 @@ import '../custom.css';
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 
-function getById(id, list) {
-	for (let i = 0; i < list.length; i++) {
-		if (list[i].id === id) {
-			return list[i];
-		}
-	}
-	return null;
-}
+// function getById(id, list) {
+// 	for (let i = 0; i < list.length; i++) {
+// 		if (list[i].id === id) {
+// 			return list[i];
+// 		}
+// 	}
+// 	return null;
+// }
 
 function CadastroCargos() {
 	const { idParam } = useParams();
@@ -48,6 +48,7 @@ function CadastroCargos() {
 			setId(dados.id);
 			setNome(dados.nome);
 			setPermissoes(dados.permissoes);
+			console.log(permissoes);
 		}
 	}
 
@@ -94,15 +95,24 @@ function CadastroCargos() {
 			setPermissoes(dados.permissoes);
 		}
 		await axios.get(`${BASE_URL}/jsonfake3/permissoes`).then((response) => {
-            setListaPermissoes(response.data);
-        }).catch((a) => {
-            //console.log(a);
-        });
+			setListaPermissoes(response.data);
+		}).catch((a) => {
+			//console.log(a);
+		});
 	}
 
 	useEffect(() => {
 		buscar(); // eslint-disable-next-line
 	}, [id]);
+
+	const handlePermissoesChange = (event) => {
+        const selectedOptions = Array.from(event.target.selectedOptions, (option) => option.value);
+        // Mapeia os IDs selecionados para os objetos correspondentes
+        const permissoesSelecionadas = selectedOptions.map((id) =>
+            listaPermissoes.find((perm) => perm.id === parseInt(id))
+        );
+        setPermissoes(permissoesSelecionadas);
+    };
 
 	if (!dados) return null;
 
@@ -122,22 +132,21 @@ function CadastroCargos() {
 									onChange={(e) => setNome(e.target.value)}
 								/>
 							</FormGroup>
-							<FormGroup label='Permissoes: *' htmlFor='inputPermissoes'>
+							<FormGroup label='Permissões: ' htmlFor='inputPermissoes'>
                                 <select
-                                    //type='text'
+                                    multiple
                                     id='inputPermissoes'
-                                    value={permissoes == null ? 0 : permissoes.id}
+                                    value={permissoes == null ? [] : permissoes.map((perm) => perm.id)} // Array de IDs
                                     className='form-control'
                                     name='permissoes'
-                                    onChange={(e) => setPermissoes(getById(e.target.value, listaPermissoes))}
-									multiple
+                                    onChange={handlePermissoesChange}
                                 >
                                     {listaPermissoes.map((cat) => (
                                         <option value={cat.id} key={cat.id}>{cat.nome}</option>
                                     ))}
                                 </select>
                             </FormGroup>
-							
+
 							<Stack spacing={1} padding={1} direction='row'>
 								<button
 									onClick={salvar}

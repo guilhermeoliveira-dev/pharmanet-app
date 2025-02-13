@@ -119,7 +119,7 @@ function CadastroFuncionarios() {
 					headers: { 'Content-Type': 'application/json' },
 				})
 				.then(function (response) {
-					mensagemSucesso(`Usuário ${nome} cadastrado com sucesso!`);
+					mensagemSucesso(`Funcionário ${nome} cadastrado com sucesso!`);
 					navigate(`/listagem-funcionarios`);
 				})
 				.catch(function (error) {
@@ -131,7 +131,7 @@ function CadastroFuncionarios() {
 					headers: { 'Content-Type': 'application/json' },
 				})
 				.then(function (response) {
-					mensagemSucesso(`Usuário ${nome} alterado com sucesso!`);
+					mensagemSucesso(`Funcionário ${nome} alterado com sucesso!`);
 					navigate(`/listagem-funcionarios`);
 				})
 				.catch(function (error) {

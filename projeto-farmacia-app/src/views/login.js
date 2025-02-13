@@ -1,13 +1,8 @@
 import React from 'react';
-
 import Stack from '@mui/material/Stack';
-
 import Card from '../components/card';
 import FormGroup from '../components/form-group';
-
 import { mensagemSucesso } from '../components/toastr';
-
-//import '../custom.css';
 
 class Login extends React.Component {
   state = {
@@ -28,7 +23,13 @@ class Login extends React.Component {
 
   render() {
     return (
-      <div className='container'>
+      <div
+        className='container'
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
         <div className='col-lg-4'>
           <Card title='Acesso'>
             <div className='row'>
@@ -53,31 +54,33 @@ class Login extends React.Component {
                     onChange={(e) => this.setState({ senha: e.target.value })}
                   />
                 </FormGroup>
-                <Stack spacing={1} padding={1} direction='row'>
-                  <button
-                    onClick={this.logar}
-                    type='button'
-                    className='btn btn-success'
-                  >
-                    Entrar
-                  </button>
-                  <button
-                    onClick={this.cancelar}
-                    type='button'
-                    className='btn btn-danger'
-                  >
-                    Cancelar
-                  </button>
-
+                <Stack spacing={2} padding={1} direction='column' alignItems='center'>
+                  <Stack spacing={1} direction='row'>
+                    <button
+                      onClick={this.logar}
+                      type='button'
+                      className='btn btn-success'
+                      style={{ width: '100px' }}
+                    >
+                      Entrar
+                    </button>
+                    <button
+                      onClick={this.cancelar}
+                      type='button'
+                      className='btn btn-danger'
+                      style={{ width: '100px' }}
+                    >
+                      Cancelar
+                    </button>
+                  </Stack>
                   <div>Não possui conta?</div>
                   <button
-                    onClick={console.log("ainda não fizemos o redirecionamento")}
+                    onClick={() => console.log('ainda não fizemos o redirecionamento')}
                     type='button'
-                    className='btn btn-'
+                    className='btn btn-primary'
                   >
                     Cadastre-se
                   </button>
-
                 </Stack>
               </div>
             </div>

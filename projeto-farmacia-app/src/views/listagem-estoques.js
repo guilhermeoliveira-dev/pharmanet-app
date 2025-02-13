@@ -40,7 +40,7 @@ function ListagemEstoques() {
         headers: { 'Content-Type': 'application/json' },
       })
       .then(function (response) {
-        mensagemSucesso(`Usuário excluído com sucesso!`);
+        mensagemSucesso(`Estoque excluído com sucesso!`);
         setDados(
           dados.filter((dado) => {
             return dado.id !== id;
@@ -48,7 +48,7 @@ function ListagemEstoques() {
         );
       })
       .catch(function (error) {
-        mensagemErro(`Erro ao excluir o usuário`);
+        mensagemErro(`Erro ao excluir o Estoque`);
       });
   }
 
@@ -80,28 +80,30 @@ function ListagemEstoques() {
                     <th scope='col'>Quantidade</th>
                     <th scope='col'>Validade</th>
                     <th scope='col'>Farmácia</th>
+                    <th scope='col'>Fornecedor</th>
                     <th scope='col'>Ações</th>
                   </tr>
                 </thead>
                 <tbody>
                   {dados.map((dado) => (
                     <tr key={dado.id}>
-                      <td>{dado.produto.nome}</td>
+                      <td>{dado.produto?.nome || '---'}</td>
                       <td>{dado.quantidade}</td>
-                      <td>{dado.dataValidade === "" ? "---" : dado.dataValidade}</td>
-                      <td>{dado.farmacia.nome}</td>
+                      <td>{dado.dataValidade ? dado.dataValidade : '---'}</td>
+                      <td>{dado.farmacia?.nome || '---'}</td>
+                      <td>{dado.fornecedor?.nome || '---'}</td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton
                             aria-label='edit'
-                            style={{ color: "white"}}
+                            style={{ color: "white" }}
                             onClick={() => editar(dado.id)}
                           >
-                            <EditIcon /> 
+                            <EditIcon />
                           </IconButton>
                           <IconButton
                             aria-label='delete'
-                            style={{ color: "red"}}
+                            style={{ color: "red" }}
                             onClick={() => excluir(dado.id)}
                           >
                             <DeleteIcon />
