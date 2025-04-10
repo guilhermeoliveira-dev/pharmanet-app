@@ -13,7 +13,7 @@ import ListagemCargos from './views/listagem-cargos';
 import ListagemEstoques from './views/listagem-estoques';
 import ListagemPedidos from './views/listagem-pedidos';
 import ListagemFornecedores from './views/listagem-fornecedores'
-import ListagemPermissoes from './views/listagem-permissoes'
+//import ListagemPermissoes from './views/listagem-permissoes'
 import ListagemVendas from './views/listagem-vendas';
 
 import ListagemCarrinho from './views/listagem-carrinho';
@@ -27,7 +27,7 @@ import CadastroEstoques from './views/cadastro-estoques';
 import CadastroProdutos from './views/cadastro-produtos';
 import CadastroPedidos from './views/cadastro-pedidos';
 import CadastroFornecedores from './views/cadastro-fornecedores';
-import CadastroPermissoes from './views/cadastro-permissoes';
+//import CadastroPermissoes from './views/cadastro-permissoes';
 // import CadastroVendas from './views/cadastro-vendas';
 
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
@@ -78,10 +78,10 @@ function Rotas(props) {
 					path='/cadastro-fornecedores/:idParam?'
 					element={<CadastroFornecedores />}
 				/>
-				<Route
+				{/* <Route
 					path='/cadastro-permissoes/:idParam?'
 					element={<CadastroPermissoes />}
-				/>
+				/> */}
 				{/* <Route
 					path='/cadastro-vendas/:idParam?'
 					element={<CadastroVendas />}
@@ -124,10 +124,10 @@ function Rotas(props) {
 					path='/listagem-fornecedores/'
 					element={<ListagemFornecedores />}
 				/>
-				<Route
+				{/* <Route
 					path='/listagem-permissoes/'
 					element={<ListagemPermissoes />}
-				/>
+				/> */}
 				<Route
 					path='/listagem-vendas/'
 					element={<ListagemVendas />}

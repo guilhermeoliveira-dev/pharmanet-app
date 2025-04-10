@@ -13,7 +13,7 @@ const Navbar = () => {
     }, []);
 
     const menuItems = useMemo(() => [
-        { href: '/listagem-permissoes', label: 'Permissões' },
+        // { href: '/listagem-permissoes', label: 'Permissões' },
         { href: '/listagem-cargos', label: 'Cargos' },
         { href: '/listagem-farmacias', label: 'Farmácias' },
         { href: '/listagem-funcionarios', label: 'Funcionários' },
