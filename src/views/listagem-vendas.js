@@ -92,7 +92,7 @@ function ListagemVendas() {
 
 										<tr key={dado.id}>
 											<td>{dado.pedido.codigo}</td>
-											<td>{dado.pagamento.valor}</td>
+											<td>{"R$"+dado.pagamento.valor.toFixed(2)}</td>
 											<td>{dado.dataVenda}</td>
 											{/* <Stack spacing={1} padding={0} direction='row'>
                           <IconButton

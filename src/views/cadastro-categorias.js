@@ -14,6 +14,17 @@ import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 //import ListagemCategorias from './listagem-categorias';
 
+
+function getById(id, list) {
+	for (let i = 0; i < list.length; i++) {
+		// eslint-disable-next-line
+		if (list[i].id == id) {
+			return list[i];
+		}
+	}
+	return null;
+}
+
 function CadastroCategorias() {
     const { idParam } = useParams();
 
@@ -28,7 +39,7 @@ function CadastroCategorias() {
 
     const [dados, setDados] = useState([]);
 
-    const [listaCategoriasPai, setListaCategoriasPai] = useState([]);
+    const [listaCategorias, setlistaCategorias] = useState([]);
 
 
     function inicializar() {
@@ -90,7 +101,7 @@ function CadastroCategorias() {
             
         }
         await axios.get(`${baseURL}`).then((response) => {
-            setListaCategoriasPai(response.data);
+            setlistaCategorias(response.data);
         }).catch((a) => {
             //console.log(a);
         });
@@ -135,10 +146,10 @@ function CadastroCategorias() {
                                     value={categoriaPai != null ? categoriaPai.id : 0}
                                     className='form-control'
                                     name='categoriaPai'
-                                    onChange={(e) => setCategoriaPai(e.target.value)}
+                                    onChange={(e) => setCategoriaPai(getById(e.target.value, listaCategorias))}
                                 >
                                     <option value="null" key="0">Nenhuma</option>
-                                    {listaCategoriasPai.map((cat) => (
+                                    {listaCategorias.map((cat) => (
                                         <option value={cat.id} key={cat.id}>{cat.nome}</option>
                                     ))}
                                 </select>

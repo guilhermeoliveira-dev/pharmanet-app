@@ -22,7 +22,8 @@ function toDate(dateStr = "") {
 
 function getById(id, list) {
 	for (let i = 0; i < list.length; i++) {
-		if (list[i].id === id) {
+		// eslint-disable-next-line
+		if (list[i].id == id) {
 			return list[i];
 		}
 	}
@@ -296,9 +297,6 @@ function CadastroFuncionarios() {
 									onChange={(e) => setSalario(e.target.value)}
 								/>
 							</FormGroup>
-							{/*
-              //TODO: descobrir como fazer isso ser um dropdown pra escolher entre manhã, tarde, noite, madrugada ou sla oq mais
-               */}
 							<FormGroup label='Expediente: ' htmlFor='inputExpediente'>
 								<select
 									type='text'

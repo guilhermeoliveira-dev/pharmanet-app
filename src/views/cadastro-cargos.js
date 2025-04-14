@@ -95,7 +95,7 @@ function CadastroCargos() {
 			setPermissoes(dados.permissoes);
 		}
 		await axios.get(`${BASE_URL}/jsonfake3/permissoes`).then((response) => {
-			setListaPermissoes(response.data);
+			setListaPermissoes(response.data); 
 		}).catch((a) => {
 			//console.log(a);
 		});

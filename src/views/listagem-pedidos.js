@@ -87,7 +87,7 @@ function ListagemPedidos() {
                   {dados.map((dado) => (
                     <tr key={dado.id}>
                       <td>{dado.codigo}</td>
-                      <td>{"R$" + dado.valorTotal}</td>
+                      <td>{"R$" + dado.valorTotal.toFixed(2)}</td>
                       <td>{dado.status.charAt(0).toUpperCase() + dado.status.slice(1)}</td>
                       <td>{dado.tipoEntrega.charAt(0).toUpperCase() + dado.tipoEntrega.slice(1)}</td>
                       <td>{dado.dataEntrega === "" ? "---" : dado.dataEntrega}</td>

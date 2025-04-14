@@ -13,9 +13,11 @@ import '../custom.css';
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 
+
 function getById(id, list) {
 	for (let i = 0; i < list.length; i++) {
-		if (list[i].id === id) {
+		// eslint-disable-next-line
+		if (list[i].id == id) {
 			return list[i];
 		}
 	}

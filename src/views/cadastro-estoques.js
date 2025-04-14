@@ -15,7 +15,8 @@ import { BASE_URL } from '../config/axios';
 
 function getById(id, list) {
 	for (let i = 0; i < list.length; i++) {
-		if (list[i].id === id) {
+		// eslint-disable-next-line
+		if (list[i].id == id) {
 			return list[i];
 		}
 	}
@@ -197,14 +198,14 @@ function CadastroEstoques() {
 								<select
 									//type='text'
 									id='inputFarmacia'
-									value={farmacia}
+									value={farmacia == null ? 0 : farmacia.id}
 									className='form-control'
 									name='farmacia'
 									onChange={(e) => setFarmacia(getById(e.target.value, listaFarmacias))}
 								>
 									<option value="null" key="0"> -- Selecione uma Farmácia -- </option>
 									{listaFarmacias.map((cat) => (
-										<option value={cat} key={cat.id}>{cat.nome}</option>
+										<option value={cat.id} key={cat.id}>{cat.nome}</option>
 									))}
 								</select>
 							</FormGroup>
@@ -213,14 +214,14 @@ function CadastroEstoques() {
 								<select
 									//type='text'
 									id='inputFornecedor'
-									value={fornecedor}
+									value={fornecedor == null ? 0 : fornecedor.id}
 									className='form-control'
 									name='fornecedor'
 									onChange={(e) => setFornecedor(getById(e.target.value, listaFornecedores))}
 								>
 									<option value="null" key="0"> -- Selecione um Fornecedor -- </option>
 									{listaFornecedores.map((cat) => (
-										<option value={cat} key={cat.id}>{cat.nome}</option>
+										<option value={cat.id} key={cat.id}>{cat.nome}</option>
 									))}
 								</select>
 							</FormGroup>
