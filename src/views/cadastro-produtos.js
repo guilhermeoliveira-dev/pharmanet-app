@@ -15,13 +15,13 @@ import { BASE_URL } from '../config/axios';
 
 
 function getById(id, list) {
-	for (let i = 0; i < list.length; i++) {
-		// eslint-disable-next-line
-		if (list[i].id == id) {
-			return list[i];
-		}
-	}
-	return null;
+    for (let i = 0; i < list.length; i++) {
+        // eslint-disable-next-line
+        if (list[i].id == id) {
+            return list[i];
+        }
+    }
+    return null;
 }
 
 function CadastroProdutos() {
@@ -44,6 +44,10 @@ function CadastroProdutos() {
 
     const [listaTarjas, setListaTarjas] = useState([]);
     const [listaCategorias, setListaCategorias] = useState([]);
+
+    const [isRequerLoteOpen, setIsRequerLoteOpen] = useState(false);
+    const [isTarjaOpen, setIsTarjaOpen] = useState(false);
+    const [isCategoriaOpen, setIsCategoriaOpen] = useState(false);
 
     function inicializar() {
         if (idParam == null) {
@@ -168,18 +172,22 @@ function CadastroProdutos() {
                                     onChange={(e) => setPreco(e.target.value)}
                                 />
                             </FormGroup>
-                            <FormGroup label='Requer lote: *' htmlFor='inputRequerLote'><br></br>
-                                <select
-                                    id='inputRequerLote'
-                                    value={requerLote}
-                                    className='form-control'
-                                    name='requerLote'
-                                    onChange={(e) => setRequerLote(e.target.value)}
-                                >
-                                    <option value="false" key="false">Não</option>
-                                    <option value="true" key="true">Sim</option>
-                                   
-                                </select>
+                            <FormGroup label='Requer lote: *' htmlFor='inputRequerLote'>
+                                <div className="select-arrow-wrapper">
+                                    <select
+                                        id='inputRequerLote'
+                                        value={requerLote}
+                                        className='form-control'
+                                        name='requerLote'
+                                        onChange={(e) => setRequerLote(e.target.value === 'true')}
+                                        onClick={() => setIsRequerLoteOpen(!isRequerLoteOpen)}
+                                        onBlur={() => setIsRequerLoteOpen(false)}
+                                    >
+                                        <option value="false" key="false">Não</option>
+                                        <option value="true" key="true">Sim</option>
+                                    </select>
+                                    <div className={`arrow ${isRequerLoteOpen ? 'open' : ''}`}></div>
+                                </div>
                             </FormGroup>
                             <FormGroup label='Peso: *' htmlFor='inputPeso'>
                                 <input
@@ -191,34 +199,42 @@ function CadastroProdutos() {
                                 />
                             </FormGroup>
                             <FormGroup label='Tarja: *' htmlFor='inputTarja'>
-                                <select
-                                    //type='text'
-                                    id='inputTarja'
-                                    value={tarja == null ? 0 : tarja.id}
-                                    className='form-control'
-                                    name='tarja'
-                                    onChange={(e) => setTarja(getById(e.target.value, listaTarjas))}
-                                >
-                                    <option value="0" key="0"> -- Escolha uma tarja -- </option>
-                                    {listaTarjas.map((cat) => (
-                                        <option value={cat.id} key={cat.id}>{cat.nome}</option>
-                                    ))}
-                                </select>
+                                <div className="select-arrow-wrapper">
+                                    <select
+                                        id='inputTarja'
+                                        value={tarja?.id || 0}
+                                        className='form-control'
+                                        name='tarja'
+                                        onChange={(e) => setTarja(getById(e.target.value, listaTarjas))}
+                                        onClick={() => setIsTarjaOpen(!isTarjaOpen)}
+                                        onBlur={() => setIsTarjaOpen(false)}
+                                    >
+                                        <option value="0" key="0"> -- Escolha uma tarja -- </option>
+                                        {listaTarjas.map((cat) => (
+                                            <option value={cat.id} key={cat.id}>{cat.nome}</option>
+                                        ))}
+                                    </select>
+                                    <div className={`arrow ${isTarjaOpen ? 'open' : ''}`}></div>
+                                </div>
                             </FormGroup>
                             <FormGroup label='Categoria: *' htmlFor='inputCategoria'>
-                                <select
-                                    //type='text'
-                                    id='inputCategoria'
-                                    value={categoria == null ? 0 : categoria.id}
-                                    className='form-control'
-                                    name='categoria'
-                                    onChange={(e) => setCategoria(getById(e.target.value, listaCategorias))}
-                                >
-                                    <option value="0" key="0"> -- Escolha uma categoria -- </option>
-                                    {listaCategorias.map((cat) => (
-                                        <option value={cat.id} key={cat.id}>{cat.nome}</option>
-                                    ))}
-                                </select>
+                                <div className="select-arrow-wrapper">
+                                    <select
+                                        id='inputCategoria'
+                                        value={categoria?.id || 0}
+                                        className='form-control'
+                                        name='categoria'
+                                        onChange={(e) => setCategoria(getById(e.target.value, listaCategorias))}
+                                        onClick={() => setIsCategoriaOpen(!isCategoriaOpen)}
+                                        onBlur={() => setIsCategoriaOpen(false)}
+                                    >
+                                        <option value="0" key="0"> -- Escolha uma categoria -- </option>
+                                        {listaCategorias.map((cat) => (
+                                            <option value={cat.id} key={cat.id}>{cat.nome}</option>
+                                        ))}
+                                    </select>
+                                    <div className={`arrow ${isCategoriaOpen ? 'open' : ''}`}></div>
+                                </div>
                             </FormGroup>
                             <Stack spacing={1} padding={1} direction='row'>
                                 <button

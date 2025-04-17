@@ -231,6 +231,38 @@ body {
     font-size: 10px;
   }
 
+  .select-arrow-wrapper {
+    position: relative;
+    width: 100%;
+  }
+  
+  .arrow {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-right: 5px solid #666;
+    transition: transform 0.3s ease;
+    pointer-events: none;
+  }
+  
+  .arrow.open {
+    transform: translateY(-50%) rotate(-90deg);
+  }
+  
+  select {
+    width: 100%;
+    padding-right: 25px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    cursor: pointer;
+  }
+
   @media (max-width: 767px) {
     .splash {
       padding-top: 8em;

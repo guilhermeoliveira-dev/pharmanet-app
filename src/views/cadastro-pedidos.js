@@ -18,6 +18,16 @@ function toDate(dateStr = "") {
     return dateStr.split('-').reverse().join('-');
 }
 
+function getById(id, list) {
+    for (let i = 0; i < list.length; i++) {
+        // eslint-disable-next-line
+        if (list[i].id == id) {
+            return list[i];
+        }
+    }
+    return null;
+}
+
 function CadastroPedidos() {
     const { idParam } = useParams();
     const navigate = useNavigate();
@@ -35,6 +45,9 @@ function CadastroPedidos() {
     const [dados, setDados] = useState([]);
     const [listaEnderecos, setListaEnderecos] = useState([]);
     const [listaItensPedido, setListaItensPedido] = useState([]);
+
+    const [isTipoEntregaOpen, setIsTipoEntregaOpen] = useState(false);
+    const [isEnderecoOpen, setIsEnderecoOpen] = useState(false);
 
     function inicializar() {
         if (idParam == null) {
@@ -196,17 +209,22 @@ function CadastroPedidos() {
                                 />
                             </FormGroup>
                             <FormGroup label='Tipo de Entrega: ' htmlFor='inputTipoEntrega'>
-                                <select
-                                    type='text'
-                                    id='inputTipoEntrega'
-                                    value={tipoEntrega}
-                                    className='form-control'
-                                    name='tipoEntrega'
-                                    onChange={(e) => setTipoEntrega(e.target.value)}
-                                >
-                                    <option value="delivery" key="delivery">Delivery</option>
-                                    <option value="busca no estabelecimento" key="busca no estabelecimento">Busca no estabelecimento</option>
-                                </select>
+                                <div className="select-arrow-wrapper">
+                                    <select
+                                        id='inputTipoEntrega'
+                                        value={tipoEntrega}
+                                        className='form-control'
+                                        name='tipoEntrega'
+                                        onChange={(e) => setTipoEntrega(e.target.value)}
+                                        onClick={() => setIsTipoEntregaOpen(!isTipoEntregaOpen)}
+                                        onBlur={() => setIsTipoEntregaOpen(false)}
+                                    >
+                                        <option value="" key="vazio"> -- Selecione o Tipo de Entrega -- </option>
+                                        <option value="delivery" key="delivery">Delivery</option>
+                                        <option value="busca no estabelecimento" key="busca no estabelecimento">Busca no estabelecimento</option>
+                                    </select>
+                                    <div className={`arrow ${isTipoEntregaOpen ? 'open' : ''}`}></div>
+                                </div>
                             </FormGroup>
                             <FormGroup label='Data da Entrega: ' htmlFor='inputDataEntrega'>
                                 <input
@@ -219,18 +237,23 @@ function CadastroPedidos() {
                                 />
                             </FormGroup>
                             <FormGroup label='Endereco de entrega: ' htmlFor='inputEndereco'>
-                                <select
-                                    type='text'
-                                    id='inputEndereco'
-                                    value={endereco == null ? 0 : endereco.id}
-                                    className='form-control'
-                                    name='endereco'
-                                    onChange={(e) => setEndereco(e.target.value)}
-                                >
-                                    {listaEnderecos.map((cat) => (
-                                        <option value={cat.id} key={cat.id}>{`${cat.logradouro},  ${cat.numero === "s/n" ? "s/n" : "nº " + cat.numero}`}</option>
-                                    ))}
-                                </select>
+                                <div className="select-arrow-wrapper">
+                                    <select
+                                        id='inputEndereco'
+                                        value={endereco?.id || 0}
+                                        className='form-control'
+                                        name='endereco'
+                                        onChange={(e) => setEndereco(getById(e.target.value, listaEnderecos))}
+                                        onClick={() => setIsEnderecoOpen(!isEnderecoOpen)}
+                                        onBlur={() => setIsEnderecoOpen(false)}
+                                    >
+                                        <option value="0" key="0"> -- Selecione um Endereço -- </option>
+                                        {listaEnderecos.map((cat) => (
+                                            <option value={cat.id} key={cat.id}>{`${cat.logradouro}, ${cat.numero === "s/n" ? "s/n" : "nº " + cat.numero}`}</option>
+                                        ))}
+                                    </select>
+                                    <div className={`arrow ${isEnderecoOpen ? 'open' : ''}`}></div>
+                                </div>
                             </FormGroup>
 
                         </div>

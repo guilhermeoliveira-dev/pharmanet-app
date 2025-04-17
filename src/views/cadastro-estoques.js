@@ -22,11 +22,11 @@ function getById(id, list) {
 	}
 	return null;
 }
-function toDate(dateStr="") {
-	if(dateStr === undefined){
+function toDate(dateStr = "") {
+	if (dateStr === undefined) {
 		return new Date();
 	}
-    return dateStr.split('-').reverse().join('-');
+	return dateStr.split('-').reverse().join('-');
 }
 
 function CadastroEstoques() {
@@ -49,6 +49,10 @@ function CadastroEstoques() {
 	const [listaFarmacias, setListaFarmacias] = useState([]);
 	const [listaProdutos, setListaProdutos] = useState([]);
 	const [listaFornecedores, setListaFornecedores] = useState([]);
+
+	const [isProdutoDropdownOpen, setIsProdutoDropdownOpen] = useState(false);
+	const [isFarmaciaDropdownOpen, setIsFarmaciaDropdownOpen] = useState(false);
+	const [isFornecedorDropdownOpen, setIsFornecedorDropdownOpen] = useState(false);
 
 	//const [listaPermissoes, setListaPermissoes] = useState([]);
 
@@ -93,7 +97,7 @@ function CadastroEstoques() {
 					headers: { 'Content-Type': 'application/json' },
 				})
 				.then(function (response) {
-					mensagemSucesso(`Estoque ${produto.nome +" "+ dataFabricacao} alterado com sucesso!`);
+					mensagemSucesso(`Estoque ${produto.nome + " " + dataFabricacao} alterado com sucesso!`);
 					navigate(`/listagem-estoques`);
 				})
 				.catch(function (error) {
@@ -158,19 +162,23 @@ function CadastroEstoques() {
 								/>
 							</FormGroup>
 							<FormGroup label='Produto: *' htmlFor='inputProduto'>
-								<select
-									//type='text'
-									id='inputProduto'
-									value={produto == null ? 0 : produto.id}
-									className='form-control'
-									name='produto'
-									onChange={(e) => setProduto(getById(e.target.value, listaProdutos))}
-								>
-									<option value="null" key="0"> -- Selecione um Produto -- </option>
-									{listaProdutos.map((cat) => (
-										<option value={cat.id} key={cat.id}>{cat.nome}</option>
-									))}
-								</select>
+								<div className="select-arrow-wrapper">
+									<select
+										id='inputProduto'
+										value={produto == null ? 0 : produto.id}
+										className='form-control'
+										name='produto'
+										onChange={(e) => setProduto(getById(e.target.value, listaProdutos))}
+										onClick={() => setIsProdutoDropdownOpen(!isProdutoDropdownOpen)}
+										onBlur={() => setIsProdutoDropdownOpen(false)}
+									>
+										<option value="null" key="0"> -- Selecione um Produto -- </option>
+										{listaProdutos.map((cat) => (
+											<option value={cat.id} key={cat.id}>{cat.nome}</option>
+										))}
+									</select>
+									<div className={`arrow ${isProdutoDropdownOpen ? 'open' : ''}`}></div>
+								</div>
 							</FormGroup>
 
 							<FormGroup label='Data de Fabricação: *' htmlFor='inputDataFabricacao'>
@@ -195,35 +203,43 @@ function CadastroEstoques() {
 							</FormGroup>
 
 							<FormGroup label='Farmácia: *' htmlFor='inputFarmacia'>
-								<select
-									//type='text'
-									id='inputFarmacia'
-									value={farmacia == null ? 0 : farmacia.id}
-									className='form-control'
-									name='farmacia'
-									onChange={(e) => setFarmacia(getById(e.target.value, listaFarmacias))}
-								>
-									<option value="null" key="0"> -- Selecione uma Farmácia -- </option>
-									{listaFarmacias.map((cat) => (
-										<option value={cat.id} key={cat.id}>{cat.nome}</option>
-									))}
-								</select>
+								<div className="select-arrow-wrapper">
+									<select
+										id='inputFarmacia'
+										value={farmacia == null ? 0 : farmacia.id}
+										className='form-control'
+										name='farmacia'
+										onChange={(e) => setFarmacia(getById(e.target.value, listaFarmacias))}
+										onClick={() => setIsFarmaciaDropdownOpen(!isFarmaciaDropdownOpen)}
+										onBlur={() => setIsFarmaciaDropdownOpen(false)}
+									>
+										<option value="null" key="0"> -- Selecione uma Farmácia -- </option>
+										{listaFarmacias.map((cat) => (
+											<option value={cat.id} key={cat.id}>{cat.nome}</option>
+										))}
+									</select>
+									<div className={`arrow ${isFarmaciaDropdownOpen ? 'open' : ''}`}></div>
+								</div>
 							</FormGroup>
 
 							<FormGroup label='Fornecedor: *' htmlFor='inputFornecedor'>
-								<select
-									//type='text'
-									id='inputFornecedor'
-									value={fornecedor == null ? 0 : fornecedor.id}
-									className='form-control'
-									name='fornecedor'
-									onChange={(e) => setFornecedor(getById(e.target.value, listaFornecedores))}
-								>
-									<option value="null" key="0"> -- Selecione um Fornecedor -- </option>
-									{listaFornecedores.map((cat) => (
-										<option value={cat.id} key={cat.id}>{cat.nome}</option>
-									))}
-								</select>
+								<div className="select-arrow-wrapper">
+									<select
+										id='inputFornecedor'
+										value={fornecedor == null ? 0 : fornecedor.id}
+										className='form-control'
+										name='fornecedor'
+										onChange={(e) => setFornecedor(getById(e.target.value, listaFornecedores))}
+										onClick={() => setIsFornecedorDropdownOpen(!isFornecedorDropdownOpen)}
+										onBlur={() => setIsFornecedorDropdownOpen(false)}
+									>
+										<option value="null" key="0"> -- Selecione um Fornecedor -- </option>
+										{listaFornecedores.map((cat) => (
+											<option value={cat.id} key={cat.id}>{cat.nome}</option>
+										))}
+									</select>
+									<div className={`arrow ${isFornecedorDropdownOpen ? 'open' : ''}`}></div>
+								</div>
 							</FormGroup>
 
 							<Stack spacing={1} padding={1} direction='row'>

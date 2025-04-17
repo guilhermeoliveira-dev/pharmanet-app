@@ -14,10 +14,10 @@ import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 
 function toDate(dateStr = "") {
-    if (dateStr === undefined || dateStr == null) {
-        return new Date();
-    }
-    return dateStr.split('-').reverse().join('-');
+	if (dateStr === undefined || dateStr == null) {
+		return new Date();
+	}
+	return dateStr.split('-').reverse().join('-');
 }
 
 function getById(id, list) {
@@ -63,6 +63,10 @@ function CadastroFuncionarios() {
 	const [listaFarmacias, setListaFarmacias] = useState([]);
 
 	const [dados, setDados] = useState([]);
+
+	const [isCargoDropdownOpen, setIsCargoDropdownOpen] = useState(false);
+	const [isExpedienteDropdownOpen, setIsExpedienteDropdownOpen] = useState(false);
+	const [isFarmaciaDropdownOpen, setIsFarmaciaDropdownOpen] = useState(false);
 
 	function inicializar() {
 		if (idParam == null) {
@@ -176,15 +180,15 @@ function CadastroFuncionarios() {
 			}
 		}
 		await axios.get(`${BASE_URL}/jsonfake4/cargos`).then((response) => {
-            setListaCargos(response.data);
-        }).catch((a) => {
-            //console.log(a);
-        });
+			setListaCargos(response.data);
+		}).catch((a) => {
+			//console.log(a);
+		});
 		await axios.get(`${BASE_URL}/jsonfake/farmacias`).then((response) => {
-            setListaFarmacias(response.data);
-        }).catch((a) => {
-            //console.log(a);
-        });
+			setListaFarmacias(response.data);
+		}).catch((a) => {
+			//console.log(a);
+		});
 	}
 
 	useEffect(() => {
@@ -271,19 +275,24 @@ function CadastroFuncionarios() {
 								/>
 							</FormGroup>
 							<FormGroup label='Cargo: ' htmlFor='inputCargo'>
-                                <select
-                                    type='text'
-                                    id='inputCargo'
-                                    value={cargo == null ? 0 : cargo.id}
-                                    className='form-control'
-                                    name='cargo'
-                                    onChange={(e) => setCargo(getById(e.target.value, listaCargos))}
-                                >
-                                    {listaCargos.map((cat) => (
-                                        <option value={cat.id} key={cat.id}>{`${cat.nome}`}</option>
-                                    ))}
-                                </select>
-                            </FormGroup>
+								<div className="select-arrow-wrapper">
+									<select
+										id='inputCargo'
+										value={cargo?.id || 0}
+										className='form-control'
+										name='cargo'
+										onChange={(e) => setCargo(getById(e.target.value, listaCargos))}
+										onClick={() => setIsCargoDropdownOpen(!isCargoDropdownOpen)}
+										onBlur={() => setIsCargoDropdownOpen(false)}
+									>
+										<option value="null" key="0"> -- Selecione um Cargo -- </option>
+										{listaCargos.map((cat) => (
+											<option value={cat.id} key={cat.id}>{cat.nome}</option>
+										))}
+									</select>
+									<div className={`arrow ${isCargoDropdownOpen ? 'open' : ''}`}></div>
+								</div>
+							</FormGroup>
 							<FormGroup label='Salário: *' htmlFor='inputSalario'>
 								<input
 									type='number'
@@ -298,33 +307,44 @@ function CadastroFuncionarios() {
 								/>
 							</FormGroup>
 							<FormGroup label='Expediente: ' htmlFor='inputExpediente'>
-								<select
-									type='text'
-									id='inputExpediente'
-									value={expediente}
-									className='form-control'
-									name='expediente'
-									onChange={(e) => setExpediente(e.target.value)}>
-									<option value="manha" key="manha">Manhã</option>
-									<option value="tarde" key="tarde">Tarde</option>
-									<option value="noite" key="noite">Noite</option>
-									<option value="madrugada" key="madrugada">Madrugada</option>
-								</select>
+								<div className="select-arrow-wrapper">
+									<select
+										id='inputExpediente'
+										value={expediente}
+										className='form-control'
+										name='expediente'
+										onChange={(e) => setExpediente(e.target.value)}
+										onClick={() => setIsExpedienteDropdownOpen(!isExpedienteDropdownOpen)}
+										onBlur={() => setIsExpedienteDropdownOpen(false)}
+									>
+										<option value="" key="vazio"> -- Selecione um Expediente -- </option>
+										<option value="manha" key="manha">Manhã</option>
+										<option value="tarde" key="tarde">Tarde</option>
+										<option value="noite" key="noite">Noite</option>
+										<option value="madrugada" key="madrugada">Madrugada</option>
+									</select>
+									<div className={`arrow ${isExpedienteDropdownOpen ? 'open' : ''}`}></div>
+								</div>
 							</FormGroup>
 
 							<FormGroup label='Farmácia: ' htmlFor='inputFarmacia'>
-								<select
-									type='text'
-									id='inputFarmacia'
-									value={farmacia == null ? 0 : farmacia.id}
-									className='form-control'
-									name='farmacia'
-									onChange={(e) => setFarmacia(getById(e.target.value, listaFarmacias))}>
-									{listaFarmacias.map((cat) => (
-                                        <option value={cat.id} key={cat.id}>{`${cat.nome}`}</option>
-                                    ))}
-								</select>
-
+								<div className="select-arrow-wrapper">
+									<select
+										id='inputFarmacia'
+										value={farmacia?.id || 0}
+										className='form-control'
+										name='farmacia'
+										onChange={(e) => setFarmacia(getById(e.target.value, listaFarmacias))}
+										onClick={() => setIsFarmaciaDropdownOpen(!isFarmaciaDropdownOpen)}
+										onBlur={() => setIsFarmaciaDropdownOpen(false)}
+									>
+										<option value="null" key="0"> -- Selecione uma Farmácia -- </option>
+										{listaFarmacias.map((cat) => (
+											<option value={cat.id} key={cat.id}>{cat.nome}</option>
+										))}
+									</select>
+									<div className={`arrow ${isFarmaciaDropdownOpen ? 'open' : ''}`}></div>
+								</div>
 							</FormGroup>
 
 							<br></br><h2>Endereço:</h2>

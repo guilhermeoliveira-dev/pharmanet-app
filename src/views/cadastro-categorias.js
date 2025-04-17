@@ -16,13 +16,13 @@ import { BASE_URL } from '../config/axios';
 
 
 function getById(id, list) {
-	for (let i = 0; i < list.length; i++) {
-		// eslint-disable-next-line
-		if (list[i].id == id) {
-			return list[i];
-		}
-	}
-	return null;
+    for (let i = 0; i < list.length; i++) {
+        // eslint-disable-next-line
+        if (list[i].id == id) {
+            return list[i];
+        }
+    }
+    return null;
 }
 
 function CadastroCategorias() {
@@ -41,6 +41,11 @@ function CadastroCategorias() {
 
     const [listaCategorias, setlistaCategorias] = useState([]);
 
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+    const handleToggleDropdown = () => {
+        setIsDropdownOpen(!isDropdownOpen);
+    };
 
     function inicializar() {
         if (idParam == null) {
@@ -98,7 +103,7 @@ function CadastroCategorias() {
             setDescricao(dados.descricao);
             setCategoriaPai(dados.categoriaPai);
 
-            
+
         }
         await axios.get(`${baseURL}`).then((response) => {
             setlistaCategorias(response.data);
@@ -140,20 +145,22 @@ function CadastroCategorias() {
                                 />
                             </FormGroup>
                             <FormGroup label='Categoria pai: ' htmlFor='inputCategoriaPai'>
-                                <select
-                                    //type='text'
-                                    id='inputCategoriaPai'
-                                    value={categoriaPai != null ? categoriaPai.id : 0}
-                                    className='form-control'
-                                    name='categoriaPai'
-                                    onChange={(e) => setCategoriaPai(getById(e.target.value, listaCategorias))}
-                                >
-                                    <option value="null" key="0">Nenhuma</option>
-                                    {listaCategorias.map((cat) => (
-                                        <option value={cat.id} key={cat.id}>{cat.nome}</option>
-                                    ))}
-                                </select>
-
+                                <div className="select-arrow-wrapper">
+                                    <select
+                                        id='inputCategoriaPai'
+                                        value={categoriaPai?.id || 0}
+                                        className='form-control'
+                                        name='categoriaPai'
+                                        onChange={(e) => setCategoriaPai(getById(e.target.value, listaCategorias))}
+                                        onClick={handleToggleDropdown}
+                                    >
+                                        <option value="null" key="0">Nenhuma</option>
+                                        {listaCategorias.map((cat) => (
+                                            <option value={cat.id} key={cat.id}>{cat.nome}</option>
+                                        ))}
+                                    </select>
+                                    <div className={`arrow ${isDropdownOpen ? 'open' : ''}`}></div>
+                                </div>
                             </FormGroup>
                             <Stack spacing={1} padding={1} direction='row'>
                                 <button
