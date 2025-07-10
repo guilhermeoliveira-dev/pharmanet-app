@@ -16,7 +16,7 @@ import '../custom.css';
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL}jsonfake4/vendas`;
+const baseURL = `${BASE_URL}/vendas`;
 
 // const relacaoCores = new Map();
 // //relacaoCores.set("", "");

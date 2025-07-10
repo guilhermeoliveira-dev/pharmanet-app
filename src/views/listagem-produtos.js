@@ -16,7 +16,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL}jsonfake/produtos`;
+const baseURL = `${BASE_URL}/produtos`;
 
 // const relacaoCores = new Map();
 // //relacaoCores.set("", "");

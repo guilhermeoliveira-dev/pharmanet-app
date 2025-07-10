@@ -18,7 +18,7 @@ function CadastroFornecedores() {
 
 	const navigate = useNavigate();
 
-	const baseURL = `${BASE_URL}jsonfake4/fornecedores`;
+	const baseURL = `${BASE_URL}/fornecedores`;
 
 	const [id, setId] = useState('');
 	const [nome, setNome] = useState('');

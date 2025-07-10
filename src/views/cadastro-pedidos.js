@@ -31,7 +31,7 @@ function getById(id, list) {
 function CadastroPedidos() {
     const { idParam } = useParams();
     const navigate = useNavigate();
-    const baseURL = `${BASE_URL}jsonfake2/pedidos`;
+    const baseURL = `${BASE_URL}/pedidos`;
 
     const [id, setId] = useState('');
     const [dataCriacao, setDataCriacao] = useState('');

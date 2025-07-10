@@ -29,7 +29,7 @@ function CadastroProdutos() {
 
     const navigate = useNavigate();
 
-    const baseURL = `${BASE_URL}jsonfake/produtos`;
+    const baseURL = `${BASE_URL}/produtos`;
 
     const [id, setId] = useState('');
     const [nome, setNome] = useState('');

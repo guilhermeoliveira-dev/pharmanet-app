@@ -35,7 +35,7 @@ function CadastroFuncionarios() {
 
 	const navigate = useNavigate();
 
-	const baseURL = `${BASE_URL}jsonfake/funcionarios`;
+	const baseURL = `${BASE_URL}/funcionarios`;
 
 	const [id, setId] = useState('');
 	const [nome, setNome] = useState('');
