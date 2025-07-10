@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL}jsonfake2/estoques`;
+const baseURL = `${BASE_URL}/estoques`;
 
 function ListagemCarrinho() {
     const { idParam } = useParams();

@@ -34,7 +34,7 @@ function CadastroEstoques() {
 
 	const navigate = useNavigate();
 
-	const baseURL = `${BASE_URL}jsonfake2/estoques`;
+	const baseURL = `${BASE_URL}/estoques`;
 
 	const [id, setId] = useState('');
 	const [quantidade, setQuantidade] = useState(0);
@@ -132,7 +132,7 @@ function CadastroEstoques() {
 		}).catch((a) => {
 			//console.log(a);
 		});
-		await axios.get(`${BASE_URL}/jsonfake4/fornecedores`).then((response) => {
+		await axios.get(`${BASE_URL}//fornecedores`).then((response) => {
 			setListaFornecedores(response.data);
 		}).catch((a) => {
 			//console.log(a);

@@ -25,7 +25,7 @@ function CadastroClientes() {
 
 	const navigate = useNavigate();
 
-	const baseURL = `${BASE_URL}jsonfake2/clientes`;
+	const baseURL = `${BASE_URL}/clientes`;
 
 	const [id, setId] = useState('');
 	const [nome, setNome] = useState('');

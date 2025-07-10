@@ -117,12 +117,12 @@ function CadastroPedidos() {
             setDataEntrega(dados.dataEntrega);
             setEndereco(dados.endereco);
         }
-        await axios.get(`${BASE_URL}/jsonfake3/enderecos`).then((response) => {
+        await axios.get(`${BASE_URL}//enderecos`).then((response) => {
             setListaEnderecos(response.data);
         }).catch((a) => {
             //console.log(a);
         });
-        await axios.get(`${BASE_URL}/jsonfake5/itensPedido`).then((response) => {
+        await axios.get(`${BASE_URL}//itensPedido`).then((response) => {
             setListaItensPedido(response.data);
         }).catch((a) => {
             //console.log(a);
@@ -136,7 +136,7 @@ function CadastroPedidos() {
             setListaItensPedido(novaListaItens);
 
             // Se necessário, faz uma requisição para excluir o item da API
-            await axios.delete(`${BASE_URL}/jsonfake5/itensPedido/${idItem}`)
+            await axios.delete(`${BASE_URL}//itensPedido/${idItem}`)
                 .then(() => {
                     mensagemSucesso('Item removido com sucesso!');
                 })

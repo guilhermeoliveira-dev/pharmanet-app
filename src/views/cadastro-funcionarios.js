@@ -179,7 +179,7 @@ function CadastroFuncionarios() {
 
 			}
 		}
-		await axios.get(`${BASE_URL}/jsonfake4/cargos`).then((response) => {
+		await axios.get(`${BASE_URL}//cargos`).then((response) => {
 			setListaCargos(response.data);
 		}).catch((a) => {
 			//console.log(a);

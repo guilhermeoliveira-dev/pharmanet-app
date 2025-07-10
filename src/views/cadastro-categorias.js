@@ -30,7 +30,7 @@ function CadastroCategorias() {
 
     const navigate = useNavigate();
 
-    const baseURL = `${BASE_URL}jsonfake3/categorias`;
+    const baseURL = `${BASE_URL}/categorias`;
 
     const [id, setId] = useState('');
     const [nome, setNome] = useState('');

@@ -27,7 +27,7 @@ function CadastroCargos() {
 
 	const navigate = useNavigate();
 
-	const baseURL = `${BASE_URL}jsonfake4/cargos`;
+	const baseURL = `${BASE_URL}/cargos`;
 
 	const [id, setId] = useState('');
 	const [nome, setNome] = useState('');
@@ -94,7 +94,7 @@ function CadastroCargos() {
 			setNome(dados.nome);
 			setPermissoes(dados.permissoes);
 		}
-		await axios.get(`${BASE_URL}/jsonfake3/permissoes`).then((response) => {
+		await axios.get(`${BASE_URL}//permissoes`).then((response) => {
 			setListaPermissoes(response.data); 
 		}).catch((a) => {
 			//console.log(a);
