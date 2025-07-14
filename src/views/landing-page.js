@@ -14,7 +14,7 @@ import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import imagemErro from '../img/imagem-erro.png'
 
-const baseURL = `${BASE_URL}jsonfake/produtos`;
+const baseURL = `${BASE_URL}/produtos`;
 
 function LandingPage() {
     const [dados, setDados] = React.useState(null);

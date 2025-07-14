@@ -61,6 +61,7 @@ function ListagemProdutos() {
   React.useEffect(() => {
     axios.get(baseURL).then((response) => {
       setDados(response.data);
+      
     });
   }, []);
 
@@ -91,16 +92,18 @@ function ListagemProdutos() {
                 </thead>
                 <tbody>
                   {dados.map((dado) => (
+                    
                     <tr key={dado.id}>
                       <td>{dado.nome}</td>
                       <td>{"R$"+dado.preco}</td>
                       <td>{dado.peso + " g"}</td>
-                      <td>{dado.categoria.nome}</td>  
-                      <td >{dado.tarja.nome === "Sem Tarja" ? "---" : dado.tarja.nome}</td>  
+                      <td>{dado.nomeCategoria}</td>  
+                      <td >{dado.nomeTarja === "Sem Tarja" || dado.nomeTarja === "" ? "---" : dado.nomeTarja}</td>  
                       {/* style={{color:relacaoCores.get(dado.tarja.cor)}} 
                             para cores referentes a cor da tarja. comentei porque a tarja preta não combinaria com o fundo preto, 
                             e se o fundo fosse branco, não mudaria nada de normal para tarja preta.
                       */}
+                      {console.log(dado)}
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton

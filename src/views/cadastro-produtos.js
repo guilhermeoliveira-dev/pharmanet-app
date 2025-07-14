@@ -117,12 +117,12 @@ function CadastroProdutos() {
             setTarja(dados.tarja);
             setCategoria(dados.categoria);
         }
-        await axios.get(`${BASE_URL}//tarjas`).then((response) => {
+        await axios.get(`${BASE_URL}/tarjas`).then((response) => {
             setListaTarjas(response.data);
         }).catch((a) => {
             //console.log(a);
         });
-        await axios.get(`${BASE_URL}//categorias`).then((response) => {
+        await axios.get(`${BASE_URL}/categorias`).then((response) => {
             setListaCategorias(response.data);
         }).catch((a) => {
             //console.log(a);
