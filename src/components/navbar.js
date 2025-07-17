@@ -18,12 +18,13 @@ const Navbar = () => {
         { href: '/listagem-farmacias', label: 'Farmácias' },
         { href: '/listagem-funcionarios', label: 'Funcionários' },
         { href: '/listagem-fornecedores', label: 'Fornecedores' },
-        { href: '/listagem-estoques', label: 'Estoques' },
+        { href: '/listagem-clientes', label: 'Clientes' },
         { href: '/listagem-categorias', label: 'Categorias' },
         { href: '/listagem-produtos', label: 'Produtos' },
+        { href: '/listagem-estoques', label: 'Estoques' },
         { href: '/listagem-pedidos', label: 'Pedidos' },
         { href: '/listagem-vendas', label: 'Vendas' },
-        { href: '/listagem-clientes', label: 'Clientes' },
+        
     ], []);
 
     const renderCartButton = (isMobile = false) => (

@@ -16,7 +16,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL}/estoques`;
+const baseURL = `${BASE_URL}/estoques`; 
 
 function ListagemEstoques() {
   const navigate = useNavigate();
@@ -87,11 +87,11 @@ function ListagemEstoques() {
                 <tbody>
                   {dados.map((dado) => (
                     <tr key={dado.id}>
-                      <td>{dado.produto?.nome || '---'}</td>
+                      <td>{dado.nome ? dado.nome : '---'}</td>
                       <td>{dado.quantidade}</td>
                       <td>{dado.dataValidade ? dado.dataValidade : '---'}</td>
-                      <td>{dado.farmacia?.nome || '---'}</td>
-                      <td>{dado.fornecedor?.nome || '---'}</td>
+                      <td>{dado.nomeFarmacia ? dado.nomeFarmacia : '---'}</td>
+                      <td>{dado.nomeFornecedor ? dado.nomeFornecedor : '---'}</td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton

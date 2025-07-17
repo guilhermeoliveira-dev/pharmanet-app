@@ -18,7 +18,7 @@ function getById(id, list) {
 		// eslint-disable-next-line
 		if (list[i].id == id) {
 			return list[i];
-		}
+		} 
 	}
 	return null;
 }
@@ -71,13 +71,13 @@ function CadastroEstoques() {
 			setProduto(dados.produto);
 			setDataFabricacao(toDate(dados.dataFabricacao));
 			setDataValidade(toDate(dados.dataValidade));
-			setFarmacia(dados.farmacia);
+			setFarmacia({id: dados.idFarmacia, nome: dados.nomeFarmacia});
 			setFornecedor(dados.fornecedor)
 		}
 	}
 
 	async function salvar() {
-		let data = { id, quantidade, produto, dataFabricacao, dataValidade, farmacia, fornecedor };
+		let data = { id, quantidade, idProduto: produto.id, dataFabricacao, dataValidade, idFarmacia: farmacia.id, idFornecedor: fornecedor.id };
 		data = JSON.stringify(data);
 		if (idParam == null) {
 			await axios
@@ -122,17 +122,17 @@ function CadastroEstoques() {
 			setFarmacia(dados.farmacia);
 			setFornecedor(dados.fornecedor);
 		}
-		await axios.get(`${BASE_URL}/jsonfake/farmacias`).then((response) => {
+		await axios.get(`${BASE_URL}/farmacias`).then((response) => {
 			setListaFarmacias(response.data);
 		}).catch((a) => {
 			//console.log(a);
 		});
-		await axios.get(`${BASE_URL}/jsonfake/produtos`).then((response) => {
+		await axios.get(`${BASE_URL}/produtos`).then((response) => {
 			setListaProdutos(response.data);
 		}).catch((a) => {
 			//console.log(a);
 		});
-		await axios.get(`${BASE_URL}//fornecedores`).then((response) => {
+		await axios.get(`${BASE_URL}/fornecedores`).then((response) => {
 			setListaFornecedores(response.data);
 		}).catch((a) => {
 			//console.log(a);
