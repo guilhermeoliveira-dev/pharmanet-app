@@ -18,7 +18,7 @@ function CadastroFarmacias() {
 
 	const navigate = useNavigate();
 
-	const baseURL = `${BASE_URL}jsonfake/farmacias`;
+	const baseURL = `${BASE_URL}/farmacias`;
 
 	const [id, setId] = useState('');
 	const [nome, setNome] = useState('');
@@ -59,19 +59,18 @@ function CadastroFarmacias() {
 			setCnpj(dados.cnpj);
 			setTelefone(dados.telefone);
 			// endereço
-			setUf(dados.endereco.uf);
-			setCidade(dados.endereco.cidade);
-			setCep(dados.endereco.cep);
-			setBairro(dados.endereco.bairro);
-			setLogradouro(dados.endereco.logradouro);
-			setNumero(dados.endereco.numero);
-			setComplemento(dados.endereco.complemento);
+			setUf(dados.uf);
+			setCidade(dados.cidade);
+			setCep(dados.cep);
+			setBairro(dados.bairro);
+			setLogradouro(dados.logradouro);
+			setNumero(dados.numero);
+			setComplemento(dados.complemento);
 		}
 	}
 
 	async function salvar() {
-		let endereco = {uf, cidade, cep, bairro, logradouro, numero, complemento}
-		let data = { id, nome, email, cnpj, telefone, endereco};
+		let data = { id, nome, email, cnpj, telefone, uf, cidade, cep, bairro, logradouro, numero, complemento};
 		data = JSON.stringify(data);
 		if (idParam == null) {
 			await axios
@@ -120,13 +119,13 @@ function CadastroFarmacias() {
 			setTelefone(dados.telefone);
 			// endereço
 			try{
-				setUf(dados.endereco.uf);
-				setCidade(dados.endereco.cidade);
-				setCep(dados.endereco.cep);
-				setBairro(dados.endereco.bairro);
-				setLogradouro(dados.endereco.logradouro);
-				setNumero(dados.endereco.numero);
-				setComplemento(dados.endereco.complemento);
+				setUf(dados.uf);
+				setCidade(dados.cidade);
+				setCep(dados.cep);
+				setBairro(dados.bairro);
+				setLogradouro(dados.logradouro);
+				setNumero(dados.numero);
+				setComplemento(dados.complemento);
 			}
 			catch(e){
 				
