@@ -13,108 +13,134 @@ import '../custom.css';
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 
-// function getById(id, list) {
-// 	for (let i = 0; i < list.length; i++) {
-// 		if (list[i].id === id) {
-// 			return list[i];
-// 		}
-// 	}
-// 	return null;
-// }
-
+/**
+ * A component for creating and editing 'Cargos' (Roles).
+ * It allows assigning multiple 'Permissoes' (Permissions) to a Cargo.
+ */
 function CadastroCargos() {
-	const { idParam } = useParams();
-
-	const navigate = useNavigate();
-
+	const { idParam } = useParams(); // Gets the ID from the URL, if present (for editing)
+	const navigate = useNavigate(); // Hook for programmatic navigation
 	const baseURL = `${BASE_URL}/cargos`;
 
-	const [id, setId] = useState('');
+	// State for the 'Cargo' name
 	const [nome, setNome] = useState('');
-	const [permissoes, setPermissoes] = useState([]);
+	
+	// State to hold the list of ALL available permissions fetched from the backend (PermissaoDTO objects)
+	const [listaPermissoesDisponiveis, setListaPermissoesDisponiveis] = useState([]);
+	
+	// State to hold the list of currently SELECTED permission objects (PermissaoDTO objects)
+	const [permissoesSelecionadas, setPermissoesSelecionadas] = useState([]);
 
-	const [dados, setDados] = useState([]);
-
-	const [listaPermissoes, setListaPermissoes] = useState([]);
-
-
-
-	function inicializar() {
-		if (idParam == null) {
-			setId('');
-			setNome('');
-			setPermissoes('');
-		} else {
-			setId(dados.id);
-			setNome(dados.nome);
-			setPermissoes(dados.permissoes);
-			console.log(permissoes);
-		}
-	}
-
-	async function salvar() {
-		let data = { id, nome, permissoes };
-		data = JSON.stringify(data);
-		if (idParam == null) {
-			await axios
-				.post(baseURL, data, {
-					headers: { 'Content-Type': 'application/json' },
-				})
-				.then(function (response) {
-					mensagemSucesso(`Cargo ${nome} cadastrado com sucesso!`);
-					navigate(`/listagem-cargos`);
-				})
-				.catch(function (error) {
-					mensagemErro(error.response.data);
-				});
-		} else {
-			await axios
-				.put(`${baseURL}/${idParam}`, data, {
-					headers: { 'Content-Type': 'application/json' },
-				})
-				.then(function (response) {
-					mensagemSucesso(`Cargo ${nome} alterado com sucesso!`);
-					navigate(`/listagem-cargos`);
-				})
-				.catch(function (error) {
-					mensagemErro(error.response.data);
-				});
-		}
-	}
-
-
-	async function buscar() {
-		if (idParam != null) {
-			await axios.get(`${baseURL}/${idParam}`).then((response) => {
-				setDados(response.data);
-			}).catch((a) => {
-				console.log(a);
-			});
-			setId(dados.id);
-			setNome(dados.nome);
-			setPermissoes(dados.permissoes);
-		}
-		await axios.get(`${BASE_URL}//permissoes`).then((response) => {
-			setListaPermissoes(response.data); 
-		}).catch((a) => {
-			//console.log(a);
-		});
-	}
-
+	// This effect runs when the component mounts or when the URL parameter 'idParam' changes.
+	// It's responsible for fetching all necessary data from the backend.
 	useEffect(() => {
-		buscar(); // eslint-disable-next-line
-	}, [id]);
+		// Fetches all available permissions that can be assigned to a cargo.
+		const buscarTodasPermissoes = async () => {
+			try {
+				const response = await axios.get(`${BASE_URL}/cargos/permissoes`);
+				setListaPermissoesDisponiveis(response.data);
+				return response.data; // Return data for chaining in the next step
+			} catch (error) {
+				mensagemErro('Erro ao carregar a lista de permissões.');
+				console.error("Error fetching permissions list: ", error);
+				return [];
+			}
+		};
 
+		// Fetches the data for a specific cargo if we are in "edit" mode.
+		const buscarCargo = async (todasPermissoes) => {
+			// If idParam exists, we are editing an existing cargo.
+			if (idParam) {
+				try {
+					const response = await axios.get(`${baseURL}/${idParam}`);
+					const cargo = response.data;
+					
+					setNome(cargo.nome);
+
+					// The cargo data includes its permissions as an array of PermissaoIndividualDTO.
+					// We need to find the corresponding full PermissaoDTO objects from our list of all available permissions.
+					if (cargo.permissoes && todasPermissoes.length > 0) {
+						const permissoesIniciais = cargo.permissoes
+							.map(pIndividual => 
+								todasPermissoes.find(pDisponivel => pDisponivel.id === pIndividual.permissaoId)
+							)
+							.filter(p => p !== undefined); // Filter out any undefined results, just in case.
+						
+						setPermissoesSelecionadas(permissoesIniciais);
+					}
+				} catch (error) {
+					mensagemErro('Erro ao buscar dados do cargo para edição.');
+					console.error(`Error fetching cargo with id ${idParam}: `, error);
+					navigate('/listagem-cargos'); // Navigate away on error
+				}
+			}
+			// If idParam is null, we are in "create" mode, and the initial empty states are already correct.
+		};
+
+		// Execute the fetch sequence: first get all permissions, then get the specific cargo.
+		buscarTodasPermissoes().then(todasPermissoes => {
+			buscarCargo(todasPermissoes);
+		});
+
+	}, [idParam, navigate, baseURL]); // Dependencies ensure the effect runs at the right times.
+
+	/**
+	 * Saves the cargo data (create or update) to the backend.
+	 */
+	const salvar = async () => {
+		// From our list of selected permission objects, create the array for the DTO.
+		// The backend's PermissaoIndividualDTO only needs the `permissaoId` to create the link.
+		const permissoesParaEnviar = permissoesSelecionadas.map(p => ({ permissaoId: p.id }));
+
+		const cargoDTO = {
+			id: idParam ? parseInt(idParam) : null, // Send ID only for updates
+			nome: nome,
+			permissoes: permissoesParaEnviar,
+		};
+
+		const requestConfig = {
+			headers: { 'Content-Type': 'application/json' },
+		};
+
+		// Determine whether to POST (create) or PUT (update)
+		const request = idParam
+			? axios.put(`${baseURL}/${idParam}`, cargoDTO, requestConfig)
+			: axios.post(baseURL, cargoDTO, requestConfig);
+
+		try {
+			await request;
+			mensagemSucesso(`Cargo ${nome} ${idParam ? 'alterado' : 'cadastrado'} com sucesso!`);
+			navigate(`/listagem-cargos`);
+		} catch (error) {
+			const errorMessage = error.response?.data || 'Ocorreu um erro ao salvar o cargo.';
+			mensagemErro(errorMessage);
+			console.error("Error saving cargo: ", error);
+		}
+	};
+
+	/**
+	 * Handles selection changes in the multi-select component for permissions.
+	 * @param {React.ChangeEvent<HTMLSelectElement>} event The change event from the select input.
+	 */
 	const handlePermissoesChange = (event) => {
-        const selectedOptions = Array.from(event.target.selectedOptions, (option) => option.value);
-        // Mapeia os IDs selecionados para os objetos correspondentes
-        const permissoesSelecionadas = selectedOptions.map((id) =>
-            listaPermissoes.find((perm) => perm.id === parseInt(id))
-        );
-        setPermissoes(permissoesSelecionadas);
+		// Get an array of the selected values (which are string IDs) and parse them to numbers.
+        const selectedIds = Array.from(event.target.selectedOptions, (option) => parseInt(option.value));
+		
+		// Filter the full list of available permissions to get the objects corresponding to the selected IDs.
+        const novasPermissoesSelecionadas = listaPermissoesDisponiveis.filter(p => selectedIds.includes(p.id));
+        
+		setPermissoesSelecionadas(novasPermissoesSelecionadas);
     };
 
-	if (!dados) return null;
+	/**
+	 * The "cancelar" button will simply navigate back to the list page.
+	 */
+	const cancelar = () => {
+		navigate('/listagem-cargos');
+	};
+
+	// For the <select> component's `value` prop, we need an array of the selected permission IDs.
+	const selectedPermissionIds = permissoesSelecionadas.map(p => p.id);
 
 	return (
 		<div className='container'>
@@ -136,13 +162,14 @@ function CadastroCargos() {
                                 <select
                                     multiple
                                     id='inputPermissoes'
-                                    value={permissoes == null ? [] : permissoes.map((perm) => perm.id)} // Array de IDs
+                                    value={selectedPermissionIds} // Bind to the array of selected IDs
                                     className='form-control'
                                     name='permissoes'
                                     onChange={handlePermissoesChange}
+									style={{ height: '250px' }} // Add some height for better usability
                                 >
-                                    {listaPermissoes.map((cat) => (
-                                        <option value={cat.id} key={cat.id}>{cat.nome}</option>
+                                    {listaPermissoesDisponiveis.map((permissao) => (
+                                        <option key={permissao.id} value={permissao.id}>{permissao.nome}</option>
                                     ))}
                                 </select>
                             </FormGroup>
@@ -156,7 +183,7 @@ function CadastroCargos() {
 									Salvar
 								</button>
 								<button
-									onClick={inicializar}
+									onClick={cancelar}
 									type='button'
 									className='btn btn-danger'
 								>
