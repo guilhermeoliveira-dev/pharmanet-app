@@ -21,7 +21,7 @@ const baseURL = `${BASE_URL}/vendas`;
 // const relacaoCores = new Map();
 // //relacaoCores.set("", "");
 // // não sei se é necessário relacionar "" com "", visto que o código funciona sem essa relação, apesar de isso soar como um erro.
-// relacaoCores.set("Vermelha", "red");
+// relacaoCacaoCores.set("Vermelha", "red");
 // relacaoCores.set("Preta", "black");
 
 function ListagemVendas() {
@@ -72,16 +72,15 @@ function ListagemVendas() {
 					<div className='col-lg-12'>
 						<div className='bs-component'>
 							{/* <button
-                type='button'
-                className='btn btn-warning'
-                onClick={() => cadastrar()}
-              >
-                Nova Venda
-              </button> */}
+                                type='button'
+                                className='btn btn-warning'
+                                onClick={() => cadastrar()}
+                            >
+                                Nova Venda
+                            </button> */}
 							<table className='table table-hover'>
 								<thead>
 									<tr>
-										
 										<th scope='col'>Pedido</th>
 										<th scope='col'>Pagamento</th>
 										<th scope='col'>Data da Venda</th>
@@ -89,32 +88,30 @@ function ListagemVendas() {
 								</thead>
 								<tbody>
 									{dados.map((dado) => (
-
 										<tr key={dado.id}>
-											<td>{dado.pedido.codigo}</td>
-											<td>{"R$"+dado.pagamento.valor.toFixed(2)}</td>
+											<td>{dado.codigo}</td>
+											<td>{"R$" + (dado.valor || 0).toFixed(2)}</td>
 											<td>{dado.dataVenda}</td>
 											{/* <Stack spacing={1} padding={0} direction='row'>
-                          <IconButton
-                            aria-label='edit'
-                            style={{ color: "white"}}
-                            onClick={() => editar(dado.id)}
-                          >
-                            <EditIcon /> 
-                          </IconButton>
-                          <IconButton
-                            aria-label='delete'
-                            style={{ color: "red"}}
-                            onClick={() => excluir(dado.id)}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                        </Stack> */}
-
+                                                <IconButton
+                                                    aria-label='edit'
+                                                    style={{ color: "white"}}
+                                                    onClick={() => editar(dado.id)}
+                                                >
+                                                    <EditIcon />
+                                                </IconButton>
+                                                <IconButton
+                                                    aria-label='delete'
+                                                    style={{ color: "red"}}
+                                                    onClick={() => excluir(dado.id)}
+                                                >
+                                                    <DeleteIcon />
+                                                </IconButton>
+                                            </Stack> */}
 										</tr>
 									))}
 								</tbody>
-							</table>{' '}
+							</table>
 						</div>
 					</div>
 				</div>

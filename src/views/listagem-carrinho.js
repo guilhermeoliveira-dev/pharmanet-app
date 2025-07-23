@@ -101,10 +101,10 @@ function ListagemCarrinho() {
                                 </thead>
                                 <tbody>
                                     {itensCarrinho.map((dado) => (
-                                        <tr key={dado.produto.id}>
-                                            <td>{dado.produto.nome}</td>
+                                        <tr key={dado.idProduto}>
+                                            <td>{dado.nome}</td>
                                             <td>{dado.quantidade}</td>
-                                            <td>R$ {dado.produto.preco.toFixed(2)}</td>
+                                            <td>R$ {dado.preco.toFixed(2)}</td>
                                             <td>
                                                 <Stack spacing={1} padding={0} direction='row'>
                                                     <IconButton

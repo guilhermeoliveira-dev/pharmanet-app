@@ -77,13 +77,13 @@ function CadastroClientes() {
 			setDataAdmissao(dados.dataAdmissao);
 			setFidelidadePontos(dados.fidelidadePontos);
 			// endereço
-			setUf(dados.endereco.uf);
-			setCidade(dados.endereco.cidade);
-			setCep(dados.endereco.cep);
-			setBairro(dados.endereco.bairro);
-			setLogradouro(dados.endereco.logradouro);
-			setNumero(dados.endereco.numero);
-			setComplemento(dados.endereco.complemento);
+			setUf(dados.uf);
+			setCidade(dados.cidade);
+			setCep(dados.cep);
+			setBairro(dados.bairro);
+			setLogradouro(dados.logradouro);
+			setNumero(dados.numero);
+			setComplemento(dados.complemento);
 		}
 	}
 
@@ -137,13 +137,13 @@ function CadastroClientes() {
 			setFidelidadePontos(dados.fidelidadePontos);
 			// endereço
 			try {
-				setUf(dados.endereco.uf);
-				setCidade(dados.endereco.cidade);
-				setCep(dados.endereco.cep);
-				setBairro(dados.endereco.bairro);
-				setLogradouro(dados.endereco.logradouro);
-				setNumero(dados.endereco.numero);
-				setComplemento(dados.endereco.complemento);
+				setUf(dados.uf);
+				setCidade(dados.cidade);
+				setCep(dados.cep);
+				setBairro(dados.bairro);
+				setLogradouro(dados.logradouro);
+				setNumero(dados.numero);
+				setComplemento(dados.complemento);
 			}
 			catch (e) {
 
@@ -252,7 +252,6 @@ function CadastroClientes() {
 							{/*
               //TODO: descobrir como fazer isso ser um dropdown pra escolher entre manhã, tarde, noite, madrugada ou sla oq mais
                */}
-
 							<br></br><h2>Endereço:</h2>
 
 							<FormGroup label='UF: *' htmlFor='inputUf'>

@@ -17,7 +17,7 @@ const ProductDropdown = ({ product }) => {
                     <strong>Descrição:</strong> {product.descricao}
                 </Typography>
                 <Typography variant="body2" color="white">
-                    <strong>Tarja:</strong> {product.tarja.nome}
+                    <strong>Tarja:</strong> {product.nomeTarja}
                 </Typography>
                 <Typography variant="body2" color="white">
                     <strong>Peso:</strong> {product.peso}
