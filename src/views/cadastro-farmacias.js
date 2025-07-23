@@ -12,6 +12,9 @@ import '../custom.css';
 
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
+import validarCep from '../api-cep';
+import { buscar_ufs } from '../api-uf';
+// import { Button } from 'react-bootstrap';
 
 function CadastroFarmacias() {
 	const { idParam } = useParams();
@@ -34,7 +37,45 @@ function CadastroFarmacias() {
 	const [numero, setNumero] = useState('');
 	const [complemento, setComplemento] = useState('');
 
+	const [listaUFs, setlistaUFs] = useState([]);
+
 	const [dados, setDados] = useState([]);
+
+	async function verificarCep(cep){
+
+		try{
+			const validacaoDados = await validarCep(cep);
+			console.log(validacaoDados);
+
+			setUf(validacaoDados.uf);
+			setCidade(validacaoDados.localidade);
+			// setCep(validacaoDados.cep);
+			setBairro(validacaoDados.bairro);
+			setLogradouro(validacaoDados.logradouro);
+			setNumero('');
+			// setComplemento(validacaoDados.complemento);
+			
+			// Comentei o complemento porque os complementos que vem da api são meio 
+			// estranhos, muitas vezes são coisas do tipo "de 1000 ate 2000" ou coisa 
+			// parecida. eu optei por tirar e deixar o usuário preencher se quiser.
+
+		}
+		catch(e){
+			mensagemErro(e.message);
+		}
+
+	}
+
+	async function buscar_ufs_func(){
+		try{
+			const api_response = await buscar_ufs();
+
+			setlistaUFs(api_response);
+		}
+		catch(e){
+			mensagemErro(e.message);
+		}
+	}
 
 	function inicializar() {
 		if (idParam == null) {
@@ -132,6 +173,9 @@ function CadastroFarmacias() {
 			}
 			
 		}
+		
+        buscar_ufs_func();
+        
 	}
 
 	useEffect(() => {
@@ -190,15 +234,40 @@ function CadastroFarmacias() {
 
 							<br></br><h2>Endereço:</h2>
 
-							<FormGroup label='UF: *' htmlFor='inputUf'>
+							<FormGroup label='CEP: *' htmlFor='inputCep'>
 								<input
 									type='text'
+									id='inputCep'
+									value={cep}
+									className='form-control'
+									name='cep'
+									onChange={(e) => setCep(e.target.value)}
+								/>
+							<button
+								type='button'
+								id = 'validarInputCep'
+								className='btn btn-info'
+								name='validarCep'
+								onClick={(e) => verificarCep(cep)}
+								label = 'Validar CEP'
+							>
+								Validar CEP
+							</button>
+							</FormGroup>
+							<FormGroup label='UF: *' htmlFor='inputUf'>
+								<select
 									id='inputUf'
 									value={uf}
 									className='form-control'
 									name='uf'
 									onChange={(e) => setUf(e.target.value)}
-								/>
+								>
+									<option value="" key="vazio"> -- Selecione uma Unidade Federal -- </option>
+									
+									{listaUFs.map((cat) => (
+										<option value={cat.sigla} key={cat.id}>{cat.nome}</option>
+										))}
+								</select>
 							</FormGroup>
 							<FormGroup label='Cidade: *' htmlFor='inputCidade'>
 								<input
@@ -208,16 +277,6 @@ function CadastroFarmacias() {
 									className='form-control'
 									name='cidade'
 									onChange={(e) => setCidade(e.target.value)}
-								/>
-							</FormGroup>
-							<FormGroup label='CEP: *' htmlFor='inputCep'>
-								<input
-									type='text'
-									id='inputCep'
-									value={cep}
-									className='form-control'
-									name='cep'
-									onChange={(e) => setCep(e.target.value)}
 								/>
 							</FormGroup>
 							<FormGroup label='Bairro: *' htmlFor='inputBairro'>
@@ -240,16 +299,6 @@ function CadastroFarmacias() {
 									onChange={(e) => setLogradouro(e.target.value)}
 								/>
 							</FormGroup>
-							<FormGroup label='Número: *' htmlFor='inputNumero'>
-								<input
-									type='text'
-									id='inputNumero'
-									value={numero}
-									className='form-control'
-									name='numero'
-									onChange={(e) => setNumero(e.target.value)}
-								/>
-							</FormGroup>
 							<FormGroup label='Complemento: ' htmlFor='inputComplemento'>
 								<input
 									type='text'
@@ -258,6 +307,16 @@ function CadastroFarmacias() {
 									className='form-control'
 									name='complemento'
 									onChange={(e) => setComplemento(e.target.value)}
+								/>
+							</FormGroup>
+							<FormGroup label='Número: *' htmlFor='inputNumero'>
+								<input
+									type='text'
+									id='inputNumero'
+									value={numero}
+									className='form-control'
+									name='numero'
+									onChange={(e) => setNumero(e.target.value)}
 								/>
 							</FormGroup>
 
