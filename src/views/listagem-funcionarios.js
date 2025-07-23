@@ -19,106 +19,106 @@ import { BASE_URL } from '../config/axios';
 const baseURL = `${BASE_URL}/funcionarios`;
 
 function ListagemFuncionarios() {
-  const navigate = useNavigate();
+	const navigate = useNavigate();
 
-  const cadastrar = () => {
-    navigate(`/cadastro-funcionarios`);
-  };
+	const cadastrar = () => {
+		navigate(`/cadastro-funcionarios`);
+	};
 
-  const editar = (id) => {
-    navigate(`/cadastro-funcionarios/${id}`);
-  };
+	const editar = (id) => {
+		navigate(`/cadastro-funcionarios/${id}`);
+	};
 
-  const [dados, setDados] = React.useState(null);
+	const [dados, setDados] = React.useState(null);
 
-  async function excluir(id) {
-    let data = JSON.stringify({ id });
-    let url = `${baseURL}/${id}`;
-    console.log(url);
-    await axios
-      .delete(url, data, {
-        headers: { 'Content-Type': 'application/json' },
-      })
-      .then(function (response) {
-        mensagemSucesso(`Funcionário excluído com sucesso!`);
-        setDados(
-          dados.filter((dado) => {
-            return dado.id !== id;
-          })
-        );
-      })
-      .catch(function (error) {
-        mensagemErro(`Erro ao excluir o funcionário`);
-      });
-  }
+	async function excluir(id) {
+		let data = JSON.stringify({ id });
+		let url = `${baseURL}/${id}`;
+		console.log(url);
+		await axios
+			.delete(url, data, {
+				headers: { 'Content-Type': 'application/json' },
+			})
+			.then(function (response) {
+				mensagemSucesso(`Funcionário excluído com sucesso!`);
+				setDados(
+					dados.filter((dado) => {
+						return dado.id !== id;
+					})
+				);
+			})
+			.catch(function (error) {
+				mensagemErro(`Erro ao excluir o funcionário`);
+			});
+	}
 
-  React.useEffect(() => {
-    axios.get(baseURL).then((response) => {
-      setDados(response.data);
-    });
-  }, []);
+	React.useEffect(() => {
+		axios.get(baseURL).then((response) => {
+			setDados(response.data);
+		});
+	}, []);
 
-  if (!dados) return null;
-  return (
-    <div className='container'>
-      <Card title='Listagem de Funcionários'>
-        <div className='row'>
-          <div className='col-lg-12'>
-            <div className='bs-component'>
-              <button
-                type='button'
-                className='btn btn-warning'
-                onClick={() => cadastrar()}
-              >
-                Novo Usuário
-              </button>
-              <table className='table table-hover'>
-                <thead>
-                  <tr>
-                    <th scope='col'>Nome</th>
-                    <th scope='col'>CPF</th>
-                    <th scope='col'>E-mail</th>
-                    <th scope='col'>Cargo</th>
-                    <th scope='col'>Trabalha em</th>
-                    <th scope='col'>Ações</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {dados.map((dado) => (
-                    <tr key={dado.id}>
-                      <td>{dado.nome}</td>
-                      <td>{dado.cpf}</td>
-                      <td>{dado.email}</td>
-                      <td>{dado.cargo.nome}</td>  
-                      <td>{dado.farmacia.nome}</td>
-                      <td>
-                        <Stack spacing={1} padding={0} direction='row'>
-                          <IconButton
-                            aria-label='edit'
-                            style={{ color: "white"}}
-                            onClick={() => editar(dado.id)}
-                          >
-                            <EditIcon /> 
-                          </IconButton>
-                          <IconButton
-                            aria-label='delete'
-                            style={{ color: "red"}}
-                            onClick={() => excluir(dado.id)}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                        </Stack>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>{' '}
-            </div>
-          </div>
-        </div>
-      </Card>
-    </div>
-  );
+	if (!dados) return null;
+	return (
+		<div className='container'>
+			<Card title='Listagem de Funcionários'>
+				<div className='row'>
+					<div className='col-lg-12'>
+						<div className='bs-component'>
+							<button
+								type='button'
+								className='btn btn-warning'
+								onClick={() => cadastrar()}
+							>
+								Novo Usuário
+							</button>
+							<table className='table table-hover'>
+								<thead>
+									<tr>
+										<th scope='col'>Nome</th>
+										<th scope='col'>CPF</th>
+										<th scope='col'>E-mail</th>
+										<th scope='col'>Cargo</th>
+										<th scope='col'>Trabalha em</th>
+										<th scope='col'>Ações</th>
+									</tr>
+								</thead>
+								<tbody>
+									{dados.map((dado) => (
+										<tr key={dado.id}>
+											<td>{dado.nome}</td>
+											<td>{dado.cpf}</td>
+											<td>{dado.email}</td>
+											<td>{dado.nomeCargo}</td>
+											<td>{dado.nomeFarmacia}</td>
+											<td>
+												<Stack spacing={1} padding={0} direction='row'>
+													<IconButton
+														aria-label='edit'
+														style={{ color: "white" }}
+														onClick={() => editar(dado.id)}
+													>
+														<EditIcon />
+													</IconButton>
+													<IconButton
+														aria-label='delete'
+														style={{ color: "red" }}
+														onClick={() => excluir(dado.id)}
+													>
+														<DeleteIcon />
+													</IconButton>
+												</Stack>
+											</td>
+										</tr>
+									))}
+								</tbody>
+							</table>{' '}
+						</div>
+					</div>
+				</div>
+			</Card>
+		</div>
+	);
 }
 
 export default ListagemFuncionarios;

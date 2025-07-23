@@ -163,7 +163,7 @@ function CadastroCargos() {
                                     multiple
                                     id='inputPermissoes'
                                     value={selectedPermissionIds} // Bind to the array of selected IDs
-                                    className='form-control'
+                                    className='form-select'
                                     name='permissoes'
                                     onChange={handlePermissoesChange}
 									style={{ height: '250px' }} // Add some height for better usability

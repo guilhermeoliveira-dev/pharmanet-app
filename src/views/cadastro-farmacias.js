@@ -258,7 +258,7 @@ function CadastroFarmacias() {
 								<select
 									id='inputUf'
 									value={uf}
-									className='form-control'
+									className='form-select'
 									name='uf'
 									onChange={(e) => setUf(e.target.value)}
 								>

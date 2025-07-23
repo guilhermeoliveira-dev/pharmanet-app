@@ -13,6 +13,9 @@ import '../custom.css';
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 
+import validarCep from '../api-cep';
+import { buscar_ufs } from '../api-uf';
+
 function toDate(dateStr = "") {
 	if (dateStr === undefined || dateStr == null) {
 		return new Date();
@@ -20,15 +23,6 @@ function toDate(dateStr = "") {
 	return dateStr.split('-').reverse().join('-');
 }
 
-function getById(id, list) {
-	for (let i = 0; i < list.length; i++) {
-		// eslint-disable-next-line
-		if (list[i].id == id) {
-			return list[i];
-		}
-	}
-	return null;
-}
 
 function CadastroFuncionarios() {
 	const { idParam } = useParams();
@@ -44,11 +38,11 @@ function CadastroFuncionarios() {
 	const [senha, setSenha] = useState('');
 	const [senhaRepeticao, setSenhaRepeticao] = useState('');
 	const [telefone, setTelefone] = useState('');
-	const [cargo, setCargo] = useState('');
+	const [cargo, setCargo] = useState(0);
 	const [dataAdmissao, setDataAdmissao] = useState('');
 	const [salario, setSalario] = useState(0);
 	const [expediente, setExpediente] = useState('');
-	const [farmacia, setFarmacia] = useState('');
+	const [farmacia, setFarmacia] = useState(0);
 
 	// endereço
 	const [uf, setUf] = useState('');
@@ -61,12 +55,45 @@ function CadastroFuncionarios() {
 
 	const [listaCargos, setListaCargos] = useState([]);
 	const [listaFarmacias, setListaFarmacias] = useState([]);
+	const [listaUFs, setlistaUFs] = useState([]);
 
 	const [dados, setDados] = useState([]);
 
-	const [isCargoDropdownOpen, setIsCargoDropdownOpen] = useState(false);
-	const [isExpedienteDropdownOpen, setIsExpedienteDropdownOpen] = useState(false);
-	const [isFarmaciaDropdownOpen, setIsFarmaciaDropdownOpen] = useState(false);
+	async function verificarCep(cep) {
+
+		try {
+			const validacaoDados = await validarCep(cep);
+			console.log(validacaoDados);
+
+			setUf(validacaoDados.uf);
+			setCidade(validacaoDados.localidade);
+			// setCep(validacaoDados.cep);
+			setBairro(validacaoDados.bairro);
+			setLogradouro(validacaoDados.logradouro);
+			setNumero('');
+			// setComplemento(validacaoDados.complemento);
+
+			// Comentei o complemento porque os complementos que vem da api são meio 
+			// estranhos, muitas vezes são coisas do tipo "de 1000 ate 2000" ou coisa 
+			// parecida. eu optei por tirar e deixar o usuário preencher se quiser.
+
+		}
+		catch (e) {
+			mensagemErro(e.message);
+		}
+
+	}
+
+	async function buscar_ufs_func() {
+		try {
+			const api_response = await buscar_ufs();
+
+			setlistaUFs(api_response);
+		}
+		catch (e) {
+			mensagemErro(e.message);
+		}
+	}
 
 	function inicializar() {
 		if (idParam == null) {
@@ -77,11 +104,11 @@ function CadastroFuncionarios() {
 			setSenha('');
 			setSenhaRepeticao('');
 			setTelefone('');
-			setCargo(null);
+			setCargo(0);
 			setDataAdmissao('');
 			setSalario('');
 			setExpediente('');
-			setFarmacia(null);
+			setFarmacia(0);
 			// endereço
 			setUf('');
 			setCidade('');
@@ -98,25 +125,28 @@ function CadastroFuncionarios() {
 			setSenha(dados.senha);
 			setSenhaRepeticao(dados.senhaRepeticao);
 			setTelefone(dados.telefone);
-			setCargo(dados.cargo);
+			setCargo(dados.idCargo);
 			setDataAdmissao(dados.dataAdmissao);
 			setSalario(dados.salario);
 			setExpediente(dados.expediente);
-			setFarmacia(dados.farmacia);
+			setFarmacia(dados.idFarmacia);
 			// endereço
-			setUf(dados.endereco.uf);
-			setCidade(dados.endereco.cidade);
-			setCep(dados.endereco.cep);
-			setBairro(dados.endereco.bairro);
-			setLogradouro(dados.endereco.logradouro);
-			setNumero(dados.endereco.numero);
-			setComplemento(dados.endereco.complemento);
+			setUf(dados.uf);
+			setCidade(dados.cidade);
+			setCep(dados.cep);
+			setBairro(dados.bairro);
+			setLogradouro(dados.logradouro);
+			setNumero(dados.numero);
+			setComplemento(dados.complemento);
 		}
 	}
 
 	async function salvar() {
-		let endereco = { uf, cidade, cep, bairro, logradouro, numero, complemento }
-		let data = { id, nome, email, cpf, senha, telefone, endereco, cargo, dataAdmissao, salario, expediente, farmacia };
+		if (senha !== senhaRepeticao && idParam === null){
+			mensagemErro("As senhas devem ser iguais");
+			return;
+		}
+		let data = { id, nome, email, cpf, senha, telefone, uf, cidade, cep, bairro, logradouro, numero, complemento, idCargo: cargo, dataAdmissao, salario, expediente, idFarmacia: farmacia };
 		data = JSON.stringify(data);
 		if (idParam == null) {
 			await axios
@@ -160,36 +190,40 @@ function CadastroFuncionarios() {
 			setSenha(dados.senha);
 			setSenhaRepeticao(dados.senhaRepeticao);
 			setTelefone(dados.telefone);
-			setCargo(dados.cargo);
+			setCargo(dados.idCargo);
 			setDataAdmissao(dados.dataAdmissao);
 			setSalario(dados.salario);
 			setExpediente(dados.expediente);
-			setFarmacia(dados.farmacia);
+			setFarmacia(dados.idFarmacia);
 			// endereço
 			try {
-				setUf(dados.endereco.uf);
-				setCidade(dados.endereco.cidade);
-				setCep(dados.endereco.cep);
-				setBairro(dados.endereco.bairro);
-				setLogradouro(dados.endereco.logradouro);
-				setNumero(dados.endereco.numero);
-				setComplemento(dados.endereco.complemento);
+				setUf(dados.uf);
+				setCidade(dados.cidade);
+				setCep(dados.cep);
+				setBairro(dados.bairro);
+				setLogradouro(dados.logradouro);
+				setNumero(dados.numero);
+				setComplemento(dados.complemento);
 			}
 			catch (e) {
 
 			}
 		}
-		await axios.get(`${BASE_URL}//cargos`).then((response) => {
+		await axios.get(`${BASE_URL}/cargos`).then((response) => {
 			setListaCargos(response.data);
 		}).catch((a) => {
 			//console.log(a);
 		});
-		await axios.get(`${BASE_URL}/jsonfake/farmacias`).then((response) => {
+		await axios.get(`${BASE_URL}/farmacias`).then((response) => {
 			setListaFarmacias(response.data);
 		}).catch((a) => {
 			//console.log(a);
 		});
+
+		buscar_ufs_func();
+
 	}
+
 
 	useEffect(() => {
 		buscar(); // eslint-disable-next-line
@@ -275,23 +309,19 @@ function CadastroFuncionarios() {
 								/>
 							</FormGroup>
 							<FormGroup label='Cargo: ' htmlFor='inputCargo'>
-								<div className="select-arrow-wrapper">
-									<select
-										id='inputCargo'
-										value={cargo?.id || 0}
-										className='form-control'
-										name='cargo'
-										onChange={(e) => setCargo(getById(e.target.value, listaCargos))}
-										onClick={() => setIsCargoDropdownOpen(!isCargoDropdownOpen)}
-										onBlur={() => setIsCargoDropdownOpen(false)}
-									>
-										<option value="null" key="0"> -- Selecione um Cargo -- </option>
-										{listaCargos.map((cat) => (
-											<option value={cat.id} key={cat.id}>{cat.nome}</option>
-										))}
-									</select>
-									<div className={`arrow ${isCargoDropdownOpen ? 'open' : ''}`}></div>
-								</div>
+
+								<select
+									className="form-select"
+									id='inputCargo'
+									value={cargo}
+									name='cargo'
+									onChange={(e) => setCargo(e.target.value)}
+								>
+									<option value="null" key="0"> -- Selecione um Cargo -- </option>
+									{listaCargos.map((cat) => (
+										<option value={cat.id} key={cat.id}>{cat.nome}</option>
+									))}
+								</select>
 							</FormGroup>
 							<FormGroup label='Salário: *' htmlFor='inputSalario'>
 								<input
@@ -307,57 +337,74 @@ function CadastroFuncionarios() {
 								/>
 							</FormGroup>
 							<FormGroup label='Expediente: ' htmlFor='inputExpediente'>
-								<div className="select-arrow-wrapper">
-									<select
-										id='inputExpediente'
-										value={expediente}
-										className='form-control'
-										name='expediente'
-										onChange={(e) => setExpediente(e.target.value)}
-										onClick={() => setIsExpedienteDropdownOpen(!isExpedienteDropdownOpen)}
-										onBlur={() => setIsExpedienteDropdownOpen(false)}
-									>
-										<option value="" key="vazio"> -- Selecione um Expediente -- </option>
-										<option value="manha" key="manha">Manhã</option>
-										<option value="tarde" key="tarde">Tarde</option>
-										<option value="noite" key="noite">Noite</option>
-										<option value="madrugada" key="madrugada">Madrugada</option>
-									</select>
-									<div className={`arrow ${isExpedienteDropdownOpen ? 'open' : ''}`}></div>
-								</div>
+								<select
+									id='inputExpediente'
+									value={expediente}
+									className='form-select'
+									name='expediente'
+									onChange={(e) => setExpediente(e.target.value)}
+								>
+									<option value="" key="vazio"> -- Selecione um Expediente -- </option>
+									<option value="manha" key="manha">Manhã</option>
+									<option value="tarde" key="tarde">Tarde</option>
+									<option value="noite" key="noite">Noite</option>
+									<option value="madrugada" key="madrugada">Madrugada</option>
+								</select>
 							</FormGroup>
 
 							<FormGroup label='Farmácia: ' htmlFor='inputFarmacia'>
-								<div className="select-arrow-wrapper">
-									<select
-										id='inputFarmacia'
-										value={farmacia?.id || 0}
-										className='form-control'
-										name='farmacia'
-										onChange={(e) => setFarmacia(getById(e.target.value, listaFarmacias))}
-										onClick={() => setIsFarmaciaDropdownOpen(!isFarmaciaDropdownOpen)}
-										onBlur={() => setIsFarmaciaDropdownOpen(false)}
-									>
-										<option value="null" key="0"> -- Selecione uma Farmácia -- </option>
-										{listaFarmacias.map((cat) => (
-											<option value={cat.id} key={cat.id}>{cat.nome}</option>
-										))}
-									</select>
-									<div className={`arrow ${isFarmaciaDropdownOpen ? 'open' : ''}`}></div>
-								</div>
+
+								<select
+									id='inputFarmacia'
+									value={farmacia}
+									className='form-select'
+									name='farmacia'
+									onChange={(e) => setFarmacia(e.target.value)}
+								>
+									<option value="0" key="0"> -- Selecione uma Farmácia -- </option>
+									{listaFarmacias.map((cat) => (
+										<option value={cat.id} key={cat.id}>{cat.nome}</option>
+									))}
+								</select>
 							</FormGroup>
 
 							<br></br><h2>Endereço:</h2>
 
-							<FormGroup label='UF: *' htmlFor='inputUf'>
+							<FormGroup label='CEP: *' htmlFor='inputCep'>
 								<input
 									type='text'
+									id='inputCep'
+									value={cep}
+									className='form-control'
+									name='cep'
+									onChange={(e) => setCep(e.target.value)}
+								/>
+								<button
+									type='button'
+									id='validarInputCep'
+									className='btn btn-info'
+									name='validarCep'
+									onClick={(e) => verificarCep(cep)}
+									label='Validar CEP'
+								>
+									Validar CEP
+								</button>
+							</FormGroup>
+
+							<FormGroup label='UF: *' htmlFor='inputUf'>
+								<select
 									id='inputUf'
 									value={uf}
-									className='form-control'
+									className='form-select'
 									name='uf'
 									onChange={(e) => setUf(e.target.value)}
-								/>
+								>
+									<option value="" key="vazio"> -- Selecione uma Unidade Federal -- </option>
+
+									{listaUFs.map((cat) => (
+										<option value={cat.sigla} key={cat.id}>{cat.nome}</option>
+									))}
+								</select>
 							</FormGroup>
 							<FormGroup label='Cidade: *' htmlFor='inputCidade'>
 								<input
@@ -367,16 +414,6 @@ function CadastroFuncionarios() {
 									className='form-control'
 									name='cidade'
 									onChange={(e) => setCidade(e.target.value)}
-								/>
-							</FormGroup>
-							<FormGroup label='CEP: *' htmlFor='inputCep'>
-								<input
-									type='text'
-									id='inputCep'
-									value={cep}
-									className='form-control'
-									name='cep'
-									onChange={(e) => setCep(e.target.value)}
 								/>
 							</FormGroup>
 							<FormGroup label='Bairro: *' htmlFor='inputBairro'>
@@ -399,16 +436,7 @@ function CadastroFuncionarios() {
 									onChange={(e) => setLogradouro(e.target.value)}
 								/>
 							</FormGroup>
-							<FormGroup label='Número: *' htmlFor='inputNumero'>
-								<input
-									type='text'
-									id='inputNumero'
-									value={numero}
-									className='form-control'
-									name='numero'
-									onChange={(e) => setNumero(e.target.value)}
-								/>
-							</FormGroup>
+
 							<FormGroup label='Complemento: ' htmlFor='inputComplemento'>
 								<input
 									type='text'
@@ -419,27 +447,16 @@ function CadastroFuncionarios() {
 									onChange={(e) => setComplemento(e.target.value)}
 								/>
 							</FormGroup>
-							{/* <FormGroup label='Farmácia: ' htmlFor='inputFarmacia'>
-                <input
-                  type=''
-                  id='inputFarmacia'
-                  value={farmacia}
-                  className='form-control'
-                  name='expediente'
-                  onChange={(e) => setExpediente(e.target.value)}
-                />
-              </FormGroup> */}
-							{/* <FormGroup>
-                <input
-                  className='form-check-input'
-                  type='checkbox'
-                  id='checkAdmin'
-                  checked={admin}
-                  name='admin'
-                  onChange={(e) => setAdmin(e.target.checked)}
-                />
-                Administrador
-              </FormGroup> */}
+							<FormGroup label='Número: *' htmlFor='inputNumero'>
+								<input
+									type='text'
+									id='inputNumero'
+									value={numero}
+									className='form-control'
+									name='numero'
+									onChange={(e) => setNumero(e.target.value)}
+								/>
+							</FormGroup>
 							<Stack spacing={1} padding={1} direction='row'>
 								<button
 									onClick={salvar}
