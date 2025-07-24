@@ -19,7 +19,7 @@ import { BASE_URL } from '../config/axios';
 const baseURL = `${BASE_URL}/categorias`;
 
 function getCategoriaPai(dado){
-    return dado.categoriaPai == null ? "---" : dado.categoriaPai.nome;
+    return dado.idCategoriaPai == null ? "---" : dado.nomeCategoriaPai;
 }
 
 function ListagemCategorias() {
@@ -90,7 +90,7 @@ function ListagemCategorias() {
                     <tr key={dado.id}>
                       <td>{dado.nome}</td>
                       <td>{dado.descricao}</td>
-                      <td>{getCategoriaPai(dado)}</td>
+                      <td>{dado.nomeCategoriaPai == null ? "---" : dado.nomeCategoriaPai}</td>
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton
