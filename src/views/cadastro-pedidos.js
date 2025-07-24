@@ -3,13 +3,44 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
 import Card from '../components/card';
 import FormGroup from '../components/form-group';
-import { IconButton } from '@mui/material';
+import { IconButton, Collapse, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import ProductDropdown from '../components/ProductDropdown';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import { mensagemSucesso, mensagemErro } from '../components/toastr';
 import '../custom.css';
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
+import imagemErro from '../img/imagem-erro.png';
+
+const ProductDropdown = ({ product }) => {
+    const [open, setOpen] = useState(false);
+
+    if (!product) {
+        return null;
+    }
+
+    return (
+        <div>
+            <IconButton onClick={() => setOpen(!open)}>
+                {open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+            </IconButton>
+            <Collapse in={open}>
+                <Typography variant="body2" color="white">
+                    <strong>Descrição:</strong> {product.descricao}
+                </Typography>
+                <Typography variant="body2" color="white">
+                    <strong>Tarja:</strong> {product.nomeTarja}
+                </Typography>
+                <Typography variant="body2" color="white">
+                    <strong>Peso:</strong> {product.peso}
+                </Typography>
+                <img src={product.imagem != null ? product.imagem : imagemErro} alt={product.nome} style={{ width: '100px', height: '100px' }} />
+            </Collapse>
+        </div>
+    );
+};
+
 
 function toDate(dateStr = "") {
     if (dateStr === undefined) {
@@ -20,7 +51,6 @@ function toDate(dateStr = "") {
 
 function getById(id, list) {
     for (let i = 0; i < list.length; i++) {
-        // eslint-disable-next-line
         if (list[i].id == id) {
             return list[i];
         }
@@ -31,7 +61,7 @@ function getById(id, list) {
 function CadastroPedidos() {
     const { idParam } = useParams();
     const navigate = useNavigate();
-    const baseURL = `${BASE_URL}/pedidos`;
+    const baseURL = `${BASE_URL}/pedidoCompras`;
 
     const [id, setId] = useState('');
     const [dataCriacao, setDataCriacao] = useState('');
@@ -40,11 +70,11 @@ function CadastroPedidos() {
     const [valorTotal, setValorTotal] = useState('');
     const [tipoEntrega, setTipoEntrega] = useState('');
     const [dataEntrega, setDataEntrega] = useState('');
-    const [endereco, setEndereco] = useState('');
+    const [endereco, setEndereco] = useState(null);
 
-    const [dados, setDados] = useState([]);
+    const [dados, setDados] = useState({});
     const [listaEnderecos, setListaEnderecos] = useState([]);
-    const [listaItensPedido, setListaItensPedido] = useState([]);
+    const [listaitemsPedidos, setListaitemsPedidos] = useState([]);
 
     const [isTipoEntregaOpen, setIsTipoEntregaOpen] = useState(false);
     const [isEnderecoOpen, setIsEnderecoOpen] = useState(false);
@@ -59,6 +89,7 @@ function CadastroPedidos() {
             setTipoEntrega('');
             setDataEntrega('');
             setEndereco(null);
+            setListaitemsPedidos([]);
         } else {
             setId(dados.id);
             setDataCriacao(dados.dataCriacao);
@@ -84,7 +115,11 @@ function CadastroPedidos() {
                     navigate(`/listagem-categorias`);
                 })
                 .catch(function (error) {
-                    mensagemErro(error.response.data);
+                    if (error.response) {
+                        mensagemErro(error.response.data);
+                    } else {
+                        mensagemErro("Erro ao cadastrar o pedido.");
+                    }
                 });
         } else {
             await axios
@@ -92,53 +127,84 @@ function CadastroPedidos() {
                     headers: { 'Content-Type': 'application/json' },
                 })
                 .then(function (response) {
-                    mensagemSucesso(`Pedido cadastrado com sucesso!`);
+                    mensagemSucesso(`Pedido atualizado com sucesso!`);
                     navigate(`/listagem-categorias`);
                 })
                 .catch(function (error) {
-                    mensagemErro(error.response.data);
+                    if (error.response) {
+                        mensagemErro(error.response.data);
+                    } else {
+                        mensagemErro("Erro ao atualizar o pedido.");
+                    }
                 });
         }
     }
 
     async function buscar() {
+        setListaitemsPedidos([]);
+
         if (idParam != null) {
             await axios.get(`${baseURL}/${idParam}`).then((response) => {
                 setDados(response.data);
+                setId(response.data.id);
+                setDataCriacao(response.data.dataCriacao);
+                setCodigo(response.data.codigo);
+                setStatus(response.data.status);
+                setValorTotal(response.data.valorTotal);
+                setTipoEntrega(response.data.tipoEntrega);
+                setDataEntrega(response.data.dataEntrega);
+                setEndereco(response.data.endereco);
             }).catch((a) => {
                 console.log(a);
             });
-            setId(dados.id);
-            setDataCriacao(dados.dataCriacao);
-            setCodigo(dados.codigo);
-            setStatus(dados.status);
-            setValorTotal(dados.valorTotal);
-            setTipoEntrega(dados.tipoEntrega);
-            setDataEntrega(dados.dataEntrega);
-            setEndereco(dados.endereco);
         }
-        await axios.get(`${BASE_URL}//enderecos`).then((response) => {
+
+        await axios.get(`${BASE_URL}/enderecos`).then((response) => {
             setListaEnderecos(response.data);
         }).catch((a) => {
-            //console.log(a);
+            console.log(a);
         });
-        await axios.get(`${BASE_URL}//itensPedido`).then((response) => {
-            setListaItensPedido(response.data);
+
+        await axios.get(`${BASE_URL}/itemsPedidos`).then(async (response) => {
+            const itemsDoPedidoAtual = response.data.filter(item => {
+                return idParam ? item.idPedidoCompra == idParam : false;
+            });
+
+            const itemsComDetalhesProduto = await Promise.all(itemsDoPedidoAtual.map(async (item) => {
+                try {
+                    const productResponse = await axios.get(`${BASE_URL}/produtos/${item.idProduto}`);
+                    const product = productResponse.data;
+                    return {
+                        ...item,
+                        nomeProduto: product.nome,
+                        precoUnitario: product.valorUnitario,
+                        produtoCompleto: product
+                    };
+                } catch (error) {
+                    console.error(`Erro ao buscar produto para o item ${item.idProduto}:`, error);
+                    return {
+                        ...item,
+                        nomeProduto: 'Produto não encontrado',
+                        precoUnitario: 0,
+                        produtoCompleto: null
+                    };
+                }
+            }));
+            setListaitemsPedidos(itemsComDetalhesProduto);
         }).catch((a) => {
-            //console.log(a);
+            console.log(a);
         });
     }
 
     async function excluirItem(idItem) {
         try {
-            // Remove o item da lista de itens do pedido
-            const novaListaItens = listaItensPedido.filter(item => item.id !== idItem);
-            setListaItensPedido(novaListaItens);
+            const novaListaItens = listaitemsPedidos.filter(item => item.id !== idItem);
+            setListaitemsPedidos(novaListaItens);
 
-            // Se necessário, faz uma requisição para excluir o item da API
-            await axios.delete(`${BASE_URL}//itensPedido/${idItem}`)
+            await axios.delete(`${BASE_URL}/itemsPedidos/${idItem}`)
                 .then(() => {
                     mensagemSucesso('Item removido com sucesso!');
+                    buscar();
                 })
                 .catch((error) => {
                     mensagemErro('Erro ao remover o item.');
@@ -149,10 +215,10 @@ function CadastroPedidos() {
     }
 
     useEffect(() => {
-        buscar(); // eslint-disable-next-line
-    }, [id]);
+        inicializar();
+        buscar();
+    }, [idParam]);
 
-    if (!dados) return null;
 
     return (
         <div className='container'>
@@ -176,10 +242,10 @@ function CadastroPedidos() {
                                     disabled
                                     type='text'
                                     id='inputCodigo'
-                                    value={toDate(codigo)}
+                                    value={codigo}
                                     className='form-control'
                                     name='codigo'
-                                    onChange={(e) => setCodigo(toDate(e.target.value))}
+                                    onChange={(e) => setCodigo(e.target.value)}
                                 />
                             </FormGroup>
                             <FormGroup label='Status: ' htmlFor='inputStatus'>
@@ -271,20 +337,20 @@ function CadastroPedidos() {
                         </tr>
                     </thead>
                     <tbody>
-                        {listaItensPedido.map((dado) => (
+                        {listaitemsPedidos.map((dado) => (
                             <tr key={dado.id}>
-                                <td>{dado.estoque.produto.nome}</td>
+                                <td>{dado.nomeProduto}</td>
                                 <td>{dado.quantidade}</td>
-                                <td>{dado.estoque.produto.preco}</td>
+                                <td>{dado.precoUnitario}</td>
                                 <td>
-                                    <ProductDropdown product={dado.estoque.produto} />
+                                    <ProductDropdown product={dado.produtoCompleto} />
                                 </td>
                                 <td>
                                     <Stack spacing={1} padding={0} direction='row'>
                                         <IconButton
                                             aria-label='delete'
                                             style={{ color: "red" }}
-                                            onClick={() => excluirItem(dado.id)} // Adicionado o evento de exclusão
+                                            onClick={() => excluirItem(dado.id)}
                                         >
                                             <DeleteIcon />
                                         </IconButton>

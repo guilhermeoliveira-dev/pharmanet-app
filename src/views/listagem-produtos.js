@@ -95,7 +95,7 @@ function ListagemProdutos() {
                     
                     <tr key={dado.id}>
                       <td>{dado.nome}</td>
-                      <td>{"R$"+dado.preco}</td>
+                      <td>{"R$" + dado.preco}</td>
                       <td>{dado.peso + " g"}</td>
                       <td>{dado.nomeCategoria}</td>  
                       <td >{dado.nomeTarja === "Sem Tarja" || dado.nomeTarja === "" ? "---" : dado.nomeTarja}</td>  
