@@ -1,23 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-
 import Stack from '@mui/material/Stack';
-
 import Card from '../components/card';
 import FormGroup from '../components/form-group';
-
 import { mensagemSucesso, mensagemErro } from '../components/toastr';
-
 import '../custom.css';
-
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 
-
 function getById(id, list) {
     for (let i = 0; i < list.length; i++) {
-        // eslint-disable-next-line
-        if (list[i].id == id) {
+        if (list[i].id === Number(id)) {
             return list[i];
         }
     }
@@ -26,54 +19,49 @@ function getById(id, list) {
 
 function CadastroProdutos() {
     const { idParam } = useParams();
-
     const navigate = useNavigate();
-
     const baseURL = `${BASE_URL}/produtos`;
-
     const [id, setId] = useState('');
     const [nome, setNome] = useState('');
     const [descricao, setDescricao] = useState('');
     const [preco, setPreco] = useState('');
     const [requerLote, setRequerLote] = useState(false);
     const [peso, setPeso] = useState('');
-    const [tarja, setTarja] = useState('');
-    const [categoria, setCategoria] = useState('');
-
-    const [dados, setDados] = useState([]);
-
+    const [tarja, setTarja] = useState(null);
+    const [categoria, setCategoria] = useState(null);
+    const [generico, setGenerico] = useState(false);
     const [listaTarjas, setListaTarjas] = useState([]);
     const [listaCategorias, setListaCategorias] = useState([]);
-
     const [isRequerLoteOpen, setIsRequerLoteOpen] = useState(false);
     const [isTarjaOpen, setIsTarjaOpen] = useState(false);
     const [isCategoriaOpen, setIsCategoriaOpen] = useState(false);
+    const [isGenericoOpen, setIsGenericoOpen] = useState(false);
 
-    function inicializar() {
-        if (idParam == null) {
-            setId('');
-            setNome('');
-            setDescricao('');
-            setPreco('');
-            setRequerLote(false);
-            setPeso('');
-            setTarja('');
-            setCategoria('');
-        } else {
-            setId(dados.id);
-            setNome(dados.nome);
-            setDescricao(dados.descricao);
-            setPreco(dados.preco);
-            setRequerLote(dados.requerLote);
-            setPeso(dados.peso);
-            setTarja(dados.tarja);
-            setCategoria(dados.categoria);
-        }
-    }
+    const inicializar = useCallback(() => {
+        setId('');
+        setNome('');
+        setDescricao('');
+        setPreco('');
+        setRequerLote(false);
+        setPeso('');
+        setTarja(null);
+        setCategoria(null);
+        setGenerico(false);
+    }, []);
 
-    async function salvar() {
-        let data = { id, nome, descricao, preco, requerLote, peso, tarja, categoria };
-        data = JSON.stringify(data);
+    const salvar = useCallback(async () => {
+        let dataToSend = {
+            id,
+            nome,
+            descricao,
+            preco,
+            requerLote,
+            peso,
+            generico,
+            idTarja: tarja ? tarja.id : null,
+            idCategoria: categoria ? categoria.id : null
+        };
+        const data = JSON.stringify(dataToSend);
         if (idParam == null) {
             await axios
                 .post(baseURL, data, {
@@ -99,41 +87,46 @@ function CadastroProdutos() {
                     mensagemErro(error.response.data);
                 });
         }
-    }
+    }, [id, nome, descricao, preco, requerLote, peso, generico, tarja, categoria, idParam, baseURL, navigate]);
 
-    async function buscar() {
-        if (idParam != null) {
-            await axios.get(`${baseURL}/${idParam}`).then((response) => {
-                setDados(response.data);
-            }).catch((a) => {
-                console.log(a);
-            });
-            setId(dados.id);
-            setNome(dados.nome);
-            setDescricao(dados.descricao);
-            setPreco(dados.preco);
-            setRequerLote(dados.requerLote);
-            setPeso(dados.peso);
-            setTarja(dados.tarja);
-            setCategoria(dados.categoria);
+    const buscar = useCallback(async () => {
+        try {
+            const [tarjasRes, categoriasRes] = await Promise.all([
+                axios.get(`${baseURL}/tarjas`),
+                axios.get(`${BASE_URL}/categorias`)
+            ]);
+            setListaTarjas(tarjasRes.data);
+            setListaCategorias(categoriasRes.data);
+            if (idParam != null) {
+                const produtoResponse = await axios.get(`${baseURL}/${idParam}`);
+                const produtoData = produtoResponse.data;
+                setId(produtoData.id);
+                setNome(produtoData.nome);
+                setDescricao(produtoData.descricao);
+                setPreco(produtoData.preco);
+                setRequerLote(produtoData.requerLote);
+                setPeso(produtoData.peso);
+                setGenerico(produtoData.generico);
+                if (produtoData.idTarja) {
+                    setTarja(getById(produtoData.idTarja, tarjasRes.data));
+                } else {
+                    setTarja(null);
+                }
+                if (produtoData.idCategoria) {
+                    setCategoria(getById(produtoData.idCategoria, categoriasRes.data));
+                } else {
+                    setCategoria(null);
+                }
+            }
+        } catch (error) {
+            console.error("Erro ao carregar dados:", error);
+            mensagemErro("Erro ao carregar dados do produto ou listas de apoio.");
         }
-        await axios.get(`${BASE_URL}/tarjas`).then((response) => {
-            setListaTarjas(response.data);
-        }).catch((a) => {
-            //console.log(a);
-        });
-        await axios.get(`${BASE_URL}/categorias`).then((response) => {
-            setListaCategorias(response.data);
-        }).catch((a) => {
-            //console.log(a);
-        });
-    }
+    }, [idParam, baseURL, setListaTarjas, setListaCategorias, setId, setNome, setDescricao, setPreco, setRequerLote, setPeso, setGenerico, setTarja, setCategoria]);
 
     useEffect(() => {
-        buscar(); // eslint-disable-next-line
-    }, [id]);
-
-    if (!dados) return null;
+        buscar();
+    }, [idParam, buscar]);
 
     return (
         <div className='container'>
@@ -163,8 +156,7 @@ function CadastroProdutos() {
                             </FormGroup>
                             <FormGroup label='Preco: *' htmlFor='inputPreco'>
                                 <input
-                                    //type='text'
-                                    //maxLength='11'
+                                    type='number'
                                     id='inputPreco'
                                     value={preco}
                                     className='form-control'
@@ -176,21 +168,22 @@ function CadastroProdutos() {
                                 <div className="select-arrow-wrapper">
                                     <select
                                         id='inputRequerLote'
-                                        value={requerLote}
+                                        value={requerLote.toString()}
                                         className='form-control'
                                         name='requerLote'
                                         onChange={(e) => setRequerLote(e.target.value === 'true')}
                                         onClick={() => setIsRequerLoteOpen(!isRequerLoteOpen)}
                                         onBlur={() => setIsRequerLoteOpen(false)}
                                     >
-                                        <option value="false" key="false">Não</option>
-                                        <option value="true" key="true">Sim</option>
+                                        <option value="false">Não</option>
+                                        <option value="true">Sim</option>
                                     </select>
                                     <div className={`arrow ${isRequerLoteOpen ? 'open' : ''}`}></div>
                                 </div>
                             </FormGroup>
                             <FormGroup label='Peso: *' htmlFor='inputPeso'>
                                 <input
+                                    type='number'
                                     id='inputPeso'
                                     value={peso}
                                     className='form-control'
@@ -198,20 +191,37 @@ function CadastroProdutos() {
                                     onChange={(e) => setPeso(e.target.value)}
                                 />
                             </FormGroup>
+                            <FormGroup label='Genérico: *' htmlFor='inputGenerico'>
+                                <div className="select-arrow-wrapper">
+                                    <select
+                                        id='inputGenerico'
+                                        value={generico.toString()}
+                                        className='form-control'
+                                        name='generico'
+                                        onChange={(e) => setGenerico(e.target.value === 'true')}
+                                        onClick={() => setIsGenericoOpen(!isGenericoOpen)}
+                                        onBlur={() => setIsGenericoOpen(false)}
+                                    >
+                                        <option value="false">Não</option>
+                                        <option value="true">Sim</option>
+                                    </select>
+                                    <div className={`arrow ${isGenericoOpen ? 'open' : ''}`}></div>
+                                </div>
+                            </FormGroup>
                             <FormGroup label='Tarja: *' htmlFor='inputTarja'>
                                 <div className="select-arrow-wrapper">
                                     <select
                                         id='inputTarja'
-                                        value={tarja?.id || 0}
+                                        value={tarja?.id || ''}
                                         className='form-control'
                                         name='tarja'
                                         onChange={(e) => setTarja(getById(e.target.value, listaTarjas))}
                                         onClick={() => setIsTarjaOpen(!isTarjaOpen)}
                                         onBlur={() => setIsTarjaOpen(false)}
                                     >
-                                        <option value="0" key="0"> -- Escolha uma tarja -- </option>
-                                        {listaTarjas.map((cat) => (
-                                            <option value={cat.id} key={cat.id}>{cat.nome}</option>
+                                        <option value=""> -- Escolha uma tarja -- </option>
+                                        {listaTarjas.map((t) => (
+                                            <option value={t.id} key={t.id}>{t.nome}</option>
                                         ))}
                                     </select>
                                     <div className={`arrow ${isTarjaOpen ? 'open' : ''}`}></div>
@@ -221,14 +231,14 @@ function CadastroProdutos() {
                                 <div className="select-arrow-wrapper">
                                     <select
                                         id='inputCategoria'
-                                        value={categoria?.id || 0}
+                                        value={categoria?.id || ''}
                                         className='form-control'
                                         name='categoria'
                                         onChange={(e) => setCategoria(getById(e.target.value, listaCategorias))}
                                         onClick={() => setIsCategoriaOpen(!isCategoriaOpen)}
                                         onBlur={() => setIsCategoriaOpen(false)}
                                     >
-                                        <option value="0" key="0"> -- Escolha uma categoria -- </option>
+                                        <option value=""> -- Escolha uma categoria -- </option>
                                         {listaCategorias.map((cat) => (
                                             <option value={cat.id} key={cat.id}>{cat.nome}</option>
                                         ))}
