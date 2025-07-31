@@ -236,7 +236,10 @@ function CadastroClientes() {
 								/>
 							</FormGroup>
 							<FormGroup label='Pontos de Fidelidade: ' htmlFor='inputFidelidadePontos'>
-								<input
+								<div className="form-label">
+									{fidelidadePontos + " pontos"}
+								</div>
+								{/* <input
 									type='number'
 									// min='0'
 									// max='10000000'
@@ -247,7 +250,7 @@ function CadastroClientes() {
 									name='fidelidadePontos'
 									disabled
 									onChange={(e) => setFidelidadePontos(e.target.value)}
-								/>
+								/> */}
 							</FormGroup>
 							{/*
               //TODO: descobrir como fazer isso ser um dropdown pra escolher entre manhã, tarde, noite, madrugada ou sla oq mais
