@@ -51,7 +51,7 @@ function toDate(dateStr = "") {
 
 function getById(id, list) {
     for (let i = 0; i < list.length; i++) {
-        if (list[i].id == id) {
+        if (list[i].id === id) {
             return list[i];
         }
     }
@@ -167,7 +167,7 @@ function CadastroPedidos() {
 
         await axios.get(`${BASE_URL}/itemsPedidos`).then(async (response) => {
             const itemsDoPedidoAtual = response.data.filter(item => {
-                return idParam ? item.idPedidoCompra == idParam : false;
+                return idParam ? item.idPedidoCompra === idParam : false;
             });
 
             const itemsComDetalhesProduto = await Promise.all(itemsDoPedidoAtual.map(async (item) => {
@@ -275,22 +275,21 @@ function CadastroPedidos() {
                                 />
                             </FormGroup>
                             <FormGroup label='Tipo de Entrega: ' htmlFor='inputTipoEntrega'>
-                                <div className="select-arrow-wrapper">
-                                    <select
-                                        id='inputTipoEntrega'
-                                        value={tipoEntrega}
-                                        className='form-control'
-                                        name='tipoEntrega'
-                                        onChange={(e) => setTipoEntrega(e.target.value)}
-                                        onClick={() => setIsTipoEntregaOpen(!isTipoEntregaOpen)}
-                                        onBlur={() => setIsTipoEntregaOpen(false)}
-                                    >
-                                        <option value="" key="vazio"> -- Selecione o Tipo de Entrega -- </option>
-                                        <option value="delivery" key="delivery">Delivery</option>
-                                        <option value="busca no estabelecimento" key="busca no estabelecimento">Busca no estabelecimento</option>
-                                    </select>
-                                    <div className={`arrow ${isTipoEntregaOpen ? 'open' : ''}`}></div>
-                                </div>
+
+                                <select
+                                    id='inputTipoEntrega'
+                                    value={tipoEntrega}
+                                    className='form-select'
+                                    name='tipoEntrega'
+                                    onChange={(e) => setTipoEntrega(e.target.value)}
+                                    onClick={() => setIsTipoEntregaOpen(!isTipoEntregaOpen)}
+                                    onBlur={() => setIsTipoEntregaOpen(false)}
+                                >
+                                    <option value="" key="vazio"> -- Selecione o Tipo de Entrega -- </option>
+                                    <option value="delivery" key="delivery">Delivery</option>
+                                    <option value="busca no estabelecimento" key="busca no estabelecimento">Busca no estabelecimento</option>
+                                </select>
+
                             </FormGroup>
                             <FormGroup label='Data da Entrega: ' htmlFor='inputDataEntrega'>
                                 <input
@@ -303,23 +302,20 @@ function CadastroPedidos() {
                                 />
                             </FormGroup>
                             <FormGroup label='Endereco de entrega: ' htmlFor='inputEndereco'>
-                                <div className="select-arrow-wrapper">
-                                    <select
-                                        id='inputEndereco'
-                                        value={endereco?.id || 0}
-                                        className='form-control'
-                                        name='endereco'
-                                        onChange={(e) => setEndereco(getById(e.target.value, listaEnderecos))}
-                                        onClick={() => setIsEnderecoOpen(!isEnderecoOpen)}
-                                        onBlur={() => setIsEnderecoOpen(false)}
-                                    >
-                                        <option value="0" key="0"> -- Selecione um Endereço -- </option>
-                                        {listaEnderecos.map((cat) => (
-                                            <option value={cat.id} key={cat.id}>{`${cat.logradouro}, ${cat.numero === "s/n" ? "s/n" : "nº " + cat.numero}`}</option>
-                                        ))}
-                                    </select>
-                                    <div className={`arrow ${isEnderecoOpen ? 'open' : ''}`}></div>
-                                </div>
+                                <select
+                                    id='inputEndereco'
+                                    value={endereco?.id || 0}
+                                    className='form-select'
+                                    name='endereco'
+                                    onChange={(e) => setEndereco(getById(e.target.value, listaEnderecos))}
+                                    onClick={() => setIsEnderecoOpen(!isEnderecoOpen)}
+                                    onBlur={() => setIsEnderecoOpen(false)}
+                                >
+                                    <option value="0" key="0"> -- Selecione um Endereço -- </option>
+                                    {listaEnderecos.map((cat) => (
+                                        <option value={cat.id} key={cat.id}>{`${cat.logradouro}, ${cat.numero === "s/n" ? "s/n" : "nº " + cat.numero}`}</option>
+                                    ))}
+                                </select>
                             </FormGroup>
 
                         </div>
