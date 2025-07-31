@@ -33,8 +33,14 @@ function ListagemCarrinho() {
     }
 
     async function salvarPedido() {
-        let data = {};
-        data = JSON.stringify(data);
+        let data = {
+            itens: itensCarrinho.map(item => ({
+                produtoId: item.produto.id,
+                quantidade: item.quantidade
+            })),
+            total: calcularPrecoTotal()
+        };
+        
         if (idParam == null) {
             await axios.post(baseURL, data, {
                 headers: { 'Content-Type': 'application/json' },
@@ -51,7 +57,7 @@ function ListagemCarrinho() {
                 headers: { 'Content-Type': 'application/json' },
             })
                 .then(function (response) {
-                    mensagemSucesso(`Pedido cadastrado com sucesso!`);
+                    mensagemSucesso(`Pedido atualizado com sucesso!`); 
                     navigate(`/listagem-pedidos`);
                 })
                 .catch(function (error) {
@@ -71,7 +77,7 @@ function ListagemCarrinho() {
         }
     }
 
-    if (!itensCarrinho) return null;
+    if (!itensCarrinho) return null; 
     return (
         <div className='container'>
             <Card title='Carrinho'>
@@ -84,7 +90,7 @@ function ListagemCarrinho() {
                                 onClick={() => {
                                     setItensCarrinho([]);
                                     localStorage.setItem('itensCarrinho', "[]");
-                                    mensagemSucesso('Carrinho esvaziado com sucesso!'); // Notificação ao esvaziar o carrinho
+                                    mensagemSucesso('Carrinho esvaziado com sucesso!');
                                 }}
                             >
                                 Esvaziar carrinho
@@ -101,10 +107,10 @@ function ListagemCarrinho() {
                                 </thead>
                                 <tbody>
                                     {itensCarrinho.map((dado) => (
-                                        <tr key={dado.idProduto}>
-                                            <td>{dado.nome}</td>
+                                        <tr key={dado.produto.id}> 
+                                            <td>{dado.produto.nome}</td> 
                                             <td>{dado.quantidade}</td>
-                                            <td>R$ {dado.preco.toFixed(2)}</td>
+                                            <td>R$ {dado.produto.preco.toFixed(2)}</td> 
                                             <td>
                                                 <Stack spacing={1} padding={0} direction='row'>
                                                     <IconButton

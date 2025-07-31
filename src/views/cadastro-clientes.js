@@ -13,6 +13,10 @@ import '../custom.css';
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 
+import validarCep from '../api-cep';
+import { buscar_ufs } from '../api-uf';
+
+
 function toDate(dateStr = "") {
 	if(dateStr === undefined){
 		return new Date();
@@ -36,7 +40,6 @@ function CadastroClientes() {
 	const [telefone, setTelefone] = useState('');
 	const [dataAdmissao, setDataAdmissao] = useState('');
 	const [fidelidadePontos, setFidelidadePontos] = useState('');
-	// endereço
 	const [uf, setUf] = useState('');
 	const [cidade, setCidade] = useState('');
 	const [cep, setCep] = useState('');
@@ -46,6 +49,36 @@ function CadastroClientes() {
 	const [complemento, setComplemento] = useState('');
 
 	const [dados, setDados] = useState([]);
+    const [listaUFs, setlistaUFs] = useState([]);
+
+
+    async function verificarCep(cep) {
+        try {
+            const validacaoDados = await validarCep(cep);
+            console.log(validacaoDados);
+
+            setUf(validacaoDados.uf);
+            setCidade(validacaoDados.localidade);
+            setBairro(validacaoDados.bairro);
+            setLogradouro(validacaoDados.logradouro);
+            setNumero('');
+
+        }
+        catch (e) {
+            mensagemErro(e.message);
+        }
+    }
+
+    async function buscar_ufs_func() {
+        try {
+            const api_response = await buscar_ufs();
+            setlistaUFs(api_response);
+        }
+        catch (e) {
+            mensagemErro(e.message);
+        }
+    }
+
 
 	function inicializar() {
 		if (idParam == null) {
@@ -58,7 +91,6 @@ function CadastroClientes() {
 			setTelefone('');
 			setDataAdmissao('');
 			setFidelidadePontos('');
-			// endereço
 			setUf('');
 			setCidade('');
 			setCep('');
@@ -76,7 +108,6 @@ function CadastroClientes() {
 			setTelefone(dados.telefone);
 			setDataAdmissao(dados.dataAdmissao);
 			setFidelidadePontos(dados.fidelidadePontos);
-			// endereço
 			setUf(dados.uf);
 			setCidade(dados.cidade);
 			setCep(dados.cep);
@@ -135,7 +166,6 @@ function CadastroClientes() {
 			setTelefone(dados.telefone);
 			setDataAdmissao(dados.dataAdmissao);
 			setFidelidadePontos(dados.fidelidadePontos);
-			// endereço
 			try {
 				setUf(dados.uf);
 				setCidade(dados.cidade);
@@ -149,10 +179,11 @@ function CadastroClientes() {
 
 			}
 		}
+        buscar_ufs_func();
 	}
 
 	useEffect(() => {
-		buscar(); // eslint-disable-next-line
+		buscar();
 	}, [id]);
 
 	if (!dados) return null;
@@ -241,9 +272,6 @@ function CadastroClientes() {
 								</div>
 								{/* <input
 									type='number'
-									// min='0'
-									// max='10000000'
-									// step='0.01'
 									id='inputFidelidadePontos'
 									value={fidelidadePontos}
 									className='form-control'
@@ -252,20 +280,41 @@ function CadastroClientes() {
 									onChange={(e) => setFidelidadePontos(e.target.value)}
 								/> */}
 							</FormGroup>
-							{/*
-              //TODO: descobrir como fazer isso ser um dropdown pra escolher entre manhã, tarde, noite, madrugada ou sla oq mais
-               */}
 							<br></br><h2>Endereço:</h2>
 
-							<FormGroup label='UF: *' htmlFor='inputUf'>
+							<FormGroup label='CEP: *' htmlFor='inputCep'>
 								<input
 									type='text'
-									id='inputUf'
-									value={uf}
+									id='inputCep'
+									value={cep}
 									className='form-control'
-									name='uf'
-									onChange={(e) => setUf(e.target.value)}
+									name='cep'
+									onChange={(e) => setCep(e.target.value)}
 								/>
+								<button
+									type='button'
+									id='validarInputCep'
+									className='btn btn-info'
+									name='validarCep'
+									onClick={() => verificarCep(cep)}
+								>
+									Validar CEP
+								</button>
+							</FormGroup>
+
+							<FormGroup label='UF: *' htmlFor='inputUf'>
+                                <select
+                                    id='inputUf'
+                                    value={uf}
+                                    className='form-select'
+                                    name='uf'
+                                    onChange={(e) => setUf(e.target.value)}
+                                >
+                                    <option value="" key="vazio"> -- Selecione uma Unidade Federal -- </option>
+                                    {listaUFs.map((cat) => (
+                                        <option value={cat.sigla} key={cat.id}>{cat.nome}</option>
+                                    ))}
+                                </select>
 							</FormGroup>
 							<FormGroup label='Cidade: *' htmlFor='inputCidade'>
 								<input
@@ -275,16 +324,6 @@ function CadastroClientes() {
 									className='form-control'
 									name='cidade'
 									onChange={(e) => setCidade(e.target.value)}
-								/>
-							</FormGroup>
-							<FormGroup label='CEP: *' htmlFor='inputCep'>
-								<input
-									type='text'
-									id='inputCep'
-									value={cep}
-									className='form-control'
-									name='cep'
-									onChange={(e) => setCep(e.target.value)}
 								/>
 							</FormGroup>
 							<FormGroup label='Bairro: *' htmlFor='inputBairro'>

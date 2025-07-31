@@ -18,12 +18,6 @@ import { BASE_URL } from '../config/axios';
 
 const baseURL = `${BASE_URL}/produtos`;
 
-// const relacaoCores = new Map();
-// //relacaoCores.set("", "");
-// // não sei se é necessário relacionar "" com "", visto que o código funciona sem essa relação, apesar de isso soar como um erro.
-// relacaoCores.set("Vermelha", "red");
-// relacaoCores.set("Preta", "black");
-
 function ListagemProdutos() {
   const navigate = useNavigate();
 
@@ -61,7 +55,7 @@ function ListagemProdutos() {
   React.useEffect(() => {
     axios.get(baseURL).then((response) => {
       setDados(response.data);
-      
+
     });
   }, []);
 
@@ -92,17 +86,13 @@ function ListagemProdutos() {
                 </thead>
                 <tbody>
                   {dados.map((dado) => (
-                    
+
                     <tr key={dado.id}>
                       <td>{dado.nome}</td>
                       <td>{"R$" + dado.preco}</td>
                       <td>{dado.peso + " g"}</td>
-                      <td>{dado.nomeCategoria}</td>  
-                      <td >{dado.nomeTarja === "Sem Tarja" || dado.nomeTarja === "" ? "---" : dado.nomeTarja}</td>  
-                      {/* style={{color:relacaoCores.get(dado.tarja.cor)}} 
-                            para cores referentes a cor da tarja. comentei porque a tarja preta não combinaria com o fundo preto, 
-                            e se o fundo fosse branco, não mudaria nada de normal para tarja preta.
-                      */}
+                      <td>{dado.nomeCategoria}</td>
+                      <td >{dado.nomeTarja === "Sem Tarja" || dado.nomeTarja === "" ? "---" : dado.nomeTarja}</td>
                       {console.log(dado)}
                       <td>
                         <Stack spacing={1} padding={0} direction='row'>
@@ -111,7 +101,7 @@ function ListagemProdutos() {
                             style={{ color: "white"}}
                             onClick={() => editar(dado.id)}
                           >
-                            <EditIcon /> 
+                            <EditIcon />
                           </IconButton>
                           <IconButton
                             aria-label='delete'
@@ -125,7 +115,7 @@ function ListagemProdutos() {
                     </tr>
                   ))}
                 </tbody>
-              </table>{' '}
+              </table>
             </div>
           </div>
         </div>
