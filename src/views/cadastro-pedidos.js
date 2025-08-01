@@ -171,34 +171,11 @@ function CadastroPedidos() {
                 } else {
                     setEndereco(null);
                 }
-                const itemsResponse = await axios.get(`${BASE_URL}/itemsPedidos`);
-                const itemsDoPedidoAtual = itemsResponse.data.filter(item => item.idPedidoCompra === pedidoData.id);
-                const itemsComDetalhesProduto = await Promise.all(itemsDoPedidoAtual.map(async (item) => {
-                    try {
-                        const productResponse = await axios.get(`${BASE_URL}/produtos/${item.idProduto}`);
-                        const product = productResponse.data;
-                        const preco = product.preco || 0;
-                        const subtotal = item.quantidade * preco;
-                        return {
-                            ...item,
-                            nomeProduto: product.nome,
-                            precoUnitario: preco,
-                            subtotal: subtotal,
-                            produtoCompleto: product
-                        };
-                    } catch (error) {
-                        console.error(`Erro ao buscar produto para o item ${item.idProduto}:`, error);
-                        return {
-                            ...item,
-                            nomeProduto: 'Produto não encontrado',
-                            precoUnitario: 0,
-                            subtotal: 0,
-                            produtoCompleto: null
-                        };
-                    }
-                }));
-                setListaItemsPedidos(itemsComDetalhesProduto);
-                const novoTotalGeral = itemsComDetalhesProduto.reduce((acc, item) => acc + item.subtotal, 0);
+                
+                setListaItemsPedidos(pedidoData.pedidos);
+                const novoTotalGeral = 0;
+                listaItemsPedidos.map((ped) => {novoTotalGeral += ped.precoUnitario * ped.quantidade});
+                
                 setTotalGeralCalculado(novoTotalGeral);
             }
         } catch (error) {
