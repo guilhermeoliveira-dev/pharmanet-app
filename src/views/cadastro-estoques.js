@@ -43,9 +43,6 @@ function CadastroEstoques() {
     const [listaFarmacias, setListaFarmacias] = useState([]);
     const [listaProdutos, setListaProdutos] = useState([]);
     const [listaFornecedores, setListaFornecedores] = useState([]);
-    const [isProdutoDropdownOpen, setIsProdutoDropdownOpen] = useState(false);
-    const [isFarmaciaDropdownOpen, setIsFarmaciaDropdownOpen] = useState(false);
-    const [isFornecedorDropdownOpen, setIsFornecedorDropdownOpen] = useState(false);
 
     const inicializar = useCallback(() => {
         setId('');
@@ -174,23 +171,19 @@ function CadastroEstoques() {
                                 />
                             </FormGroup>
                             <FormGroup label='Produto: *' htmlFor='inputProduto'>
-                                <div className="select-arrow-wrapper">
-                                    <select
-                                        id='inputProduto'
-                                        value={produto?.id || ''}
-                                        className='form-control'
-                                        name='produto'
-                                        onChange={(e) => setProduto(getById(e.target.value, listaProdutos))}
-                                        onClick={() => setIsProdutoDropdownOpen(!isProdutoDropdownOpen)}
-                                        onBlur={() => setIsProdutoDropdownOpen(false)}
-                                    >
-                                        <option value=""> -- Selecione um Produto -- </option>
-                                        {listaProdutos.map((p) => (
-                                            <option value={p.id} key={p.id}>{p.nome}</option>
-                                        ))}
-                                    </select>
-                                    <div className={`arrow ${isProdutoDropdownOpen ? 'open' : ''}`}></div>
-                                </div>
+
+                                <select
+                                    id='inputProduto'
+                                    value={produto?.id || ''}
+                                    className='form-select'
+                                    name='produto'
+                                    onChange={(e) => setProduto(getById(e.target.value, listaProdutos))}
+                                >
+                                    <option value=""> -- Selecione um Produto -- </option>
+                                    {listaProdutos.map((p) => (
+                                        <option value={p.id} key={p.id}>{p.nome}</option>
+                                    ))}
+                                </select>
                             </FormGroup>
                             {exigeLote && (
                                 <div className='form-label ps-3'>
@@ -229,42 +222,33 @@ function CadastroEstoques() {
                                 </div>
                             )}
                             <FormGroup label='Farmácia: *' htmlFor='inputFarmacia'>
-                                <div className="select-arrow-wrapper">
-                                    <select
-                                        id='inputFarmacia'
-                                        value={farmacia?.id || ''}
-                                        className='form-control'
-                                        name='farmacia'
-                                        onChange={(e) => setFarmacia(getById(e.target.value, listaFarmacias))}
-                                        onClick={() => setIsFarmaciaDropdownOpen(!isFarmaciaDropdownOpen)}
-                                        onBlur={() => setIsFarmaciaDropdownOpen(false)}
-                                    >
-                                        <option value=""> -- Selecione uma Farmácia -- </option>
-                                        {listaFarmacias.map((f) => (
-                                            <option value={f.id} key={f.id}>{f.nome}</option>
-                                        ))}
-                                    </select>
-                                    <div className={`arrow ${isFarmaciaDropdownOpen ? 'open' : ''}`}></div>
-                                </div>
+                                <select
+                                    id='inputFarmacia'
+                                    value={farmacia?.id || ''}
+                                    className='form-select'
+                                    name='farmacia'
+                                    onChange={(e) => setFarmacia(getById(e.target.value, listaFarmacias))}
+                                >
+                                    <option value=""> -- Selecione uma Farmácia -- </option>
+                                    {listaFarmacias.map((f) => (
+                                        <option value={f.id} key={f.id}>{f.nome}</option>
+                                    ))}
+                                </select>
                             </FormGroup>
                             <FormGroup label='Fornecedor: *' htmlFor='inputFornecedor'>
-                                <div className="select-arrow-wrapper">
-                                    <select
-                                        id='inputFornecedor'
-                                        value={fornecedor?.id || ''}
-                                        className='form-control'
-                                        name='fornecedor'
-                                        onChange={(e) => setFornecedor(getById(e.target.value, listaFornecedores))}
-                                        onClick={() => setIsFornecedorDropdownOpen(!isFornecedorDropdownOpen)}
-                                        onBlur={() => setIsFornecedorDropdownOpen(false)}
-                                    >
-                                        <option value=""> -- Selecione um Fornecedor -- </option>
-                                        {listaFornecedores.map((f) => (
-                                            <option value={f.id} key={f.id}>{f.nome}</option>
-                                        ))}
-                                    </select>
-                                    <div className={`arrow ${isFornecedorDropdownOpen ? 'open' : ''}`}></div>
-                                </div>
+
+                                <select
+                                    id='inputFornecedor'
+                                    value={fornecedor?.id || ''}
+                                    className='form-select'
+                                    name='fornecedor'
+                                    onChange={(e) => setFornecedor(getById(e.target.value, listaFornecedores))}
+                                >
+                                    <option value=""> -- Selecione um Fornecedor -- </option>
+                                    {listaFornecedores.map((f) => (
+                                        <option value={f.id} key={f.id}>{f.nome}</option>
+                                    ))}
+                                </select>
                             </FormGroup>
                             <Stack spacing={1} padding={1} direction='row'>
                                 <button
