@@ -48,7 +48,7 @@ function ListagemPedidos() {
         mensagemErro(`Erro ao excluir o pedido: ${error.response ? (error.response.data.message || JSON.stringify(error.response.data)) : error.message}`);
       });
   }
-
+  
   React.useEffect(() => {
     axios.get(baseURL).then((response) => {
       setDados(response.data);
