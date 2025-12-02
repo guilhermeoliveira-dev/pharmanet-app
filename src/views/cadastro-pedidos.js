@@ -173,10 +173,13 @@ function CadastroPedidos() {
                     setEndereco(null);
                 }
                 
-                setListaItemsPedidos(pedidoData.pedidos);
-                const novoTotalGeral = 0;
-                listaItemsPedidos.map((ped) => {novoTotalGeral += ped.precoUnitario * ped.quantidade});
+                const itemsComSubtotal = pedidoData.pedidos.map(item => ({
+                    ...item,
+                    subtotal: (item.quantidade || 0) * (item.precoUnitario || 0)
+                }));
+                setListaItemsPedidos(itemsComSubtotal);
                 
+                const novoTotalGeral = itemsComSubtotal.reduce((acc, item) => acc + (item.subtotal || 0), 0);
                 setTotalGeralCalculado(novoTotalGeral);
             }
         } catch (error) {
@@ -203,6 +206,39 @@ function CadastroPedidos() {
             console.error(error);
         }
     }, []);
+
+    const confirmarPagamento = useCallback(async () => {
+        let url = `${baseURL}/confirmar_pagamento/${id}`;
+        const data = { formaPagamento: 'credito' };
+        await axios.put(url, data, {
+            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+        })
+        .then(function (response) {
+            mensagemSucesso(`Pagamento do pedido ${id} confirmado com sucesso!`);
+            setStatus(response.data.status);
+            setStatusEntrega(response.data.statusEntrega);
+            setValorTotal(response.data.valorTotal);
+        })
+        .catch(function (error) {
+            mensagemErro(`Erro ao confirmar pagamento: ${error.response?.data?.message || 'Erro desconhecido'}`);
+        });
+    }, [id, baseURL, setStatus, setStatusEntrega, setValorTotal]);
+
+    const confirmarEntrega = useCallback(async () => {
+        let url = `${baseURL}/confirmar_entrega/${id}`;
+        await axios.put(url, {}, {
+            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+        })
+        .then(function (response) {
+            mensagemSucesso(`Entrega do pedido ${id} confirmada com sucesso!`);
+            setStatus(response.data.status);
+            setStatusEntrega(response.data.statusEntrega);
+            setDataEntrega(toDate(response.data.dataEntrega));
+        })
+        .catch(function (error) {
+            mensagemErro(`Erro ao confirmar entrega: ${error.response?.data?.message || 'Erro desconhecido'}`);
+        });
+    }, [id, baseURL, setStatus, setStatusEntrega, setDataEntrega]);
 
     useEffect(() => {
         buscar();
@@ -352,6 +388,24 @@ function CadastroPedidos() {
                     Total Geral do Pedido: R$ {totalGeralCalculado.toFixed(2)}
                 </div>
                 <Stack spacing={1} padding={1} direction='row'>
+                    {status === 'pagamento pendente' && (
+                        <button
+                            onClick={confirmarPagamento}
+                            type='button'
+                            className='btn btn-success'
+                        >
+                            Confirmar Pagamento
+                        </button>
+                    )}
+                    {status === 'entrega pendente' && (
+                        <button
+                            onClick={confirmarEntrega}
+                            type='button'
+                            className='btn btn-info'
+                        >
+                            Confirmar Entrega
+                        </button>
+                    )}
                     <button
                         onClick={salvar}
                         type='button'
