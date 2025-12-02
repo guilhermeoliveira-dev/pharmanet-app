@@ -5,8 +5,9 @@ import Card from '../components/card';
 import FormGroup from '../components/form-group';
 import { mensagemSucesso, mensagemErro } from '../components/toastr';
 import '../custom.css';
-import axios from 'axios';
+// import axios from 'axios';
 import { BASE_URL } from '../config/axios';
+import api from '../config/axios';
 
 function getById(id, list) {
     for (let i = 0; i < list.length; i++) {
@@ -73,7 +74,7 @@ function CadastroEstoques() {
         }
         const data = JSON.stringify(dataToSend);
         if (idParam == null) {
-            await axios
+            await api
                 .post(baseURL, data, {
                     headers: { 'Content-Type': 'application/json' },
                 })
@@ -85,7 +86,7 @@ function CadastroEstoques() {
                     mensagemErro(error.response.data);
                 });
         } else {
-            await axios
+            await api
                 .put(`${baseURL}/${idParam}`, data, {
                     headers: { 'Content-Type': 'application/json' },
                 })
@@ -102,15 +103,15 @@ function CadastroEstoques() {
     const buscar = useCallback(async () => {
         try {
             const [farmaciasRes, produtosRes, fornecedoresRes] = await Promise.all([
-                axios.get(`${BASE_URL}/farmacias`),
-                axios.get(`${BASE_URL}/produtos`),
-                axios.get(`${BASE_URL}/fornecedores`)
+                api.get(`${BASE_URL}/farmacias`),
+                api.get(`${BASE_URL}/produtos`),
+                api.get(`${BASE_URL}/fornecedores`)
             ]);
             setListaFarmacias(farmaciasRes.data);
             setListaProdutos(produtosRes.data);
             setListaFornecedores(fornecedoresRes.data);
             if (idParam != null) {
-                const estoqueResponse = await axios.get(`${baseURL}/${idParam}`);
+                const estoqueResponse = await api.get(`${baseURL}/${idParam}`);
                 const estoqueData = estoqueResponse.data;
                 setId(estoqueData.id);
                 setQuantidade(estoqueData.quantidade);

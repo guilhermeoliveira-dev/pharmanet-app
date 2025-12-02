@@ -10,8 +10,9 @@ import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import '../custom.css';
 
-import axios from 'axios';
+// import axios from 'axios';
 import { BASE_URL } from '../config/axios';
+import api from '../config/axios';
 
 import validarCep from '../api-cep';
 import { buscar_ufs } from '../api-uf';
@@ -54,9 +55,9 @@ function CadastroFornecedores() {
 			setNumero('');
 			// setComplemento(validacaoDados.complemento);
 
-			// Comentei o complemento porque os complementos que vem da api são meio 
-			// estranhos, muitas vezes são coisas do tipo "de 1000 ate 2000" ou coisa 
-			// parecida. eu optei por tirar e deixar o usuário preencher se quiser.
+			// Comentei o complemento porque os complementos que vem da api são 
+			// relativos ao cep e não ao endereço em si. 
+			// O complemento deve ser preenchido manualmente caso o usuário deseje.
 
 		}
 		catch (e) {
@@ -113,7 +114,7 @@ function CadastroFornecedores() {
 		let data = { id, nome, email, cnpj, telefone, uf, cidade, cep, bairro, logradouro, numero, complemento };
 		data = JSON.stringify(data);
 		if (idParam == null) {
-			await axios
+			await api
 				.post(baseURL, data, {
 					headers: { 'Content-Type': 'application/json' },
 				})
@@ -125,7 +126,7 @@ function CadastroFornecedores() {
 					mensagemErro(error.response.data);
 				});
 		} else {
-			await axios
+			await api
 				.put(`${baseURL}/${idParam}`, data, {
 					headers: { 'Content-Type': 'application/json' },
 				})
@@ -142,7 +143,7 @@ function CadastroFornecedores() {
 
 	async function buscar() {
 		if (idParam != null) {
-			await axios.get(`${baseURL}/${idParam}`).then((response) => {
+			await api.get(`${baseURL}/${idParam}`).then((response) => {
 				if (response.data == null) return;
 				setDados(response.data);
 			}).catch((a) => {

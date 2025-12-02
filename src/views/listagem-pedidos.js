@@ -7,8 +7,9 @@ import Stack from '@mui/material/Stack';
 import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import axios from 'axios';
+// import axios from 'axios';
 import { BASE_URL } from '../config/axios';
+import api from '../config/axios';
 import { toDate } from '../utils/date-formatter';
 
 function formatText(text) {
@@ -33,7 +34,7 @@ function ListagemPedidos() {
   async function excluir(id) {
     let url = `${baseURL}/${id}`;
     console.log(`Tentando excluir: ${url}`);
-    await axios
+    await api
       .delete(url)
       .then(function (response) {
         mensagemSucesso(`Pedido ${id} excluído com sucesso!`);
@@ -50,7 +51,7 @@ function ListagemPedidos() {
   }
 
   React.useEffect(() => {
-    axios.get(baseURL).then((response) => {
+    api.get(baseURL).then((response) => {
       setDados(response.data);
       console.log(response.data);
     }).catch(error => {

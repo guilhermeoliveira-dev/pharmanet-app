@@ -10,20 +10,21 @@ import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import '../custom.css';
 
-import axios from 'axios';
+// import axios from 'axios';
 import { BASE_URL } from '../config/axios';
+import api from '../config/axios';
 //import ListagemCategorias from './listagem-categorias';
 
 
-function getById(id, list) {
-    for (let i = 0; i < list.length; i++) {
-        // eslint-disable-next-line
-        if (list[i].id == id) {
-            return list[i];
-        }
-    }
-    return null;
-}
+// function getById(id, list) {
+//     for (let i = 0; i < list.length; i++) {
+//         // eslint-disable-next-line
+//         if (list[i].id == id) {
+//             return list[i];
+//         }
+//     }
+//     return null;
+// }
 
 function CadastroCategorias() {
     const { idParam } = useParams();
@@ -65,7 +66,7 @@ function CadastroCategorias() {
         let data = { id, nome, descricao, idCategoriaPai: categoriaPai };
         data = JSON.stringify(data);
         if (idParam == null) {
-            await axios
+            await api
                 .post(baseURL, data, {
                     headers: { 'Content-Type': 'application/json' },
                 })
@@ -77,7 +78,7 @@ function CadastroCategorias() {
                     mensagemErro(error.response.data);
                 });
         } else {
-            await axios
+            await api
                 .put(`${baseURL}/${idParam}`, data, {
                     headers: { 'Content-Type': 'application/json' },
                 })
@@ -93,7 +94,7 @@ function CadastroCategorias() {
 
     async function buscar() {
         if (idParam != null) {
-            await axios.get(`${baseURL}/${idParam}`).then((response) => {
+            await api.get(`${baseURL}/${idParam}`).then((response) => {
                 setDados(response.data);
             }).catch((a) => {
                 console.log(a);
@@ -105,7 +106,7 @@ function CadastroCategorias() {
 
 
         }
-        await axios.get(`${baseURL}`).then((response) => {
+        await api.get(`${baseURL}`).then((response) => {
             setlistaCategorias(response.data);
         }).catch((a) => {
             //console.log(a);

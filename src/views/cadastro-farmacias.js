@@ -10,7 +10,8 @@ import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import '../custom.css';
 
-import axios from 'axios';
+// import axios from 'axios';
+import api from '../config/axios';
 import { BASE_URL } from '../config/axios';
 import validarCep from '../api-cep';
 import { buscar_ufs } from '../api-uf';
@@ -114,7 +115,7 @@ function CadastroFarmacias() {
 		let data = { id, nome, email, cnpj, telefone, uf, cidade, cep, bairro, logradouro, numero, complemento};
 		data = JSON.stringify(data);
 		if (idParam == null) {
-			await axios
+			await api
 				.post(baseURL, data, {
 					headers: { 'Content-Type': 'application/json' },
 				})
@@ -126,7 +127,7 @@ function CadastroFarmacias() {
 					mensagemErro(error.response.data);
 				});
 		} else {
-			await axios
+			await api
 				.put(`${baseURL}/${idParam}`, data, {
 					headers: { 'Content-Type': 'application/json' },
 				})
@@ -143,7 +144,7 @@ function CadastroFarmacias() {
 
 	async function buscar() {
 		if (idParam != null) {
-			await axios.get(`${baseURL}/${idParam}`).then((response) => {
+			await api.get(`${baseURL}/${idParam}`).then((response) => {
 				if (response.data == null) return;
 				setDados(response.data);
 			}).catch((a) => {

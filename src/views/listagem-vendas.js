@@ -5,8 +5,9 @@ import '../custom.css';
 import Stack from '@mui/material/Stack';
 import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import axios from 'axios';
+// import axios from 'axios';
 import { BASE_URL } from '../config/axios';
+import api from '../config/axios';
 
 const baseURL = `${BASE_URL}/vendas`;
 
@@ -15,7 +16,7 @@ function ListagemVendas() {
 
   async function excluir(id) {
     let url = `${baseURL}/${id}`;
-    await axios
+    await api
       .delete(url)
       .then(function (response) {
         mensagemSucesso(`Venda excluída com sucesso!`);
@@ -31,7 +32,7 @@ function ListagemVendas() {
   }
 
   React.useEffect(() => {
-    axios.get(baseURL).then((response) => {
+    api.get(baseURL).then((response) => {
       setDados(response.data);
     }).catch(error => {
         console.error("Erro ao carregar vendas na listagem:", error);
@@ -52,7 +53,7 @@ function ListagemVendas() {
                     <th scope='col'>Pedido</th>
                     <th scope='col'>Pagamento</th>
                     <th scope='col'>Data da Venda</th>
-                    <th scope='col'>Ações</th>
+                    {/* <th scope='col'>Ações</th> */}
                   </tr>
                 </thead>
                 <tbody>
@@ -61,7 +62,7 @@ function ListagemVendas() {
                       <td>{dado.codigo}</td>
                       <td>{"R$" + (dado.valor || 0).toFixed(2)}</td>
                       <td>{dado.dataVenda}</td>
-                      <td>
+                      {/* <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton
                             aria-label='delete'
@@ -71,7 +72,7 @@ function ListagemVendas() {
                             <DeleteIcon />
                           </IconButton>
                         </Stack>
-                      </td>
+                      </td> */}
                     </tr>
                   ))}
                 </tbody>

@@ -10,8 +10,9 @@ import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import '../custom.css';
 
-import axios from 'axios';
+// import axios from 'axios';
 import { BASE_URL } from '../config/axios';
+import api from '../config/axios';
 
 /**
  * A component for creating and editing 'Cargos' (Roles).
@@ -37,7 +38,7 @@ function CadastroCargos() {
 		// Fetches all available permissions that can be assigned to a cargo.
 		const buscarTodasPermissoes = async () => {
 			try {
-				const response = await axios.get(`${BASE_URL}/cargos/permissoes`);
+				const response = await api.get(`${BASE_URL}/cargos/permissoes`);
 				setListaPermissoesDisponiveis(response.data);
 				return response.data; // Return data for chaining in the next step
 			} catch (error) {
@@ -52,7 +53,7 @@ function CadastroCargos() {
 			// If idParam exists, we are editing an existing cargo.
 			if (idParam) {
 				try {
-					const response = await axios.get(`${baseURL}/${idParam}`);
+					const response = await api.get(`${baseURL}/${idParam}`);
 					const cargo = response.data;
 					
 					setNome(cargo.nome);
@@ -104,8 +105,8 @@ function CadastroCargos() {
 
 		// Determine whether to POST (create) or PUT (update)
 		const request = idParam
-			? axios.put(`${baseURL}/${idParam}`, cargoDTO, requestConfig)
-			: axios.post(baseURL, cargoDTO, requestConfig);
+			? api.put(`${baseURL}/${idParam}`, cargoDTO, requestConfig)
+			: api.post(baseURL, cargoDTO, requestConfig);
 
 		try {
 			await request;

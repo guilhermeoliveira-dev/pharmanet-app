@@ -10,8 +10,9 @@ import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import '../custom.css';
 
-import axios from 'axios';
+// import axios from 'axios';
 import { BASE_URL } from '../config/axios';
+import api from '../config/axios';
 
 import validarCep from '../api-cep';
 import { buscar_ufs } from '../api-uf';
@@ -149,7 +150,7 @@ function CadastroFuncionarios() {
 		let data = { id, nome, email, cpf, senha, telefone, uf, cidade, cep, bairro, logradouro, numero, complemento, idCargo: cargo, dataAdmissao, salario, expediente, idFarmacia: farmacia };
 		data = JSON.stringify(data);
 		if (idParam == null) {
-			await axios
+			await api
 				.post(baseURL, data, {
 					headers: { 'Content-Type': 'application/json' },
 				})
@@ -161,7 +162,7 @@ function CadastroFuncionarios() {
 					mensagemErro(error.response.data);
 				});
 		} else {
-			await axios
+			await api
 				.put(`${baseURL}/${idParam}`, data, {
 					headers: { 'Content-Type': 'application/json' },
 				})
@@ -178,7 +179,7 @@ function CadastroFuncionarios() {
 
 	async function buscar() {
 		if (idParam != null) {
-			await axios.get(`${baseURL}/${idParam}`).then((response) => {
+			await api.get(`${baseURL}/${idParam}`).then((response) => {
 				setDados(response.data);
 			}).catch((a) => {
 				console.log(a);
@@ -209,12 +210,12 @@ function CadastroFuncionarios() {
 
 			}
 		}
-		await axios.get(`${BASE_URL}/cargos`).then((response) => {
+		await api.get(`${BASE_URL}/cargos`).then((response) => {
 			setListaCargos(response.data);
 		}).catch((a) => {
 			//console.log(a);
 		});
-		await axios.get(`${BASE_URL}/farmacias`).then((response) => {
+		await api.get(`${BASE_URL}/farmacias`).then((response) => {
 			setListaFarmacias(response.data);
 		}).catch((a) => {
 			//console.log(a);

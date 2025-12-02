@@ -9,8 +9,9 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import { mensagemSucesso, mensagemErro } from '../components/toastr';
 import '../custom.css';
-import axios from 'axios';
+// import axios from 'axios';
 import { BASE_URL } from '../config/axios';
+import api from '../config/axios';
 import imagemErro from '../img/imagem-erro.png';
 import { toDate } from '../utils/date-formatter';
 
@@ -116,7 +117,7 @@ function CadastroPedidos() {
         };
         const data = JSON.stringify(dataToSend);
         if (idParam == null) {
-            await axios
+            await api
                 .post(baseURL, data, {
                     headers: { 'Content-Type': 'application/json' },
                 })
@@ -132,7 +133,7 @@ function CadastroPedidos() {
                     }
                 });
         } else {
-            await axios
+            await api
                 .put(`${baseURL}/${idParam}`, data, {
                     headers: { 'Content-Type': 'application/json' },
                 })
@@ -153,10 +154,10 @@ function CadastroPedidos() {
     const buscar = useCallback(async () => {
         setListaItemsPedidos([]);
         try {
-            const enderecosResponse = await axios.get(`${BASE_URL}/enderecos`);
+            const enderecosResponse = await api.get(`${BASE_URL}/enderecos`);
             setListaEnderecos(enderecosResponse.data);
             if (idParam != null) {
-                const pedidoResponse = await axios.get(`${baseURL}/${idParam}`);
+                const pedidoResponse = await api.get(`${baseURL}/${idParam}`);
                 const pedidoData = pedidoResponse.data;
                 setId(pedidoData.id);
                 setDataCriacao(toDate(pedidoData.dataCriacao));
@@ -191,7 +192,7 @@ function CadastroPedidos() {
 
     const excluirItem = useCallback(async (idItem) => {
         try {
-            await axios.delete(`${BASE_URL}/itemsPedidos/${idItem}`);
+            await api.delete(`${BASE_URL}/itemsPedidos/${idItem}`);
             mensagemSucesso('Item removido com sucesso!');
             setListaItemsPedidos(prevItems => {
                 const novaLista = prevItems.filter(item => item.id !== idItem);

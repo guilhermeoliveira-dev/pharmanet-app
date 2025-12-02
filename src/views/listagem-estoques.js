@@ -13,10 +13,11 @@ import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
-import axios from 'axios';
-import { BASE_URL } from '../config/axios';
+// import axios from 'axios';
 
-const baseURL = `${BASE_URL}/estoques`; 
+import api from '../config/axios';
+
+const baseURL = `/estoques`; 
 
 function ListagemEstoques() {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ function ListagemEstoques() {
     let data = JSON.stringify({ id });
     let url = `${baseURL}/${id}`;
     //console.log(url);
-    await axios
+    await api
       .delete(url, data, {
         headers: { 'Content-Type': 'application/json' },
       })
@@ -53,7 +54,11 @@ function ListagemEstoques() {
   }
 
   React.useEffect(() => {
-    axios.get(baseURL).then((response) => {
+
+    api.get(baseURL, {
+      headers: {Authorization : `Bearer ${localStorage.getItem("authToken")}`}
+    })
+    .then((response) => {
       setDados(response.data);
     });
   }, []);

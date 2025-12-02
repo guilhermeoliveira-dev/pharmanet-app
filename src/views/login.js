@@ -2,7 +2,9 @@ import React from 'react';
 import Stack from '@mui/material/Stack';
 import Card from '../components/card';
 import FormGroup from '../components/form-group';
-import { mensagemSucesso } from '../components/toastr';
+import { mensagemSucesso, mensagemErro } from '../components/toastr';
+
+import  api from '../config/axios';
 
 class Login extends React.Component {
   state = {
@@ -11,7 +13,19 @@ class Login extends React.Component {
   };
 
   logar = () => {
-    mensagemSucesso(`Usuário ${this.state.login} logado com sucesso!`);
+    const data = {
+      email: this.state.login,
+      senha: this.state.senha
+    }
+    api.post('/usuarios/auth', data)
+    .then((response) => {
+      localStorage.setItem("authToken", response.data.token);
+      mensagemSucesso(`Usuário ${this.state.login} logado com sucesso!`);
+    })
+      .catch(function (error) {
+        mensagemErro(`Erro: ${error}`);
+      });
+
   };
 
   cancelar = () => {
