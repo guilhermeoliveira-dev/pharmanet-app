@@ -199,7 +199,7 @@ function CadastroPedidos() {
             mensagemSucesso('Item removido com sucesso!');
             setListaItemsPedidos(prevItems => {
                 const novaLista = prevItems.filter(item => item.id !== idItem);
-                return novaLista;
+                return novaLista; 
             });
         } catch (error) {
             mensagemErro('Erro ao remover o item.');
@@ -210,7 +210,7 @@ function CadastroPedidos() {
     const confirmarPagamento = useCallback(async () => {
         let url = `${baseURL}/confirmar_pagamento/${id}`;
         const data = { formaPagamento: 'credito' };
-        await axios.put(url, data, {
+        await api.put(url, data, {
             headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
         })
         .then(function (response) {
@@ -226,7 +226,7 @@ function CadastroPedidos() {
 
     const confirmarEntrega = useCallback(async () => {
         let url = `${baseURL}/confirmar_entrega/${id}`;
-        await axios.put(url, {}, {
+        await api.put(url, {}, {
             headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
         })
         .then(function (response) {
