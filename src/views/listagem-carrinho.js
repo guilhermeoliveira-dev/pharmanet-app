@@ -7,77 +7,90 @@ import Stack from '@mui/material/Stack';
 import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Typography from '@mui/material/Typography';
-import axios from 'axios';
+import api from '../config/axios';
 import { BASE_URL } from '../config/axios';
+import { lerCarrinho, removerItem, limparCarrinho } from '../utils/carrinho-utils'; 
 
-const baseURL = `${BASE_URL}/estoques`;
+const baseURL = `${BASE_URL}/pedidoCompras`;
+
+const ID_USUARIO_LOGADO_FAKE = 1;
+const TIPO_ENTREGA_PADRAO = "delivery";
 
 function ListagemCarrinho() {
-    const { idParam } = useParams();
     const navigate = useNavigate();
     const [itensCarrinho, setItensCarrinho] = React.useState([]);
 
     React.useEffect(() => {
-        const items = JSON.parse(localStorage.getItem('itensCarrinho'));
-        if (items) {
-            setItensCarrinho(items);
-        }
+        setItensCarrinho(lerCarrinho());
     }, []);
 
     function calcularPrecoTotal() {
         var total = 0;
         for (var i = 0; i < itensCarrinho.length; i++) {
-            total += itensCarrinho[i].produto.preco * itensCarrinho[i].quantidade;
+            const preco = itensCarrinho[i].produto?.preco || 0;
+            total += preco * itensCarrinho[i].quantidade;
         }
         return total;
     }
 
-    async function salvarPedido() {
-        let data = {
-            itens: itensCarrinho.map(item => ({
-                produtoId: item.produto.id,
-                quantidade: item.quantidade
-            })),
-            total: calcularPrecoTotal()
+    function excluir(idProduto) {
+        const novoCarrinho = removerItem(idProduto);
+        setItensCarrinho(novoCarrinho);
+        mensagemSucesso('Produto removido do carrinho com sucesso!');
+    }
+    
+    function handleEsvaziarCarrinho() {
+        setItensCarrinho(limparCarrinho());
+        mensagemSucesso('Carrinho esvaziado com sucesso!');
+    }
+
+    async function confirmarPedido() {
+        if (itensCarrinho.length === 0) {
+            mensagemErro('O carrinho está vazio. Adicione um produto para confirmar o pedido.');
+            return;
+        }
+
+        const itensFormatados = itensCarrinho.map(item => ({
+            idProduto: item.produto.id,
+            idReceita: item.idReceita || null, 
+            quantidade: item.quantidade,
+            precoUnitario: item.produto.preco, 
+        }));
+
+        const pedidoDTO = {
+            idUsuario: ID_USUARIO_LOGADO_FAKE,
+            tipoEntrega: TIPO_ENTREGA_PADRAO,
+            itens: itensFormatados
         };
-        
-        if (idParam == null) {
-            await axios.post(baseURL, data, {
-                headers: { 'Content-Type': 'application/json' },
-            })
-                .then(function (response) {
-                    mensagemSucesso(`Pedido cadastrado com sucesso!`);
-                    navigate(`/listagem-pedidos`);
-                })
-                .catch(function (error) {
-                    mensagemErro(error.response.data);
-                });
-        } else {
-            await axios.put(`${baseURL}/${idParam}`, data, {
-                headers: { 'Content-Type': 'application/json' },
-            })
-                .then(function (response) {
-                    mensagemSucesso(`Pedido atualizado com sucesso!`); 
-                    navigate(`/listagem-pedidos`);
-                })
-                .catch(function (error) {
-                    mensagemErro(error.response.data);
-                });
-        }
-    }
 
-    async function excluir(id) {
         try {
-            const novosItens = itensCarrinho.filter(item => item.produto.id !== id);
-            setItensCarrinho(novosItens);
-            localStorage.setItem('itensCarrinho', JSON.stringify(novosItens));
-            mensagemSucesso('Produto removido do carrinho com sucesso!');
+            const response = await api.post(`${baseURL}/carrinho`, pedidoDTO);
+
+            mensagemSucesso(`Pedido ${response.data.codigo} cadastrado com sucesso!`);
+            
+            setItensCarrinho(limparCarrinho()); 
+            navigate(`/listagem-pedidos`);
+
         } catch (error) {
-            mensagemErro('Erro ao remover o produto do carrinho.');
+            console.error('Erro na Confirmação de Pedido:', error.response);
+            
+            const responseData = error.response?.data;
+            let errorMessage = "Erro desconhecido. Verifique o log do backend.";
+
+            if (typeof responseData === 'string') {
+                errorMessage = responseData; 
+            } else if (responseData?.message) {
+                errorMessage = responseData.message; 
+            } else if (responseData) {
+                errorMessage = JSON.stringify(responseData); 
+            }
+
+            mensagemErro(`Erro: ${errorMessage}`);
         }
     }
 
-    if (!itensCarrinho) return null; 
+    if (!itensCarrinho) return null;
+
     return (
         <div className='container'>
             <Card title='Carrinho'>
@@ -87,11 +100,8 @@ function ListagemCarrinho() {
                             <button
                                 type='button'
                                 className='btn btn-warning'
-                                onClick={() => {
-                                    setItensCarrinho([]);
-                                    localStorage.setItem('itensCarrinho', "[]");
-                                    mensagemSucesso('Carrinho esvaziado com sucesso!');
-                                }}
+                                onClick={handleEsvaziarCarrinho}
+                                disabled={itensCarrinho.length === 0}
                             >
                                 Esvaziar carrinho
                             </button>
@@ -106,24 +116,30 @@ function ListagemCarrinho() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {itensCarrinho.map((dado) => (
-                                        <tr key={dado.produto.id}> 
-                                            <td>{dado.produto.nome}</td> 
-                                            <td>{dado.quantidade}</td>
-                                            <td>R$ {dado.produto.preco.toFixed(2)}</td> 
-                                            <td>
-                                                <Stack spacing={1} padding={0} direction='row'>
-                                                    <IconButton
-                                                        aria-label='delete'
-                                                        style={{ color: "red" }}
-                                                        onClick={() => excluir(dado.produto.id)}
-                                                    >
-                                                        <DeleteIcon />
-                                                    </IconButton>
-                                                </Stack>
-                                            </td>
+                                    {itensCarrinho.length === 0 ? (
+                                        <tr>
+                                            <td colSpan="4" className="text-center">Seu carrinho está vazio.</td>
                                         </tr>
-                                    ))}
+                                    ) : (
+                                        itensCarrinho.map((dado) => (
+                                            <tr key={dado.produto.id}>
+                                                <td>{dado.produto.nome}</td>
+                                                <td>{dado.quantidade}</td>
+                                                <td>R$ {dado.produto.preco.toFixed(2)}</td>
+                                                <td>
+                                                    <Stack spacing={1} padding={0} direction='row'>
+                                                        <IconButton
+                                                            aria-label='delete'
+                                                            style={{ color: "red" }}
+                                                            onClick={() => excluir(dado.produto.id)}
+                                                        >
+                                                            <DeleteIcon />
+                                                        </IconButton>
+                                                    </Stack>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    )}
                                 </tbody>
                             </table>
                             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginLeft: "20px", marginTop: "10px" }}>
@@ -133,11 +149,8 @@ function ListagemCarrinho() {
                                 <button
                                     type='button'
                                     className='btn btn-success'
-                                    onClick={() => {
-                                        salvarPedido();
-                                        setItensCarrinho([]);
-                                        localStorage.setItem('itensCarrinho', "[]");
-                                    }}
+                                    onClick={confirmarPedido}
+                                    disabled={itensCarrinho.length === 0}
                                 >
                                     Confirmar pedido
                                 </button>
