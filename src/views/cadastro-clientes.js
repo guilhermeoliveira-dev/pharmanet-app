@@ -19,10 +19,10 @@ import { buscar_ufs } from '../api-uf';
 
 
 function toDate(dateStr = "") {
-	if(dateStr === undefined){
+	if (dateStr === undefined) {
 		return new Date();
 	}
-    return dateStr.split('-').reverse().join('-');
+	return dateStr.split('-').reverse().join('-');
 }
 
 function CadastroClientes() {
@@ -50,35 +50,35 @@ function CadastroClientes() {
 	const [complemento, setComplemento] = useState('');
 
 	const [dados, setDados] = useState([]);
-    const [listaUFs, setlistaUFs] = useState([]);
+	const [listaUFs, setlistaUFs] = useState([]);
 
 
-    async function verificarCep(cep) {
-        try {
-            const validacaoDados = await validarCep(cep);
-            console.log(validacaoDados);
+	async function verificarCep(cep) {
+		try {
+			const validacaoDados = await validarCep(cep);
+			console.log(validacaoDados);
 
-            setUf(validacaoDados.uf);
-            setCidade(validacaoDados.localidade);
-            setBairro(validacaoDados.bairro);
-            setLogradouro(validacaoDados.logradouro);
-            setNumero('');
+			setUf(validacaoDados.uf);
+			setCidade(validacaoDados.localidade);
+			setBairro(validacaoDados.bairro);
+			setLogradouro(validacaoDados.logradouro);
+			setNumero('');
 
-        }
-        catch (e) {
-            mensagemErro(e.message);
-        }
-    }
+		}
+		catch (e) {
+			mensagemErro(e.message);
+		}
+	}
 
-    async function buscar_ufs_func() {
-        try {
-            const api_response = await buscar_ufs();
-            setlistaUFs(api_response);
-        }
-        catch (e) {
-            mensagemErro(e.message);
-        }
-    }
+	async function buscar_ufs_func() {
+		try {
+			const api_response = await buscar_ufs();
+			setlistaUFs(api_response);
+		}
+		catch (e) {
+			mensagemErro(e.message);
+		}
+	}
 
 
 	function inicializar() {
@@ -120,8 +120,11 @@ function CadastroClientes() {
 	}
 
 	async function salvar() {
+		let data = {
+			id, nome, email, cpf, senha, senhaRepeticao, telefone,
+			uf, cidade, cep, bairro, logradouro, numero, complemento
+		};
 
-		let data = { id, nome, email, cpf, senha, telefone, uf, cidade, cep, bairro, logradouro, numero, complemento, dataAdmissao, fidelidadePontos };
 		data = JSON.stringify(data);
 		if (idParam == null) {
 			await api
@@ -133,7 +136,8 @@ function CadastroClientes() {
 					navigate(`/listagem-clientes`);
 				})
 				.catch(function (error) {
-					mensagemErro(error.response.data);
+					const errorMessage = error.response?.data?.message || error.response?.data || error.message || "Erro desconhecido.";
+					mensagemErro(`Erro: ${errorMessage}`);
 				});
 		} else {
 			await api
@@ -145,7 +149,8 @@ function CadastroClientes() {
 					navigate(`/listagem-clientes`);
 				})
 				.catch(function (error) {
-					mensagemErro(error.response.data);
+					const errorMessage = error.response?.data?.message || error.response?.data || error.message || "Erro desconhecido.";
+					mensagemErro(`Erro: ${errorMessage}`);
 				});
 		}
 	}
@@ -180,7 +185,7 @@ function CadastroClientes() {
 
 			}
 		}
-        buscar_ufs_func();
+		buscar_ufs_func();
 	}
 
 	useEffect(() => {
@@ -304,18 +309,18 @@ function CadastroClientes() {
 							</FormGroup>
 
 							<FormGroup label='UF: *' htmlFor='inputUf'>
-                                <select
-                                    id='inputUf'
-                                    value={uf}
-                                    className='form-select'
-                                    name='uf'
-                                    onChange={(e) => setUf(e.target.value)}
-                                >
-                                    <option value="" key="vazio"> -- Selecione uma Unidade Federal -- </option>
-                                    {listaUFs.map((cat) => (
-                                        <option value={cat.sigla} key={cat.id}>{cat.nome}</option>
-                                    ))}
-                                </select>
+								<select
+									id='inputUf'
+									value={uf}
+									className='form-select'
+									name='uf'
+									onChange={(e) => setUf(e.target.value)}
+								>
+									<option value="" key="vazio"> -- Selecione uma Unidade Federal -- </option>
+									{listaUFs.map((cat) => (
+										<option value={cat.sigla} key={cat.id}>{cat.nome}</option>
+									))}
+								</select>
 							</FormGroup>
 							<FormGroup label='Cidade: *' htmlFor='inputCidade'>
 								<input
