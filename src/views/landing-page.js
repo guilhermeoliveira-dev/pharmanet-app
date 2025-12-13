@@ -11,6 +11,8 @@ import Grid from '@mui/material/Grid';
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 import { mensagemSucesso, mensagemErro } from '../components/toastr';
+import { lerCarrinho, adicionarOuAtualizarItem } from '../utils/carrinho-utils';
+
 
 import imagemErro from '../img/imagem-erro.png'
 
@@ -21,30 +23,41 @@ function LandingPage() {
     const [itensCarrinho, setItensCarrinho] = React.useState([]);
 
     React.useEffect(() => {
-        const items = JSON.parse(localStorage.getItem('itensCarrinho'));
-        if (items) {
-            setItensCarrinho(items);
-        }
+        setItensCarrinho(lerCarrinho());
     }, []);
 
     function adicionarItemCarrinho(item) {
         try {
-            const itemExistente = itensCarrinho.find((i) => i.produto.id === item.id);
+            const carrinhoAtual = lerCarrinho();
+            const itemExistente = carrinhoAtual.find((i) => i.produto.id === item.id);
+
+            let novaQuantidade;
+            let mensagem;
 
             if (itemExistente) {
-                itemExistente.quantidade += 1;
-                mensagemSucesso(`Quantidade de "${item.nome}" atualizada no carrinho!`);
+                novaQuantidade = itemExistente.quantidade + 1;
+                mensagem = `Quantidade de "${item.nome}" atualizada para ${novaQuantidade} no carrinho!`;
             } else {
-                const novoItem = { quantidade: 1, produto: item };
-                setItensCarrinho([...itensCarrinho, novoItem]);
-                mensagemSucesso(`"${item.nome}" adicionado ao carrinho!`);
+                novaQuantidade = 1;
+                mensagem = `"${item.nome}" adicionado ao carrinho!`;
             }
 
-            localStorage.setItem('itensCarrinho', JSON.stringify(itensCarrinho));
+            const itemParaAtualizar = {
+                quantidade: novaQuantidade,
+                produto: item,
+                precoUnitario: item.preco
+            };
+
+            const carrinhoAtualizado = adicionarOuAtualizarItem(itemParaAtualizar);
+            setItensCarrinho(carrinhoAtualizado);
+
+            mensagemSucesso(mensagem);
+
         } catch (error) {
             mensagemErro(`Erro ao adicionar "${item.nome}" ao carrinho: ${error.message}`);
         }
     }
+
 
     React.useEffect(() => {
         axios.get(baseURL).then((response) => {
